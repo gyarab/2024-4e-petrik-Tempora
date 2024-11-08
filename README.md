@@ -1,39 +1,12 @@
-# Nuxt Minimal Starter
+# 2024-4e-petrik-Tempora
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
+Webová aplikace představující historickou interaktivní časovou osu české a zahraniční literatury v kontextu významných světových událostí. Uživatelé budou moci snadno procházet literární směry, významné autory a jejich klíčová díla. Aplikace umožní jednoduché přidávání nových položek na časovou osu na základě zadaných údajů a vytvářeních nových časových os.
 
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
 # bun
 bun run dev
 ```
@@ -43,15 +16,6 @@ bun run dev
 Build the application for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
 # bun
 bun run build
 ```
@@ -59,17 +23,9 @@ bun run build
 Locally preview production build:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
 # bun
 bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+)"""
