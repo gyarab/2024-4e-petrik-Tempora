@@ -3,11 +3,12 @@
         <h2>Home page</h2>
         <p>Welcome to site of interactive time </p>
         <p> Logout | Delete Account</p>
+        <div> {{ data }}</div>
     </div>
 </template>
 
 <script setup>
-
+    const { data } = await useFetch('/api/test?name=UserName')
 </script>
 
 <style  scoped>
