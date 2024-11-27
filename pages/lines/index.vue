@@ -1,7 +1,8 @@
 <template>
     <div>
-        <h2>Maps hub page</h2>
-        <p>Maps created: </p>
+        <h2>Lines hub page</h2>
+        <p> Lines created: </p>
+        <span class="btn"> Create new Line </span> 
     </div>
 </template>
 

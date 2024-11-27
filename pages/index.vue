@@ -1,7 +1,8 @@
 <template>
-    <div>
+    <div>       
         <h2>Home page</h2>
         <p>Welcome to site of interactive time </p>
+        <p> Logout | Delete Account</p>
     </div>
 </template>
 
