@@ -17,11 +17,16 @@
             <!-- Submit Button -->
             <button @click="signIn" class="btn mt-3">Login</button>
             
-            <!-- Success and Error Messages -->
-            <div v-if="errorMsg" style="color: red;">{{ errorMsg }}</div>
-                <div class="mt-5">
+             <!-- Message Container -->
+             <div class="message-box">
+                <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
+            </div>
+
+            <!-- Redirect to register -->
+            <div class="mt-5">
                 <NuxtLink to="/register" class="underline"> Dont have account yet? Register </NuxtLink>
             </div>
+                
         </div>
     </div>
 </template>

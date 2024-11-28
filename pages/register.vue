@@ -4,23 +4,27 @@
             <h2>Register</h2>
             <!-- Email Input -->
             <div class="mt-3">
-                <label for="email">Email: </label>
+                <label for="email">Email: <br></label>
                 <input class="input" id="email" v-model="email" type="email" placeholder="Enter your email" />
             </div>
             
             <!-- Password Input -->
             <div class="mt-3">
-                <label for="password">Password: </label>
+                <label for="password">Password: <br></label>
                 <input class="input" id="password" v-model="password" type="password" placeholder="Enter your password" />
             </div>
             
             <!-- Submit Button -->
             <button @click="signUp" class="btn mt-3">Register</button>
-            
-            <!-- Success and Error Messages -->
-            <div v-if="successMsg" style="color: green;">{{ successMsg }}</div>
-            <div v-if="errorMsg" style="color: red;">{{ errorMsg }}</div>
 
+            <!-- Message Container -->
+            <div class="message-box">
+                <div v-if="successMsg" class="success">{{ successMsg }}</div>
+                <div v-if="errorMsg" class="error">{{ errorMsg }}</div>
+            </div>
+
+            
+            <!-- Redirect to login -->
             <div class="mt-5">
                 <NuxtLink to="/login" class="underline"> Already have an account? Login</NuxtLink>
             </div>
@@ -48,6 +52,7 @@
         }
         catch (error) {
             errorMsg.value = error.message
+            successMsg.value = null
         }
     }
 </script>

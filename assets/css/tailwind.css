@@ -12,14 +12,26 @@ body{
     }
 
     .input{
-        @apply border-2 border-black rounded-lg px-2 py-1
+        @apply border-2 border-black rounded-lg px-2 py-1 w-full 
     }
 
-    .container_box{
-        @apply container justify-center inline-flex
+    .container_box {
+        @apply container justify-center inline-flex;
     }
 
-    .content_box{
-        @apply bg-sky-200 rounded-lg px-20 py-8 border-black border-2 shadow-xl
+    .content_box {
+        @apply bg-sky-200 rounded-lg px-10 py-8 border-black border-2 shadow-xl w-96
+    }
+
+    .message-box {
+        @apply mt-3 h-4 flex items-center; /* Fixed height with vertical centering */
+    }
+
+    .success {
+        @apply text-green-600; 
+    }
+
+    .error {
+        @apply text-red-600; 
     }
 }
