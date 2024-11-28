@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="content_box h-top">
         <Head>
             <Title> Tempora | lines</Title>
         </Head>

@@ -20,7 +20,7 @@ body{
     }
 
     .content_box {
-        @apply bg-sky-200 dark:bg-sky-800 rounded-lg px-10 py-8 border-black border-2 shadow-xl w-96
+        @apply bg-sky-200 dark:bg-sky-800 rounded-lg px-10 py-8 border-black border-2 shadow-xl
     }
 
     .message-box {
@@ -51,3 +51,8 @@ body{
         @apply text-black dark:text-white
     }
 }
+@layer utilities {
+    .h-top {
+      height: calc(100vh - 120px);
+    }
+  }

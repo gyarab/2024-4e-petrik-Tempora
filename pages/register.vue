@@ -1,6 +1,6 @@
 <template>
     <div class="container_box">
-        <div class="content_box">
+        <div class="content_box w-96">
             <h2>Register</h2>
             <!-- Email Input -->
             <div class="mt-3">

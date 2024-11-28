@@ -1,5 +1,5 @@
 <template>
-    <div> 
+    <div class="content_box h-top" > 
         <h2>Home page</h2>
         <p>Welcome to the interactive timeline site</p>
         <div v-if="user">
