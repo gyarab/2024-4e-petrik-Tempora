@@ -24,7 +24,7 @@
 
             <!-- Redirect to register -->
             <div class="mt-5">
-                <NuxtLink to="/register" class="underline"> Dont have account yet? Register </NuxtLink>
+                <NuxtLink to="/register"> <p class="underline">Dont have account yet? Register</p> </NuxtLink>
             </div>
                 
         </div>

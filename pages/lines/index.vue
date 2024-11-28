@@ -8,6 +8,7 @@
         <h2>Lines hub page</h2>
         <p> Lines created: </p>
         <span class="btn"> Create new Line </span> 
+        <button class="btn"> <NuxtLink to="/lines/1">Goto timeline one</NuxtLink> </button>
 
         <!-- TODO -->
         <div v-for="l in lines">

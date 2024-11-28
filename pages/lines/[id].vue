@@ -5,8 +5,8 @@
         </Head>
         
         
-        <h2>Map page of {{ id }}</h2>
-        <p>Welcome to site of interactive time </p>
+        <h2>Map page of timeline id: {{ id }}</h2>
+        
     </div>
 </template>
 

@@ -1,17 +1,17 @@
 <template>
     <div>
-        <header class="shadow-sm bg-white">
+        <header class="topbar">
             <nav class="container mx-auto p-4 flex justify-between">
-                <NuxtLink to="/" class="font-bold"> Tempora</NuxtLink>
+                <NuxtLink to="/" class="font-bold text-xl"> Tempora</NuxtLink>
                 <ul class="flex gap-6">
                     <li><NuxtLink to="/"> Home </NuxtLink></li> 
                     <li><NuxtLink to="/about"> About </NuxtLink></li>  
                     <li><NuxtLink to="/lines"> Lines </NuxtLink></li> 
                         <li v-if="user"> 
-                            <NuxtLink to="/" class="border-2 border-black rounded-xl px-4 py-2"> {{ user.email }} </NuxtLink> 
+                            <NuxtLink to="/" class="tb-border"> {{ user.email }} </NuxtLink> 
                         </li>
                         <li v-else>
-                            <NuxtLink to="/login" class="border-2 border-black rounded-xl px-4 py-2"> Login </NuxtLink> 
+                            <NuxtLink to="/login" class="tb-border"> Login </NuxtLink> 
                         </li>
 
                 </ul>

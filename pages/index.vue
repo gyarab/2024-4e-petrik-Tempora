@@ -10,6 +10,11 @@
             <p>You are browsing as a <span class="underline font-bold"> Guest</span>.
             <router-link to="/login" class="btn mt-3">Login</router-link> </p>
         </div>
+        <button class="btn" @click="toggleDarkMode">
+            Toggle Dark Mode
+        </button>
+        
+
         <!-- api response test   <div>{{ data }}</div>-->
     </div>
 </template>
@@ -31,6 +36,15 @@
          console.log(error.message)   
         }
     }
+
+
+    // Toggle dark mode
+function toggleDarkMode() {
+  const html = document.documentElement;
+  html.classList.toggle("dark");
+}
+
+
 
 </script>
 
