@@ -3,15 +3,23 @@
 @tailwind utilities;
 
 body{
-    @apply bg-gray-300;
+    @apply bg-sky-100;
 }
 
 @layer components{
     .btn{
-        @apply bg-[#721b66] text-white px-3 py-2 rounded-md text-sm 
+        @apply bg-[#256aaa] text-white px-3 py-2 rounded-md text-sm border-2 border-black
     }
 
     .input{
         @apply border-2 border-black rounded-lg px-2 py-1
+    }
+
+    .container_box{
+        @apply container justify-center inline-flex
+    }
+
+    .content_box{
+        @apply bg-sky-200 rounded-lg px-20 py-8 border-black border-2 shadow-xl
     }
 }

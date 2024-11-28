@@ -1,29 +1,30 @@
 <template>
-    <div>
-      <h2>Register</h2>
-      
-      <!-- Email Input -->
-      <div class="mt-3">
-        <label for="email">Email: </label>
-        <input class="input" id="email" v-model="email" type="email" placeholder="Enter your email" />
-      </div>
-      
-      <!-- Password Input -->
-      <div class="mt-3">
-        <label for="password">Password: </label>
-        <input class="input" id="password" v-model="password" type="password" placeholder="Enter your password" />
-      </div>
-      
-      <!-- Submit Button -->
-      <button @click="signUp" class="btn mt-3">Register</button>
-      
-      <!-- Success and Error Messages -->
-      <div v-if="successMsg" style="color: green;">{{ successMsg }}</div>
-      <div v-if="errorMsg" style="color: red;">{{ errorMsg }}</div>
+    <div class="container_box">
+        <div class="content_box">
+            <h2>Register</h2>
+            <!-- Email Input -->
+            <div class="mt-3">
+                <label for="email">Email: </label>
+                <input class="input" id="email" v-model="email" type="email" placeholder="Enter your email" />
+            </div>
+            
+            <!-- Password Input -->
+            <div class="mt-3">
+                <label for="password">Password: </label>
+                <input class="input" id="password" v-model="password" type="password" placeholder="Enter your password" />
+            </div>
+            
+            <!-- Submit Button -->
+            <button @click="signUp" class="btn mt-3">Register</button>
+            
+            <!-- Success and Error Messages -->
+            <div v-if="successMsg" style="color: green;">{{ successMsg }}</div>
+            <div v-if="errorMsg" style="color: red;">{{ errorMsg }}</div>
 
-      <div class="mt-5">
-        <NuxtLink to="/login" class="btn"> Already have an account? Login</NuxtLink>
-      </div>
+            <div class="mt-5">
+                <NuxtLink to="/login" class="underline"> Already have an account? Login</NuxtLink>
+            </div>
+        </div>
     </div>
   </template>
 
