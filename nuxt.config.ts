@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/supabase'],
   app:{
     head:{
       title: 'Tempora',
@@ -10,5 +10,8 @@ export default defineNuxtConfig({
         {name: 'description', content: 'Interactive Timeline'}
       ]
     }
-  }
+  },
+  supabase: {
+    redirect: false
+    },
 })

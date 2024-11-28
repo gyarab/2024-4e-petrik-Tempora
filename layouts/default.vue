@@ -6,7 +6,14 @@
                 <ul class="flex gap-6">
                     <li><NuxtLink to="/"> Home </NuxtLink></li> 
                     <li><NuxtLink to="/about"> About </NuxtLink></li>  
-                    <li><NuxtLink to="/lines" class="btn"> Lines </NuxtLink></li> 
+                    <li><NuxtLink to="/lines"> Lines </NuxtLink></li> 
+                        <li v-if="user"> 
+                            <NuxtLink to="/" class="border-2 border-black rounded-xl px-4 py-2"> {{ user.email }} </NuxtLink> 
+                        </li>
+                        <li v-else>
+                            <NuxtLink to="/login" class="border-2 border-black rounded-xl px-4 py-2"> Login </NuxtLink> 
+                        </li>
+
                 </ul>
             </nav>
         </header>
@@ -25,3 +32,7 @@
         font-weight: bolder;
     }
 </style>
+
+<script setup>
+    const user = useSupabaseUser()
+</script>
