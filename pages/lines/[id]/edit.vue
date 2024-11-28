@@ -5,7 +5,7 @@
         </Head>
         
         
-        <h2>Map page of timeline id: {{ id }}</h2>
+        <h2>Edit page of line id: {{ id }}</h2>
         
     </div>
 </template>
@@ -23,11 +23,5 @@
 </script>
 
 <style  scoped>
-    h2{
-        font-size: 36px;
-        margin-bottom: 20px;
-    }
-    p{
-        margin: 20px 0;
-    }
+    
 </style>

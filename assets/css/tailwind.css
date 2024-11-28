@@ -42,10 +42,10 @@ body{
     }
 
     p{
-        @apply text-black dark:text-white
+        @apply text-black dark:text-white m-5
     }
     h2{
-        @apply text-black dark:text-white
+        @apply text-black dark:text-white text-3xl mb-5
     }
     label{
         @apply text-black dark:text-white
