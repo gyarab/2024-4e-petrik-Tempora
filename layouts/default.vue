@@ -2,7 +2,7 @@
     <div>
         <header class="topbar">
             <nav class="container mx-auto p-4 flex justify-between">
-                <NuxtLink to="/" class="font-bold text-xl"> Tempora</NuxtLink>
+                <NuxtLink to="/" class="font-bold text-2xl"> Tempora</NuxtLink>
                 <ul class="flex gap-6">
                     <li><NuxtLink to="/"> Home </NuxtLink></li> 
                     <li><NuxtLink to="/about"> About </NuxtLink></li>  

@@ -26,7 +26,7 @@
             
             <!-- Redirect to login -->
             <div class="mt-5">
-                <NuxtLink to="/login" class="underline"> Already have an account? Login</NuxtLink>
+                <NuxtLink to="/login"> <p class="underline"> Already have an account? Login </p> </NuxtLink>
             </div>
         </div>
     </div>

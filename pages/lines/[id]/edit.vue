@@ -1,7 +1,7 @@
 <template>
     <div>
         <Head>
-            <Title> Tempora | line {{ id }}</Title>
+            <Title> Tempora | line {{ id }} </Title>
         </Head>
         
         
