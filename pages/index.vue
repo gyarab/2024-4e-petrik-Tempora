@@ -11,8 +11,9 @@
             <router-link to="/login" class="btn mt-3">Login</router-link> </p>
         </div>
         <button class="btn" @click="toggleDarkMode">
-            Toggle Dark Mode
+            Toggle Dark Mode  
         </button>
+    
         
 
         <!-- api response test   <div>{{ data }}</div>-->

@@ -9,6 +9,20 @@
                 Uživatelé budou moci snadno procházet literární směry, významné autory a jejich klíčová díla, s možností rozkliknutí pro podrobnější 
                 informace o jednotlivých obdobích a autorech. Aplikace umožní jednoduché přidávání nových položek na časovou osu na základě zadaných 
                 údajů a vytvářeních nových časových os např. s jiným tématem.</p>
+            
+                <a
+                href="https://github.com/gyarab/2024-4e-petrik-Tempora"
+                target="_blank"
+                class="icon-style"
+                >
+                <div>
+                    <span>
+                    <Icon class="size-16" name="uil:github" /> <br>
+                    </span>
+                    GitHub
+                </div>
+                </a>
+               
         </div>
     </div>
 </template>
