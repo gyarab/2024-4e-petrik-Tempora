@@ -4,11 +4,11 @@
         <p>Welcome to the interactive timeline site</p>
         <div v-if="user">
             <p>Logged in as: <span class="underline">{{ user.email }}</span></p>
-            <button @click="logout" class="btn mt-3">Logout</button>
+            <button @click="logout" class="btn">Logout</button>
         </div>
         <div v-else>
-            <p>You are browsing as a <span class="underline font-bold"> Guest</span>.
-            <router-link to="/login" class="btn mt-3">Login</router-link> </p>
+            <p>You are browsing as a <span class="underline font-bold"> Guest</span>. </p>
+            <button class="btn"> <router-link to="/login" >Login</router-link> </button>  
         </div>
         <button class="btn" @click="toggleDarkMode">
             Toggle Dark Mode  

@@ -2,12 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
-
 body{
     @apply bg-sky-100 dark:bg-sky-900;
+}
+p{
+    @apply black-white m-2
+}
+h2{
+    @apply black-white text-3xl mb-5
+}
+label{
+    @apply black-white
 }
 
 @layer components{
@@ -52,15 +57,7 @@ body{
     .black-white{
         @apply text-black dark:text-white
     }
-    p{
-        @apply black-white m-5
-    }
-    h2{
-        @apply black-white text-3xl mb-5
-    }
-    label{
-        @apply black-white
-    }
+    
 }
 @layer utilities {
     .h-top {
