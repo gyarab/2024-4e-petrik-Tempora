@@ -7,12 +7,12 @@
                     <li><NuxtLink to="/"> Home </NuxtLink></li> 
                     <li><NuxtLink to="/about"> About </NuxtLink></li>  
                     <li><NuxtLink to="/lines"> Lines </NuxtLink></li> 
-                        <li v-if="user"> 
-                            <NuxtLink to="/" class="tb-border"> {{ user.email }} </NuxtLink> 
-                        </li>
-                        <li v-else>
-                            <NuxtLink to="/login" class="tb-border"> Login </NuxtLink> 
-                        </li>
+                    <li v-if="user"> 
+                        <NuxtLink to="/" class="tb-border"> {{ user.email.split('@')[0] }} </NuxtLink> 
+                    </li>
+                    <li v-else>
+                        <NuxtLink to="/login" class="tb-border"> Login </NuxtLink> 
+                    </li>
 
                 </ul>
             </nav>
