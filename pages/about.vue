@@ -1,6 +1,6 @@
 <template>
-    <div class="content_box h-top" >
-        <div>
+    <div class="container_box h-top" >
+        <div class="content_box h-full w-full mx-10">
             <div class="text-center">
             <h2 >About page</h2>
         </div>

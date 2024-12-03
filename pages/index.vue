@@ -1,19 +1,20 @@
 <template>
-    <div class="content_box h-top" > 
-        <h2>Home page</h2>
-        <p>Welcome to the interactive timeline site</p>
-        <div v-if="user">
-            <p>Logged in as: <span class="underline">{{ user.email }}</span></p>
-            <button @click="logout" class="btn">Logout</button>
+    <div class="container_box ">
+        <div class="content_box h-top w-full mx-10" > 
+            <h2>Home page</h2>
+            <p>Welcome to the interactive timeline site</p>
+            <div v-if="user">
+                <p>Logged in as: <span class="underline">{{ user.email }}</span></p>
+                <button @click="logout" class="btn">Logout</button>
+            </div>
+            <div v-else>
+                <p>You are browsing as a <span class="underline font-bold"> Guest</span>. </p>
+                <button class="btn"> <router-link to="/login" >Login</router-link> </button>  
+            </div>
+            <button class="btn" @click="toggleDarkMode">
+                Toggle Dark Mode  
+            </button>
         </div>
-        <div v-else>
-            <p>You are browsing as a <span class="underline font-bold"> Guest</span>. </p>
-            <button class="btn"> <router-link to="/login" >Login</router-link> </button>  
-        </div>
-        <button class="btn" @click="toggleDarkMode">
-            Toggle Dark Mode  
-        </button>
-    
         
 
         <!-- api response test   <div>{{ data }}</div>-->

@@ -1,5 +1,4 @@
 <template>
-    <div>
         <header class="topbar">
             <nav class="container mx-auto p-4 flex justify-between">
                 <NuxtLink to="/" class="font-bold text-2xl"> Tempora</NuxtLink>
@@ -13,17 +12,14 @@
                     <li v-else>
                         <NuxtLink to="/login" class="tb-border"> Login </NuxtLink> 
                     </li>
-
                 </ul>
             </nav>
         </header>
 
         <!-- Page -->
-        <div class="container mx-auto p-4">
+        <div class="pt-4 ">
             <slot></slot>
-        </div>
-
-    </div>
+        </div> 
 </template>
 
 <style>

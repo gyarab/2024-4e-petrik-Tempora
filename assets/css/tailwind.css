@@ -17,7 +17,8 @@ label{
 
 @layer components{
     .btn{
-        @apply bg-sky-700 hover:bg-sky-600 dark:bg-sky-300 dark:hover:bg-sky-400  dark:text-black text-white px-3 py-2 rounded-md text-sm border-2 font-bold border-black m-1
+        @apply bg-sky-700 hover:bg-sky-600 dark:bg-sky-300 dark:hover:bg-sky-400  dark:text-black text-white 
+                px-3 py-2 rounded-md text-sm border-2 font-bold border-black m-1
     }
 
     .input{
@@ -25,7 +26,7 @@ label{
     }
 
     .container_box {
-        @apply container justify-center inline-flex;
+        @apply flex items-center justify-center
     }
 
     .content_box {
@@ -33,7 +34,7 @@ label{
     }
 
     .message-box {
-        @apply mt-3 h-4 flex items-center; /* Fixed height with vertical centering */
+        @apply mt-3 h-4 flex items-center;
     }
 
     .success {
@@ -53,14 +54,16 @@ label{
         @apply max-w-fit border-2 border-black rounded-2xl text-center bg-white font-bold block px-2 py-1
     }
 
-
-    .black-white{
-        @apply text-black dark:text-white
+    .sidebar{
+        @apply black-white top-0 left-0 h-screen w-16  flex flex-col bg-sky-900
     }
     
 }
 @layer utilities {
     .h-top {
       height: calc(100vh - 120px);
+    }
+    .black-white{
+        @apply text-black dark:text-white
     }
   }

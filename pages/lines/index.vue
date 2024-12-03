@@ -1,5 +1,6 @@
 <template>
-    <div class="content_box h-top">
+    <div class="container_box">
+    <div class="content_box h-top w-full mx-10">
         <Head>
             <Title> Tempora | lines</Title>
         </Head>
@@ -14,6 +15,7 @@
         <div v-for="l in lines">
             <LineCard :line="l" />
         </div>
+    </div>
     </div>
 </template>
 

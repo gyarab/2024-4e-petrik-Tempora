@@ -1,9 +1,19 @@
 <template>
-  <div>
-    <Head>
+  <Head>
       <Title> Tempora | Timeline {{ id }}</Title>
     </Head>
+  
+    <Sidebar></Sidebar>
+  <div>
+  
+   
+    
+    
+    
     <h2>Timeline Page (ID: {{ id }})</h2>
+
+
+
 
     <div v-if="user">
       <NuxtLink :to="`${id}/edit`">Edit Timeline</NuxtLink>
