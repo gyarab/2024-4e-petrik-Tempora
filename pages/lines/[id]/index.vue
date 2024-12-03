@@ -37,6 +37,20 @@
         @input="onZoomChange"
       />
     </div>
+
+    <!-- Horizontal Scroll Slider -->
+    <div class="controls">
+      <label for="scroll">Scroll:</label>
+      <input
+        type="range"
+        id="scroll"
+        :min="minScroll"
+        :max="maxScroll"
+        :step="10"
+        v-model="scrollPosition"
+        @input="onScrollChange"
+      />
+    </div>
         
         
     </div>
@@ -74,45 +88,70 @@ const minZoom = 0.3; // Minimum zoom level (zoom out)
 const maxZoom = 3; // Maximum zoom level (zoom in)
 const initialZoom = 1; // Default starting zoom level
 
-// State for zoom and viewport
+// State for zoom, viewport, and horizontal scroll
 const zoomLevel = ref(initialZoom);
 const initialRange = 3000; // Base range for the timeline
 const viewportMin = ref(-initialRange / 2);
 const viewportMax = ref(initialRange / 2);
 
-// Computed range of the timeline
-const timelineRange = computed(() => viewportMax.value - viewportMin.value);
+// Horizontal scroll parameters
+const minScroll = -initialRange * 2; // Minimum scroll position
+const maxScroll = initialRange * 2; // Maximum scroll position
+const scrollPosition = ref(0); // Initial scroll position
 
-// Calculate the center of the current viewport
-const getCenter = () => (viewportMax.value + viewportMin.value) / 2;
+// Utility: Clamp a value between a min and max
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
-// Update viewport based on zoom level
+// Update viewport based on zoom level and scroll position
 const updateViewport = () => {
-  const center = getCenter();
-  const newRange = initialRange / zoomLevel.value;
-  viewportMin.value = center - newRange / 2;
-  viewportMax.value = center + newRange / 2;
+  const currentRange = initialRange / zoomLevel.value;
+
+  // Constrain scroll position to ensure valid viewport
+  scrollPosition.value = clamp(
+    scrollPosition.value,
+    minScroll + currentRange / 2,
+    maxScroll - currentRange / 2
+  );
+
+  // Calculate new viewport range
+  const newViewportMin = scrollPosition.value - currentRange / 2;
+  const newViewportMax = scrollPosition.value + currentRange / 2;
+
+  // Safeguard: Ensure viewportMin is smaller than viewportMax
+  if (newViewportMin < newViewportMax) {
+    viewportMin.value = newViewportMin;
+    viewportMax.value = newViewportMax;
+  } else {
+    console.error(
+      `[vue-timeline-chart] Invalid viewport range: min=${newViewportMin}, max=${newViewportMax}`
+    );
+  }
 };
 
-// Watch zoomLevel and update viewport
-watch(zoomLevel, updateViewport);
+// Watch zoom level and scroll position to update the viewport
+watch([zoomLevel, scrollPosition], updateViewport, { immediate: true });
 
 // Handle slider zoom change
 const onZoomChange = () => {
   updateViewport();
 };
 
+// Handle horizontal scroll change
+const onScrollChange = (event) => {
+  scrollPosition.value = clamp(Number(event.target.value), minScroll, maxScroll);
+};
+
 // Handle mouse wheel zoom
 const onMouseWheelZoom = (event) => {
   const zoomFactor = 0.1; // Adjust for smoother/faster zooming
-  zoomLevel.value = Math.min(
-    Math.max(zoomLevel.value - zoomFactor * Math.sign(event.deltaY), minZoom),
+  zoomLevel.value = clamp(
+    zoomLevel.value - zoomFactor * Math.sign(event.deltaY),
+    minZoom,
     maxZoom
   );
 };
 
 </script>
-
 <style scoped>
 /* Timeline Container */
 .timeline-container {
