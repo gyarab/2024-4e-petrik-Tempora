@@ -17,7 +17,7 @@ label{
 
 @layer components{
     .btn{
-        @apply bg-sky-700 hover:bg-sky-600 dark:bg-sky-300 dark:hover:bg-sky-400  dark:text-black text-white 
+        @apply bg-sky-700 hover:bg-sky-600 dark:bg-sky-300 dark:hover:bg-sky-400  white-black
                 px-3 py-2 rounded-md text-sm border-2 font-bold border-black m-1
     }
 
@@ -45,7 +45,7 @@ label{
         @apply text-red-600; 
     }
     .topbar{
-        @apply shadow-sm bg-white dark:bg-zinc-800 dark:text-white
+        @apply shadow-sm bg-white dark:bg-zinc-800 black-white
     }
     .tb-border{
         @apply border-2 border-black dark:border-white rounded-xl px-4 py-2
@@ -54,9 +54,12 @@ label{
         @apply max-w-fit border-2 border-black rounded-2xl text-center bg-white font-bold block px-2 py-1
     }
 
-    .sidebar{
-        @apply black-white top-0 left-0 h-screen w-16  flex flex-col bg-sky-900
+    .sidebar-icon{
+        @apply relative flex items-center justify-center mx-auto size-16 my-2 bg-sky-600
+        hover:bg-sky-400
     }
+
+
     
 }
 @layer utilities {
@@ -65,5 +68,8 @@ label{
     }
     .black-white{
         @apply text-black dark:text-white
+    }
+    .white-black{
+        @apply dark:text-black text-white
     }
   }

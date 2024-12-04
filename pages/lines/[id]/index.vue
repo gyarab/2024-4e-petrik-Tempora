@@ -3,10 +3,11 @@
       <Title> Tempora | Timeline {{ id }}</Title>
     </Head>
   
+    
+  <div class="flex">
+
     <Sidebar></Sidebar>
-  <div>
-  
-   
+    <main class="flex-1 ml-24 p-4">
     
     
     
@@ -20,6 +21,7 @@
     </div>
 
     <TimelineComponent/>
+  </main>
   </div>
 </template>
 
