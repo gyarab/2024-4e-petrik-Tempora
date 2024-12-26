@@ -78,7 +78,6 @@ export const useTimeline = (
     onZoomChange(); // Update related states
   };
 
-  // Return all reactive variables and handlers
   return {
     minZoom,
     maxZoom,

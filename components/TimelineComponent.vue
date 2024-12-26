@@ -48,8 +48,15 @@
   
   // Timeline groups and items
   const groups = [
-    { id: 'group1', label: 'Group 1' },
+    { id: 'group1', label: 'Kontext cz' },
     { id: 'group2', label: 'Group 2' },
+    { id: 'group3', label: 'Group 3' },
+    { id: 'group4', label: 'Group 4' },
+    { id: 'Timestamps'}, //Timestamps
+    { id: 'group5', label: 'Group 5' },
+    { id: 'group6', label: 'Group 6' },
+    { id: 'group7', label: 'Group 7' },
+    { id: 'group8', label: 'Kontext svet' },
   ];
   const items = [
     { group: 'group1', type: 'point', start: -200, cssVariables: { '--item-background': '#3498db' } },
@@ -79,11 +86,57 @@ const {
     border: 1px solid #ccc;
     padding: 10px;
     margin-bottom: 20px;
-    background-color: #f9f9f9;
-    height: 300px;
+    background-color: #ffffff;
+    height: max-content;
   }
   
   .controls {
     margin-bottom: 20px;
   }
+
+
+.controls label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.controls input[type="range"] {
+  width: 200px;
+}
   </style>
+
+<style>
+
+.timestamps {  
+  transform: translateY(230px); /* Adjust the value as needed */
+  position: absolute;
+  width: 100%; /* Ensure it spans the timeline */
+  z-index: 2; /* Ensure it's above other elements if needed */
+  background-color: transparent !important;
+}
+.timeline-container {
+  position: relative; /* Set relative positioning for absolute child positioning */
+}
+div.group {
+  border-top: 0 !important; 
+}
+
+.timestamps:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 2px solid #000; /* adjust the color and thickness as needed */
+  transform: translateY(-50%);
+}
+
+.timestamp {
+  position: relative;
+  z-index: 1;
+  background-color: #fff; /* or any desired background color */
+  padding: 0 10px; /* adjust the padding as needed */
+  border-left: 0px !important; 
+}
+
+</style>

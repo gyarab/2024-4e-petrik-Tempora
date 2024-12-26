@@ -40,27 +40,4 @@ if (!true) {
 </script>
 
 <style scoped>
-/* Timeline Container */
-.timeline-container {
-  overflow: hidden;
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 20px;
-  background-color: #f9f9f9;
-  height: 300px;
-}
-
-/* Controls for Zoom Slider */
-.controls {
-  margin-bottom: 20px;
-}
-
-.controls label {
-  margin-right: 10px;
-  font-weight: bold;
-}
-
-.controls input[type="range"] {
-  width: 200px;
-}
 </style>
