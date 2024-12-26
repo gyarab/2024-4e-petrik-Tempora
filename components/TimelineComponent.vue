@@ -7,9 +7,13 @@
         <Timeline
           :groups="groups"
           :items="items"
+          :markers="markers"
           :viewportMin="viewportMin"
           :viewportMax="viewportMax"
           :renderTimestampLabel="(timestamp) => timestamp"
+
+          @mousemoveTimeline="onMousemoveTimeline"
+          @mouseleaveTimeline="onMouseleaveTimeline"
         />
       </div>
   
@@ -38,6 +42,8 @@
           @input="(event) => onScrollChange(event.target.value)"
         />
       </div>
+
+      {{ mouseHoverPosition ? mouseHoverPosition.toLocaleString() : 'Hover over the timeline to see the year' }}
     </div>
   </template>
   
@@ -78,6 +84,27 @@ const {
   onScrollChange,
   onMouseWheelZoom,
 } = useTimeline();
+
+
+import { computed, ref } from 'vue';
+const markers = computed(() => {
+    return [mouseHoverPosition.value ? {
+      start: mouseHoverPosition.value,
+      type: 'marker',
+      id: 'mousehover',
+    } : null].filter(Boolean);
+  });
+
+  const mouseHoverPosition = ref(null);
+  function onMousemoveTimeline ({ time }) {
+    mouseHoverPosition.value = time;
+  }
+  function onMouseleaveTimeline () {
+    mouseHoverPosition.value = null;
+  }
+
+
+
   </script>
   
   <style scoped>
