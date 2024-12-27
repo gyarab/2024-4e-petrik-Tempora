@@ -1,30 +1,35 @@
 import { ref, watch, computed } from 'vue';
 
-export const useTimeline = (
-  initialRange = 3000,
-  zoomLimits = { min: 0.3, max: 3 }
-) => {
+export const useTimeline = (zoomLimits = { min: 0.5, max: 3 }) => {
   // Configuration for zoom and initial settings
   const minZoom = zoomLimits.min; // Minimum zoom level
   const maxZoom = zoomLimits.max; // Maximum zoom level
-  const initialZoom = 1; // Default zoom level
+  const initialZoom = 0.3; // Default zoom level
+  const yearToMs = (year) => Date.UTC(year, 0, 1);
+  const rangeStart = ref(-yearToMs(1950)); // Default range start
+  const rangeEnd = ref(yearToMs(2020)); // Default range end
+  
+
 
   // Reactive states for zoom, scroll, and viewport
   const zoomLevel = ref(initialZoom); // Current zoom level
   const scrollPosition = ref(0); // Current scroll position
-  const viewportMin = ref(-initialRange / 2); // Left edge of the viewport
-  const viewportMax = ref(initialRange / 2); // Right edge of the viewport
-  const minScroll = ref(-initialRange * 2); // Minimum scroll limit
-  const maxScroll = ref(initialRange * 2); // Maximum scroll limit
+  const viewportMin = ref(0); // Left edge of the viewport
+  const viewportMax = ref(0); // Right edge of the viewport
+  const minScroll = ref(0); // Minimum scroll limit
+  const maxScroll = ref(0); // Maximum scroll limit
 
   // Helper function to clamp a value between min and max
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
+  // Calculate the total range of the timeline
+  const timelineRange = computed(() => rangeEnd.value - rangeStart.value);
+
   // Update the scroll limits based on zoom level
   const updateScrollLimits = () => {
-    const visibleRange = initialRange / zoomLevel.value; // Calculate visible range at current zoom
-    minScroll.value = -initialRange * 2 + visibleRange / 2; // Adjust minimum scroll limit
-    maxScroll.value = initialRange * 2 - visibleRange / 2; // Adjust maximum scroll limit
+    const visibleRange = timelineRange.value / zoomLevel.value; // Calculate visible range at current zoom
+    minScroll.value = rangeStart.value - visibleRange / 2; // Adjust minimum scroll limit
+    maxScroll.value = rangeEnd.value + visibleRange / 2; // Adjust maximum scroll limit
   };
 
   const mouseHoverPosition = ref(null); // Hover position state
@@ -44,7 +49,7 @@ export const useTimeline = (
 
   // Update the viewport based on scroll position and zoom level
   const updateViewport = () => {
-    const visibleRange = initialRange / zoomLevel.value; // Calculate visible range
+    const visibleRange = timelineRange.value / zoomLevel.value; // Calculate visible range
 
     // Clamp the scroll position to keep it within bounds
     scrollPosition.value = clamp(
@@ -60,7 +65,7 @@ export const useTimeline = (
 
   // Watchers to update scroll limits and viewport when zoom or scroll changes
   watch(
-    [zoomLevel, scrollPosition],
+    [zoomLevel, scrollPosition, rangeStart, rangeEnd],
     () => {
       updateScrollLimits(); // Recalculate scroll limits
       updateViewport(); // Update the visible area
@@ -93,16 +98,18 @@ export const useTimeline = (
     onZoomChange(); // Update related states
   };
 
- // Handlers for hover interaction
+  // Handlers for hover interaction
   const onMousemoveTimeline = ({ time }) => {
-  mouseHoverPosition.value = time; // Update hover position
+    mouseHoverPosition.value = time; // Update hover position
   };
 
   const onMouseleaveTimeline = () => {
-  mouseHoverPosition.value = null; // Clear hover position
+    mouseHoverPosition.value = null; // Clear hover position
   };
 
   return {
+    rangeStart,
+    rangeEnd,
     minZoom,
     maxZoom,
     zoomLevel,
@@ -117,6 +124,6 @@ export const useTimeline = (
     onMousemoveTimeline,
     onMouseleaveTimeline,
     markers,
-    mouseHoverPosition
+    mouseHoverPosition,
   };
 };

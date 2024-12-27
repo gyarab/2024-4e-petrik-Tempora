@@ -11,7 +11,6 @@
           :viewportMin="viewportMin"
           :viewportMax="viewportMax"
           :renderTimestampLabel="(timestamp) => timestamp"
-
           @mousemoveTimeline="onMousemoveTimeline"
           @mouseleaveTimeline="onMouseleaveTimeline"
         />
@@ -44,7 +43,7 @@
       </div>
 
       <div>
-        {{ mouseHoverPosition ? mouseHoverPosition.toLocaleString() : 'Hover over the timeline to see the year' }}
+        {{ mouseHoverPosition ? new Date(mouseHoverPosition).toLocaleString() : 'Hover over the timeline to see the year' }}
       </div>
     </div>
   </template>
@@ -67,9 +66,9 @@
     { id: 'group8', label: 'Kontext svet' },
   ];
   const items = [
-    { group: 'group1', type: 'point', start: -200, cssVariables: { '--item-background': '#3498db' } },
-    { group: 'group1', type: 'range', start: -400, end: 200, cssVariables: { '--item-background': '#e74c3c' } },
-    { group: 'group2', type: 'range', start: 500, end: 1500 },
+    { group: 'group1', type: 'point', start: 2000, cssVariables: { '--item-background': '#3498db' } },
+    { group: 'group3', type: 'range', start: 1950, end: 2020, cssVariables: { '--item-background': '#e74c3c' } },
+    { group: 'group2', type: 'range', start: 1960, end: 1980 },
   ];
   
  // Use the composable
