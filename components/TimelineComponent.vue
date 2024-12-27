@@ -43,7 +43,9 @@
         />
       </div>
 
-      {{ mouseHoverPosition ? mouseHoverPosition.toLocaleString() : 'Hover over the timeline to see the year' }}
+      <div>
+        {{ mouseHoverPosition ? mouseHoverPosition.toLocaleString() : 'Hover over the timeline to see the year' }}
+      </div>
     </div>
   </template>
   
@@ -71,7 +73,7 @@
   ];
   
  // Use the composable
-const {
+ const {
   minZoom,
   maxZoom,
   zoomLevel,
@@ -83,25 +85,11 @@ const {
   onZoomChange,
   onScrollChange,
   onMouseWheelZoom,
+  onMousemoveTimeline,
+  onMouseleaveTimeline,
+  markers,
+  mouseHoverPosition
 } = useTimeline();
-
-
-import { computed, ref } from 'vue';
-const markers = computed(() => {
-    return [mouseHoverPosition.value ? {
-      start: mouseHoverPosition.value,
-      type: 'marker',
-      id: 'mousehover',
-    } : null].filter(Boolean);
-  });
-
-  const mouseHoverPosition = ref(null);
-  function onMousemoveTimeline ({ time }) {
-    mouseHoverPosition.value = time;
-  }
-  function onMouseleaveTimeline () {
-    mouseHoverPosition.value = null;
-  }
 
 
 

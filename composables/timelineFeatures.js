@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 
 export const useTimeline = (
   initialRange = 3000,
@@ -26,6 +26,21 @@ export const useTimeline = (
     minScroll.value = -initialRange * 2 + visibleRange / 2; // Adjust minimum scroll limit
     maxScroll.value = initialRange * 2 - visibleRange / 2; // Adjust maximum scroll limit
   };
+
+  const mouseHoverPosition = ref(null); // Hover position state
+
+  // Compute markers based on hover position
+  const markers = computed(() => {
+    return mouseHoverPosition.value
+      ? [
+          {
+            start: mouseHoverPosition.value,
+            type: 'marker',
+            id: 'mousehover',
+          },
+        ]
+      : [];
+  });
 
   // Update the viewport based on scroll position and zoom level
   const updateViewport = () => {
@@ -78,6 +93,15 @@ export const useTimeline = (
     onZoomChange(); // Update related states
   };
 
+ // Handlers for hover interaction
+  const onMousemoveTimeline = ({ time }) => {
+  mouseHoverPosition.value = time; // Update hover position
+  };
+
+  const onMouseleaveTimeline = () => {
+  mouseHoverPosition.value = null; // Clear hover position
+  };
+
   return {
     minZoom,
     maxZoom,
@@ -90,5 +114,9 @@ export const useTimeline = (
     onZoomChange,
     onScrollChange,
     onMouseWheelZoom,
+    onMousemoveTimeline,
+    onMouseleaveTimeline,
+    markers,
+    mouseHoverPosition
   };
 };
