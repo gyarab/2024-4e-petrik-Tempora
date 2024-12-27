@@ -10,7 +10,7 @@
           :markers="markers"
           :viewportMin="viewportMin"
           :viewportMax="viewportMax"
-          :renderTimestampLabel="(timestamp) => timestamp"
+          :renderTimestampLabel="(timestamp) => new Date(timestamp).getFullYear()"
           @mousemoveTimeline="onMousemoveTimeline"
           @mouseleaveTimeline="onMouseleaveTimeline"
         />
@@ -43,7 +43,8 @@
       </div>
 
       <div>
-        {{ mouseHoverPosition ? new Date(mouseHoverPosition).toLocaleString() : 'Hover over the timeline to see the year' }}
+        {{ mouseHoverPosition ? "Hovering over year " + new Date(mouseHoverPosition).getUTCFullYear() : 'Hover over the timeline to see the year' }}
+
       </div>
     </div>
   </template>
@@ -67,7 +68,7 @@
   ];
   const items = [
     { group: 'group1', type: 'point', start: 2000, cssVariables: { '--item-background': '#3498db' } },
-    { group: 'group3', type: 'range', start: 1950, end: 2020, cssVariables: { '--item-background': '#e74c3c' } },
+    { group: 'group3', type: 'range', start: -631152000000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
     { group: 'group2', type: 'range', start: 1960, end: 1980 },
   ];
   

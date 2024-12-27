@@ -1,10 +1,10 @@
 import { ref, watch, computed } from 'vue';
 
-export const useTimeline = (zoomLimits = { min: 0.5, max: 3 }) => {
+export const useTimeline = (zoomLimits = { min: 0.3, max: 3 }) => {
   // Configuration for zoom and initial settings
   const minZoom = zoomLimits.min; // Minimum zoom level
   const maxZoom = zoomLimits.max; // Maximum zoom level
-  const initialZoom = 0.3; // Default zoom level
+  const initialZoom = 0.4; // Default zoom level
   const yearToMs = (year) => Date.UTC(year, 0, 1);
   const rangeStart = ref(-yearToMs(1950)); // Default range start
   const rangeEnd = ref(yearToMs(2020)); // Default range end
