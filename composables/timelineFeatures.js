@@ -8,8 +8,6 @@ export const useTimeline = (zoomLimits = { min: 0.3, max: 3 }) => {
   const yearToMs = (year) => Date.UTC(year, 0, 1);
   const rangeStart = ref(yearToMs(2000)); // Default range start
   const rangeEnd = ref(yearToMs(2020)); // Default range end
-  
-
 
   // Reactive states for zoom, scroll, and viewport
   const zoomLevel = ref(initialZoom); // Current zoom level
@@ -26,10 +24,11 @@ export const useTimeline = (zoomLimits = { min: 0.3, max: 3 }) => {
   const timelineRange = computed(() => rangeEnd.value - rangeStart.value);
 
   // Update the scroll limits based on zoom level
-  const updateScrollLimits = () => {
+   const updateScrollLimits = () => {
     const visibleRange = timelineRange.value / zoomLevel.value; // Calculate visible range at current zoom
-    minScroll.value = rangeStart.value - visibleRange / 2; // Adjust minimum scroll limit
-    maxScroll.value = rangeEnd.value + visibleRange / 2; // Adjust maximum scroll limit
+    const edgeRange = visibleRange * 0.05; // Calculate the edge range (5% of the visible range)
+    minScroll.value = rangeStart.value - edgeRange; // Adjust minimum scroll limit
+    maxScroll.value = rangeEnd.value + edgeRange; // Adjust maximum scroll limit
   };
 
   const mouseHoverPosition = ref(null); // Hover position state
