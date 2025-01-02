@@ -68,7 +68,7 @@
   ];
   const items = [
     { group: 'group1', type: 'point', start: 2000, cssVariables: { '--item-background': '#3498db' } },
-    { group: 'group3', type: 'range', start: -631152000000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
+    { group: 'group3', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
     { group: 'group2', type: 'range', start: 1960, end: 1980 },
   ];
   

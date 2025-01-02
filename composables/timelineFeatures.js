@@ -6,7 +6,7 @@ export const useTimeline = (zoomLimits = { min: 0.3, max: 3 }) => {
   const maxZoom = zoomLimits.max; // Maximum zoom level
   const initialZoom = 0.4; // Default zoom level
   const yearToMs = (year) => Date.UTC(year, 0, 1);
-  const rangeStart = ref(-yearToMs(1950)); // Default range start
+  const rangeStart = ref(yearToMs(2000)); // Default range start
   const rangeEnd = ref(yearToMs(2020)); // Default range end
   
 
