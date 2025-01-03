@@ -101,6 +101,7 @@ export const useTimeline = (zoomLimits = { min: 0.3, max: 3 }) => {
     zoomLevel.value = newZoomLevel; // Update the zoom level
     onZoomChange(); // Update related states
   };
+  
 
   // Handlers for hover interaction
   const onMousemoveTimeline = ({ time }) => {

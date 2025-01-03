@@ -23,9 +23,9 @@
       </div>
     </template>
       </Timeline>
-      </div>
-  
-      <div class="controls-container">
+    </div>    
+  </div>
+  <div class="controls-container">
         <div class="year-display-container">
           {{ mouseHoverPosition ? "Hovering over year " + new Date(mouseHoverPosition).getUTCFullYear() : 'Hover over the timeline to see the year' }}
         </div>
@@ -43,7 +43,7 @@
           />
         </div>
 
-        <div class="zoom-container" >
+        <div class="zoom-container">
           <label for="zoom">Zoom:</label>
           <input
             type="range"
@@ -54,13 +54,10 @@
             v-model="zoomLevel"
             @input="onZoomChange"
           />
+          <span class="ml-2 inline-block" style="width: 3ch;">{{ Math.round((zoomLevel - minZoom) / (maxZoom - minZoom) * 100) }}%</span>
         </div>
-        
       </div>
-  
-      
-    </div>
-  </template>
+</template>
   
   <script setup>
   import { useTimeline } from '@/composables/timelineFeatures';
@@ -89,7 +86,7 @@
     { id:'7', name: 'Dílo autora z  o b d o b í Raketa', group: 'group4', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
   ];
   
- // Use the composable
+ // Use the composableA
  const {
   minZoom,
   maxZoom,
@@ -105,16 +102,23 @@
   onMousemoveTimeline,
   onMouseleaveTimeline,
   markers,
-  mouseHoverPosition
+  mouseHoverPosition,
 } = useTimeline();
 </script>
   
 <style>
    .controls-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 20px;
-    margin-bottom: 20px;
+    height: 50px;
+    background-color: white;
+    width:100% ;
+    padding: 10px;
   }
 
   .scroll-container {
@@ -149,19 +153,19 @@
   }
 
   .timeline-container {
+    position: relative;
     overflow: hidden;
     border: 1px solid #ccc;
     padding: 10px;
+  
     
     background-color: #ffffff;
-    height: max-content;
+    height:fit-content
   }
   
-  
-
 
 :root {
-  --group-height: 80px;
+  --group-height: clamp(40px, 10vh, 15vh); /* Minimum, preferred , max */
   --primaryGH:calc(var(--group-height) * 1.25);
   --secondaryGH:calc(var(--group-height) * 0.85);
   --detailGH:calc(var(--group-height) * 0.75);
@@ -187,7 +191,6 @@
   background-color: #ff000015;
   height: var(--detailGH);
 }
-
 
 
 .timestamps {  
