@@ -39,12 +39,12 @@
             :step="10"
             v-model="scrollPosition"
             @input="(event) => onScrollChange(event.target.value)"
-            class="scroll-bar"
+            class="w-full appearance-none border-sky-900 border-2 rounded-md"
           />
         </div>
 
         <div class="zoom-container">
-          <label for="zoom">Zoom:</label>
+          <Icon class="size-7 " name="material-symbols:zoom-in-rounded" />
           <input
             type="range"
             id="zoom"
@@ -54,7 +54,7 @@
             v-model="zoomLevel"
             @input="onZoomChange"
           />
-          <span class="ml-2 inline-block" style="width: 3ch;">{{ Math.round((zoomLevel - minZoom) / (maxZoom - minZoom) * 100) }}%</span>
+          <span class="ml-2 inline-block "  style="width: 3ch;"> {{ Math.round((zoomLevel - minZoom) / (maxZoom - minZoom) * 100) }}%</span>
         </div>
       </div>
 </template>
@@ -128,10 +128,6 @@
     align-items: center; /* Vertically aligns elements */
   }
 
-  .scroll-bar {
-    width: 100%; /* Fills the scroll container */
-  }
-
   .zoom-container {
     flex: 1 1 25%; /* 25% of the width */
     display: flex;
@@ -144,7 +140,6 @@
     display: flex;
     align-items: center; /* Vertically aligns elements */
     justify-content: flex-start; /* Aligns text to the right */
-    font-weight: bold;
   }
 
   .controls-container label {
@@ -158,8 +153,7 @@
     overflow: hidden;
     border: 1px solid #ccc;
     padding: 10px;
-  
-    
+    margin-left: 10px;
     background-color: #ffffff;
     height:fit-content
   }

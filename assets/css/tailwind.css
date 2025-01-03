@@ -55,7 +55,7 @@ label{
     }
 
     .sidebar-icon{
-        @apply relative flex items-center justify-center mx-auto size-16 my-2 bg-sky-600
+        @apply relative flex items-center justify-center mx-auto size-8 my-2 bg-sky-600
         hover:bg-sky-400
     }
 

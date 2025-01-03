@@ -18,5 +18,8 @@
     "vue": "latest",
     "vue-router": "latest",
     "vue-timeline-chart": "^2.5.0"
+  },
+  "devDependencies": {
+    "@iconify-json/uil": "^1.2.3"
   }
 }

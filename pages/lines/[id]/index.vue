@@ -3,22 +3,22 @@
       <Title> Tempora | Timeline {{ id }}</Title>
     </Head>
   
-    
-  <div class="flex">
-
     <Sidebar></Sidebar>
-    <main class="flex-1 ml-24 pl-4 px-2">
+    
+    <div :style="{'marginLeft': sidebarWidth}">
+      <TimelineComponent/>
+    </div>
+    
 
-    <TimelineComponent/>
 
-  </main>
-  </div>
+  
 </template>
 
 <script setup>
 
 import TimelineComponent from '~/components/TimelineComponent.vue';
 import { useRoute } from 'vue-router';
+import { sidebarWidth } from '~/components/state';
 
     // Get route and user info
     const { id } = useRoute().params
