@@ -5,11 +5,22 @@
                 <Icon class=" sidebar-icon" name="material-symbols:settings" />
                 <Icon class=" sidebar-icon" name="material-symbols:settings" />
                 <Icon class=" sidebar-icon" name="material-symbols:settings" />
+                
+        <div v-if="user">
+            <NuxtLink :to="`${id}/edit`">Edit Timeline</NuxtLink>
+        </div>
+        <h1>Timeline Page (ID: {{ id }})</h1>
     </div>
+    
 </template>
 
-<script>
-    
+<script setup>
+    import { useRoute } from 'vue-router';
+
+    // Get route and user info
+    const { id } = useRoute().params
+    const user = useSupabaseUser()
+
 </script>
 
 <style scoped>
