@@ -3,16 +3,19 @@
                 flex flex-col shadow-lg bg-sky-950 transition-all duration-100 ease-in-out" 
                 
                 :style="{width: sidebarWidth}"> 
-                <span class="" @click="toggleSidebar"><Icon class=" sidebar-icon size-12" name="material-symbols:menu-rounded" /> </span>
+                <span class="" @click="toggleSidebar">
+                  <Icon v-if="collapsed" class=" sidebar-icon size-12" name="uil:list-ul" /> 
+                  <Icon v-else class=" sidebar-icon size-12" name="uil:list-ui-alt" /> 
+                </span>
                 <Transition name="fade">
                     <div v-if="!collapsed" class="space-y-8 mt-8">
-                    <Icon class=" sidebar-icon" name="material-symbols:share" />
-                    <Icon class=" sidebar-icon" name="material-symbols:settings" />
-                    <Icon class=" sidebar-icon" name="material-symbols:info" />
-                    <Icon v-if="user" class=" sidebar-icon" name="material-symbols:edit-square-outline-rounded" />
+                    <Icon class=" sidebar-icon" name="uil:share" />
+                    <Icon class=" sidebar-icon" name="uil:setting" />
+                    <Icon class=" sidebar-icon" name="uil:info-circle" />
+                    <Icon v-if="user" class=" sidebar-icon" name="uil:edit" />
                     
 
-                    <p class="text-white">line ID: {{ id }}</p>
+                   
                     </div>
                 </Transition>
         

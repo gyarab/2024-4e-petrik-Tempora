@@ -44,7 +44,7 @@
         </div>
 
         <div class="zoom-container">
-          <Icon class="size-7 " name="material-symbols:zoom-in-rounded" />
+          <Icon class="size-7 " name="uil:search-alt" />
           <input
             type="range"
             id="zoom"
@@ -117,7 +117,7 @@
     gap: 20px;
     height: 50px;
     background-color: white;
-    width:100% ;
+    width:100%;
     padding: 10px;
     z-index: 1000;
   }
@@ -144,7 +144,6 @@
 
   .controls-container label {
     margin-right: 10px;
-    font-weight: bold;
     align-self: center;
   }
 
