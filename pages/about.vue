@@ -1,5 +1,5 @@
 <template>
-    <div class="container_box h-top" >
+    <div class="container_box h-5rem" >
         <div class="content_box h-full w-full mx-10">
             <div class="text-center">
             <h2 >About page</h2>

@@ -27,7 +27,7 @@
   </div>
   <div class="controls-container">
         <div class="year-display-container">
-          {{ mouseHoverPosition ? "Hovering over year " + new Date(mouseHoverPosition).getUTCFullYear() : 'Hover over the timeline to see the year' }}
+          {{ mouseHoverPosition ? "Ukazatel myši nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na časovou osu zobrazíte rok' }}
         </div>
         
         <div class="scroll-container">
@@ -81,7 +81,7 @@
     { id:'1', name: 'Raketa', group: 'group2', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
     { id:'3', name: 'Super jmeno 0123456789',group: 'group2', type: 'range', start: -631152000000, end: 946684800000 },
     { id:'4', name: 'W', group: 'group1', type: 'marker', start: -400000000000, cssVariables: { '--item-background': '#000' } },
-    { id:'5', name: 'W', group: 'group4', type: 'background', start: -400000000000, cssVariables: { '--item-background': '#000' } }, //IDK co to ma byt
+    { id:'5', name: 'W', group: 'group4', type: 'background', start: -400000000000, end: 977836800000, cssVariables: { '--item-background': '#000' } }, 
     { id:'6', name: 'Autor Raketa', group: 'group3', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
     { id:'7', name: 'Dílo autora z  o b d o b í Raketa', group: 'group4', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
   ];
@@ -107,56 +107,59 @@
 </script>
   
 <style>
-   .controls-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    height: 50px;
-    background-color: white;
-    width:100%;
-    padding: 10px;
-    z-index: 1000;
-  }
 
-  .scroll-container {
-    flex: 1 1 50%; /* 50% of the width */
-    display: flex;
-    align-items: center; /* Vertically aligns elements */
-  }
+.scroll-container {
+  flex: 1 1 50%; /* 50% of the width */
+  display: flex;
+  align-items: center; /* Vertically aligns elements */
+}
 
-  .zoom-container {
-    flex: 1 1 25%; /* 25% of the width */
-    display: flex;
-    align-items: center; /* Vertically aligns elements */
-    justify-content: center;
-  }
+.zoom-container {
+  flex: 1 1 25%; /* 25% of the width */
+  display: flex;
+  align-items: center; /* Vertically aligns elements */
+  justify-content: center;
+}
 
-  .year-display-container {
-    flex: 1 1 25%; /* Remaining 25% of the width */
-    display: flex;
-    align-items: center; /* Vertically aligns elements */
-    justify-content: flex-start; /* Aligns text to the right */
-  }
+.year-display-container {
+  flex: 1 1 25%; /* Remaining 25% of the width */
+  display: flex;
+  align-items: center; /* Vertically aligns elements */
+  justify-content: flex-start; /* Aligns text to the right */
+}
+.timeline-container {
+  margin-top: 5px;
+  margin-bottom: 50px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  padding: 10px;
+  background-color: #ffffff;
+  height:fit-content
+}
 
-  .controls-container label {
+.controls-container {
+ position: fixed;
+ bottom: 0;
+ left: 0;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ gap: 20px;
+ height: 50px;
+ background-color: white;
+ width:100%;
+ padding: 10px;
+ z-index: 20;
+  border-top: 1px solid #ccc;
+}
+ 
+
+.controls-container label {
     margin-right: 10px;
     align-self: center;
   }
 
-  .timeline-container {
-    position: relative;
-    overflow: hidden;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-left: 10px;
-    background-color: #ffffff;
-    height:fit-content
-  }
-  
 
 :root {
   --group-height: clamp(40px, 10vh, 15vh); /* Minimum, preferred , max */
