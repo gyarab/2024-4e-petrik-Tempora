@@ -15,13 +15,14 @@
           @mouseleaveTimeline="onMouseleaveTimeline"
         >
         <template #item="{ item }">
-      <div
-        style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold;"
-        :data-tippy-content="item.tooltip"
-      >
-        {{ item.name }}
-      </div>
-    </template>
+    <NuxtLink
+      :to="`/lines/1/${item.tag}`"
+      style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
+      :data-tippy-content="item.tooltip"
+    >
+      {{ item.name }}
+    </NuxtLink>
+  </template>
       </Timeline>
     </div>    
   </div>
@@ -77,13 +78,13 @@
     { id: 'group8', label: 'Kontext svet',  className: 'kontextGroup' },
   ];
   const items = [
-    { id:'0', name: 'W', group: 'group1', type: 'point', start: 2000, cssVariables: { '--item-background': '#3498db' } },
-    { id:'1', name: 'Raketa', group: 'group2', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-    { id:'3', name: 'Super jmeno 0123456789',group: 'group2', type: 'range', start: -631152000000, end: 946684800000 },
-    { id:'4', name: 'W', group: 'group1', type: 'marker', start: -400000000000, cssVariables: { '--item-background': '#000' } },
-    { id:'5', name: 'W', group: 'group4', type: 'background', start: -400000000000, end: 977836800000, cssVariables: { '--item-background': '#000' } }, 
-    { id:'6', name: 'Autor Raketa', group: 'group3', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-    { id:'7', name: 'Dílo autora z  o b d o b í Raketa', group: 'group4', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
+    { id:'0', tag: '0', name: 'W', group: 'group1', type: 'point', start: 2000, cssVariables: { '--item-background': '#3498db' } },
+    { id:'1', tag: '1', name: 'Raketa', group: 'group2', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
+    { id:'3', tag: '0', name: 'Super jmeno 0123456789',group: 'group2', type: 'range', start: -631152000000, end: 946684800000 },
+    { id:'4', tag: '1', name: 'W', group: 'group1', type: 'marker', start: -400000000000, cssVariables: { '--item-background': '#000' } },
+    { id:'5', tag: '1', name: 'W', group: 'group4', type: 'background', start: -400000000000, end: 977836800000, cssVariables: { '--item-background': '#000' } }, 
+    { id:'6', tag: '1', name: 'Autor Raketa', group: 'group3', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
+    { id:'7', tag: '1', name: 'Dílo autora z  o b d o b í Raketa', group: 'group4', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
   ];
   
  // Use the composableA
