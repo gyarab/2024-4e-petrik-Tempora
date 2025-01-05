@@ -10,13 +10,13 @@
             <button @click="toggleInfo" class="sidebar-but" :class="{ 'active-border': inInfo }"> 
               <Icon class="sidebar-icon" name="uil:info-circle"/>
             </button>
-            <button @click="toggleEdit" class="sidebar-but" :class="{ 'active-border': inEdit }"> 
-              <Icon v-if="user" class="sidebar-icon" name="uil:edit"/> 
+            <button v-if="user" @click="toggleEdit" class="sidebar-but" :class="{ 'active-border': inEdit }"> 
+              <Icon  class="sidebar-icon" name="uil:edit"/> 
             </button>
-            <button class="sidebar-but">
+            <button @click="copyToClipboard" class="sidebar-but">
               <Icon class="sidebar-icon" name="uil:share"/>
             </button>
-            <button @click="toggleSettings" class="sidebar-but" :class="{ 'active-border': inSettings }"> 
+            <button v-if="user" @click="toggleSettings" class="sidebar-but" :class="{ 'active-border': inSettings }"> 
               <Icon class="sidebar-icon" name="uil:setting"/>
             </button>
             <button class="sidebar-but">
@@ -27,13 +27,15 @@
 
         <!-- Fixed position collapse button wrapper -->
         <div class="absolute bottom-0 left-0 right-0 px-2 mb-14 z-60">
-          <span class="bg-sky-950 hover:bg-sky-900 rounded-xl cursor-pointer flex justify-center content-center " 
+          <span class="bg-sky-950 hover:bg-sky-900 rounded-xl cursor-pointer flex justify-center content-center
+                    transition-all duration-100 ease-in-out"
+                    
                 :class="{ 'w-full': !collapsed, 'w-12 mx-auto': collapsed }"
-                @click="toggleSidebar">
-            <button v-if="collapsed">
+                >
+            <button @click="toggleSidebar" v-if="collapsed">
               <Icon class="sidebar-icon size-12" name="uil:list-ul"/>
             </button>
-            <button v-else>
+            <button @click="toggleSidebar" v-else>
               <Icon class="sidebar-icon size-12" name="uil:list-ui-alt"/>
             </button>
           </span>
@@ -42,10 +44,20 @@
 </template>
 
 <script setup>
+    import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
+    import { useRoute } from 'vue-router';
+    
+    const toast = useToast()
     // Get route and user info
     const user = useSupabaseUser()
+    const route = useRoute()
+    const link = `${window.location.origin}${route.path}`;
 
-    import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
+  function copyToClipboard() {
+    console.log(link)
+    toast.add({ title: 'Hello world!' })
+    navigator.clipboard.writeText(link)
+  }
 
 </script>
 

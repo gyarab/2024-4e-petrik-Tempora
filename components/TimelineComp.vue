@@ -26,7 +26,7 @@
       </Timeline>
     </div>    
   </div>
-  <div class="controls-container">
+  <div class="bg-white dark:bg-zinc-800 black-white controls-container ">
         <div class="year-display-container">
           {{ mouseHoverPosition ? "Ukazatel myši nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na časovou osu zobrazíte rok' }}
         </div>
@@ -152,7 +152,6 @@
  width:100%;
  padding: 10px;
  z-index: 20;
-  border-top: 1px solid #ccc;
 }
  
 

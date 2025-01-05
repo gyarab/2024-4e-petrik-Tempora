@@ -13,8 +13,8 @@
 </template>
 
 <script setup>
-    import { useRoute } from 'vue-router';
     import { falseAll } from '../composables/state';
+    import { useRoute } from 'vue-router';
     
     // Get route and user info
     const { id } = useRoute().params

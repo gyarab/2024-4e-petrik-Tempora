@@ -8,8 +8,12 @@
         
         <h2>Lines hub page</h2>
         <p> Lines created: </p>
-        <span class="btn"> Create new Line </span> 
-        <button class="btn"> <NuxtLink to="/lines/1">Goto timeline one</NuxtLink> </button>
+        
+       
+        <!--<button class="btn" @click="addTimeline"> Create new Line </button>--> 
+        
+        
+        <NuxtLink class="btn" to="/lines/1">Goto timeline one (test)</NuxtLink>
 
         <!-- TODO -->
         <div v-for="l in lines">
@@ -21,6 +25,7 @@
 
 <script setup>
 import LineCard from '~/components/LineCard.vue';
+//import { addTimeline } from '~/composables/supabase.js';
 
     // TODO
     const lines = null

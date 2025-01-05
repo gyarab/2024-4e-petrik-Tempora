@@ -6,19 +6,17 @@ body{
     @apply bg-sky-100 dark:bg-sky-900;
 }
 p{
-    @apply black-white m-2
+    @apply m-2
 }
 h2{
-    @apply black-white text-3xl mb-5
+    @apply text-3xl mb-5
 }
-label{
-    @apply black-white
-}
+
 
 @layer components{
     .btn{
         @apply bg-sky-700 hover:bg-sky-600 dark:bg-sky-300 dark:hover:bg-sky-400  white-black
-                px-3 py-2 rounded-md text-sm border-2 font-bold border-black m-1
+                p-2 rounded-md text-sm border-2 font-bold border-black m-1
     }
 
     .input{

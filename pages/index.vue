@@ -44,6 +44,7 @@
 function toggleDarkMode() {
   const html = document.documentElement;
   html.classList.toggle("dark");
+  console.log(`Dark mode is ${html.classList.contains("dark") ? "enabled" : "disabled"}`);
 }
 
 

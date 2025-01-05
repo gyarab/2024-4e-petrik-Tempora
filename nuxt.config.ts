@@ -3,10 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   modules: [
-    '@nuxtjs/tailwindcss',
     '@nuxtjs/supabase',
-    '@nuxt/icon',
     '@nuxt/fonts',
+    '@nuxt/ui',
   ],
   tailwindcss: {
     // Add Tailwind dark mode configuration here
@@ -14,12 +13,17 @@ export default defineNuxtConfig({
       darkMode: 'class', // Enable dark mode with 'class' strategy
     }
   },
+  colorMode: {
+    preference: 'light', // Default theme is light
+    fallback: 'light',   // Fallback if no preference is found
+    classSuffix: ''      // No suffix like `-dark` (keeps it simple)
+  },
   app:{
     head:{
       title: 'Tempora',
       meta:[
         {name: 'description', content: 'Interactive Timeline'}
-      ]
+      ],
     }
   },
   supabase: {
@@ -35,5 +39,4 @@ export default defineNuxtConfig({
       },
     ],
   },
-  
 })
