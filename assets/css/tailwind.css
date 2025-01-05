@@ -19,10 +19,6 @@ h2{
                 p-2 rounded-md text-sm border-2 font-bold border-black m-1
     }
 
-    .input{
-        @apply border-2 border-black rounded-lg px-2 py-1 w-full 
-    }
-
     .container_box {
         @apply flex items-center justify-center mt-2
     }
@@ -75,6 +71,14 @@ h2{
         @apply text-black dark:text-white
     }
     .white-black{
-        @apply dark:text-black text-white
+        @apply  text-white dark:text-black
     }
+
+    .bg-white-black{
+        @apply  bg-white dark:bg-zinc-800
+    }
+    .bg-black-white{
+        @apply bg-zinc-800 dark:bg-white
+    }
+
   }

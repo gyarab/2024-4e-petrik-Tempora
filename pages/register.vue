@@ -4,14 +4,14 @@
             <h2>Register</h2>
             <!-- Email Input -->
             <div class="mt-3">
-                <label for="email">Email: <br></label>
-                <input class="input" id="email" v-model="email" type="email" placeholder="Enter your email" />
+                <label for="email">Email: </label>
+                <UInput icon="i-heroicons-envelope" size="lg" variant="none" class="bg-white-black border-2 border-black rounded-lg  w-full" id="email" v-model="email" type="email" placeholder="Enter your email" />
             </div>
             
             <!-- Password Input -->
             <div class="mt-3">
-                <label for="password">Password: <br></label>
-                <input class="input" id="password" v-model="password" type="password" placeholder="Enter your password" />
+                <label for="password">Password: </label>
+                <UInput size="lg" variant="none" class="bg-white-black border-2 border-black rounded-lg  w-full" id="password" v-model="password" type="password" placeholder="Enter your password" />
             </div>
             
             <!-- Submit Button -->
