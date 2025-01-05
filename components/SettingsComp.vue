@@ -25,7 +25,7 @@
 
 <script setup>
     import { useRoute } from 'vue-router';
-    import { falseAll } from './state';
+    import { falseAll } from '../composables/state';
     
     // Get route and user info
     const { id } = useRoute().params

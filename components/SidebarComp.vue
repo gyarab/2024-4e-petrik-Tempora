@@ -45,7 +45,7 @@
     // Get route and user info
     const user = useSupabaseUser()
 
-    import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from './state';
+    import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
 
 </script>
 

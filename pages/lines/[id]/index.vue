@@ -22,7 +22,7 @@ import Timeline from '~/components/TimelineComp.vue';
 import Sidebar from '~/components/SidebarComp.vue';
 import InfoComp from '~/components/InfoComp.vue';
 import { useRoute } from 'vue-router';
-import { inEdit, inInfo, inSettings, sidebarWidth } from '~/components/state';
+import { inEdit, inInfo, inSettings, sidebarWidth } from '~/composables/state';
 
     // Get route and user info
     const { id } = useRoute().params
