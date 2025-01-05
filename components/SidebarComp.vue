@@ -40,25 +40,43 @@
             </button>
           </span>
         </div>
+        <UNotifications/>
     </div>
 </template>
 
 <script setup>
-    import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
-    import { useRoute } from 'vue-router';
-    
-    const toast = useToast()
-    // Get route and user info
-    const user = useSupabaseUser()
-    const route = useRoute()
-    const link = `${window.location.origin}${route.path}`;
+import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
+import { useRoute } from 'vue-router';
 
-  function copyToClipboard() {
-    console.log(link)
-    toast.add({ title: 'Hello world!' })
+const toast = useToast()
+const user = useSupabaseUser()
+const route = useRoute()
+let link = '';
+if (process.client) {
+  // Access window only on the client-side
+  link = `${window.location.origin}${route.path}`;
+}
+
+function copyToClipboard() {
+  try {
     navigator.clipboard.writeText(link)
+    toast.add({
+      title: 'Odkaz zkopírován',
+      icon: 'i-heroicons-check-circle',
+      color: 'green',
+      timeout: 1000,
+      pauseTimeoutOnHover: false,
+    })
+  } catch (error) {
+    toast.add({
+      title: 'Chyba při kopírování',
+      icon: 'i-heroicons-x-circle',
+      color: 'red',
+      timeout: 1000,
+      pauseTimeoutOnHover: false,
+    })
   }
-
+}
 </script>
 
 <style>
