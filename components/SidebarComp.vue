@@ -7,21 +7,37 @@
         <!-- Top Controls -->
         <Transition name="fade">
           <div v-if="!collapsed" class="space-y-8 mt-8">
+            
             <button @click="toggleInfo" class="sidebar-but" :class="{ 'active-border': inInfo }"> 
-              <Icon class="sidebar-icon" name="uil:info-circle"/>
+              <UTooltip text="Info" :popper="{ placement: 'right' }">
+                <Icon class="sidebar-icon" name="uil:info-circle"/>
+              </UTooltip>
             </button>
+            
             <button v-if="user" @click="toggleEdit" class="sidebar-but" :class="{ 'active-border': inEdit }"> 
-              <Icon  class="sidebar-icon" name="uil:edit"/> 
+              <UTooltip text="Editační mód" :popper="{ placement: 'right' }">
+                <Icon  class="sidebar-icon" name="uil:edit"/> 
+              </UTooltip>
             </button>
+            
             <button @click="copyToClipboard" class="sidebar-but">
-              <Icon class="sidebar-icon" name="uil:share"/>
+              <UTooltip text="Zkopírovat odkaz" :popper="{ placement: 'right' }">
+                <Icon class="sidebar-icon" name="uil:share"/>
+              </UTooltip>
             </button>
+            
             <button v-if="user" @click="toggleSettings" class="sidebar-but" :class="{ 'active-border': inSettings }"> 
-              <Icon class="sidebar-icon" name="uil:setting"/>
+              <UTooltip text="Nastavení" :popper="{ placement: 'right' }">
+                <Icon class="sidebar-icon" name="uil:setting"/>
+              </UTooltip>
             </button>
-            <button class="sidebar-but">
-              <Icon v-if="inEdit" class="sidebar-icon" name="uil:plus-circle"/>
+            
+            <button v-if="inEdit" class="sidebar-but">
+              <UTooltip text="Přidat novou událost" :popper="{ placement: 'right' }">
+                <Icon  class="sidebar-icon" name="uil:plus-circle"/>
+              </UTooltip>
             </button>
+
           </div>
         </Transition>
 
