@@ -20,6 +20,16 @@
             
             <div class="text-center">
                 <h2>Content page of line id: {{ id }} content: {{ content }}</h2>
+
+                <UTextarea autoresize placeholder="Search..." model-value="" />
+                <UTextarea autoresize placeholder="Search..." model-value="" />
+                <UTextarea autoresize placeholder="Search..." model-value="" />
+                <UTextarea autoresize placeholder="Search..." model-value="" />
+                <UTextarea autoresize placeholder="Search..." model-value="" />
+                <UTextarea autoresize placeholder="Search..." model-value="" />
+
+                <UButton label="Ulozit zmeny"></UButton>
+                <UButton label="Zahodit zmeny"></UButton>
             </div>
         
     
@@ -34,6 +44,7 @@
 </template>
 
 <script setup>
+
     const { id, content } = useRoute().params
 
     // Logika pro error page kdyz osa neexistuje
