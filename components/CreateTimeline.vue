@@ -1,4 +1,9 @@
 <template>
+    <div class="absolute top-0 right-0">
+        <button @click="toggleForm"> <Icon class="size-8" name="uil:multiply"></Icon> </button>
+    </div>
+    
+    
     <!-- New Line Form -->
     <UCard class="mb-5">
         <form @submit.prevent="handleCreate">
@@ -43,12 +48,14 @@ import { addTimeline } from "~/composables/useSupabase";
 import { ref } from 'vue';
 
 
+
 const errorMessage = ref("");
 const user = useSupabaseUser();
 const name = ref("");
 const start = ref(null);
 const end = ref(null);
 const router = useRouter()
+
 
 const handleCreate = async () => {
   errorMessage.value = "";

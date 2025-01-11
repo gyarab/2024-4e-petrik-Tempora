@@ -2,7 +2,7 @@
     <div class="container_box h-5rem">
         <div class="content_box h-full w-full mx-10 relative">
             <div class="absolute top-0 right-0">
-                <button @click="falseAll"> <Icon class="size-8" name="uil:multiply"></Icon> </button>
+                <button @click="toggleOff"> <Icon class="size-8" name="uil:multiply"></Icon> </button>
             </div>
             <p> Jméno osy: #####</p>
             <p> ID časové osy {{ id }}</p>
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-    import { falseAll } from '../composables/state';
+    import { toggleOff } from '../composables/state';
     import { useRoute } from 'vue-router';
     
     // Get route and user info

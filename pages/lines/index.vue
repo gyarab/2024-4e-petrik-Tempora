@@ -1,28 +1,27 @@
 <template>
     <div class="container_box">
-    <div class="content_box h-5rem w-full mx-10">
+    <div class="content_box h-5rem w-full mx-10 relative">
         <Head>
             <Title> Tempora | lines</Title>
         </Head>
         
         
-        <h2>Přehled časových os</h2>
         
-        <NuxtLink class="btn" to="/lines/1">Goto timeline one (test)</NuxtLink>
-       
-        <div v-if="true">
+        <div v-if="openForm">
           <CreateTimeline/>
         </div>
-         
-
-      <!-- Lines List -->
-      <h2> My timelines </h2>
-      <div v-if="lines && lines.length > 0">
-        <div v-for="line in lines" :key="line.line_id">
-          <LineCard :line="line" />
+        <div v-else>
+          <h2>Přehled časových os</h2>
+          
+          <UButton v-if="user" @click="toggleForm" class="btn" block label="Vytvořit osu" ></UButton>
+          
+          <!-- Lines List -->
+          <h2 class="text-lg font-medium mb-2">My timelines</h2>
+                <div v-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <LineCard v-for="line in lines" :key="line.line_id" :line="line" />
+                </div>
+                <p v-else class="text-gray-500">No lines created yet.</p>
         </div>
-      </div>
-      <p v-else>No lines created yet.</p>
     </div>
     </div>
 </template>
@@ -32,13 +31,12 @@ import LineCard from '~/components/LineCard.vue';
 import {fetchTimelines } from "~/composables/useSupabase";
 import CreateTimeline from '~/components/CreateTimeline.vue';
 import { ref } from 'vue';
+import { toggleForm } from '~/composables/state';
 
 
-
-
-// State
 const user = useSupabaseUser();
 const lines = ref([]);
+
 
 
 // Fetch all timelines for the authenticated user

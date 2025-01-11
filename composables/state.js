@@ -1,5 +1,6 @@
 import{ ref, computed } from 'vue'
 
+/* SIDEBAR Animation */ 
 export const collapsed = ref(false);
     export const toggleSidebar = () => (collapsed.value = !collapsed.value);
 
@@ -14,7 +15,7 @@ export const inEdit = ref(false);
 export const inSettings = ref(false);
 export const inInfo = ref(false);
 
-// Functions to toggle each state
+/* SIDEBAR MODES */ 
 export const toggleEdit = () => {
   inEdit.value = !inEdit.value; // Toggle inEdit
   if (inEdit.value) {
@@ -39,8 +40,16 @@ export const toggleInfo = () => {
   }
 };
 
-export const falseAll = () => {
+export const toggleOff = () => {
   inInfo.value = false;
   inEdit.value = false;
   inSettings.value = false;   
+};
+
+
+/* Form toggle */ 
+export const openForm = ref(false);
+
+export const toggleForm = () => {
+  openForm.value = !openForm.value;
 };
