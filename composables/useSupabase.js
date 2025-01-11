@@ -1,4 +1,4 @@
-// ~/composables/useSupabase.js
+
 export async function addTimeline({ start, end, name, line_id = null }, userId) {
   const supabase = useSupabaseClient(); // Must be called inside a composable or Vue setup
 
@@ -23,14 +23,14 @@ export async function addTimeline({ start, end, name, line_id = null }, userId) 
         author: userId,
       },
     ])
-    .select();
+    .select("line_id");
 
   if (error) {
     console.error("Error adding timeline:", error.message);
     throw error;
   }
 
-  return data;
+  return { data: data[0], error };
 }
 
 // Generate a unique line_id
