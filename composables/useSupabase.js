@@ -60,13 +60,20 @@ async function generateUniqueLineId(supabase) {
 }
 
 // Fetch timelines for a specific user
-export async function fetchTimelines(userId) {
+export async function fetchTimelines(filter = {}, userId = null) {
   const supabase = useSupabaseClient();
 
-  const { data, error } = await supabase
-    .from("timelines")
-    .select("*")
-    .eq("author", userId);
+  // Start building the query
+  let query = supabase.from("timelines").select("*");
+
+  // Apply filters
+  if (filter.featured) {
+    query = query.eq("featured", true);
+  } else if (filter.userTimelines && userId) {
+    query = query.eq("author", userId);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error("Error fetching timelines:", error.message);

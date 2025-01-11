@@ -13,16 +13,21 @@
         <div v-else>
           <h2>Přehled časových os</h2>
           
-          <UButton v-if="user" @click="toggleForm" class="btn" block label="Vytvořit osu" ></UButton>
+          <UButton v-if="user" @click="toggleForm" class="w-fit btn" block label="Vytvořit osu" ></UButton>
+          
+          <UTabs :items="[
+            { label: 'Vybrané' },
+            ...(user ? [{ label: 'Moje osy' }, { label: 'Uložené' }] : [])
+          ]" :default-index="0" @change="onChange"/>
           
           <!-- Lines List -->
-          <h2 class="text-lg font-medium mb-2">My timelines</h2>
+          
                 <div v-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     <LineCard v-for="line in lines" :key="line.line_id" :line="line" />
                 </div>
                 <p v-else class="text-gray-500">No lines created yet.</p>
         </div>
-    </div>
+      </div>
     </div>
 </template>
 
@@ -36,22 +41,41 @@ import { toggleForm } from '~/composables/state';
 
 const user = useSupabaseUser();
 const lines = ref([]);
-
-
+const selectedTab = ref(0);
 
 // Fetch all timelines for the authenticated user
-const fetchAllTimelines = async () => {
-  if (!user?.value?.id) return;
-
-  try {
-    lines.value = await fetchTimelines(user.value.id);
-  } catch (error) {
-    console.error("Error fetching timelines:", error.message);
+const fetchTimelinesByTab = async () => {
+  if (selectedTab.value === 1 && user?.value?.id) {
+    // Fetch "Moje osy" (user's timelines)
+    lines.value = await fetchTimelines({ userTimelines: true }, user.value.id);
+  } else if (selectedTab.value === 0) {
+    // Fetch "Vybrané" (featured timelines)
+    lines.value = await fetchTimelines({ featured: true });
+  } else {
+    // Handle other tabs (e.g., "Uložené") - empty for now
+    lines.value = [];
   }
 };
 
-// Fetch timelines on component mount
-onMounted(fetchAllTimelines);
+
+// Watch for tab changes
+function onChange(index) {
+  selectedTab.value = index;
+  fetchTimelinesByTab();
+}
+
+// Fetch timelines on initial mount
+onMounted(fetchTimelinesByTab);
+
+const items = 
+[{
+  label: 'Vybrané',
+}, {
+  label: 'Moje osy',
+}, {
+  label: 'Uložené',
+}]
+
 </script>
     
 <style  scoped>
