@@ -30,8 +30,17 @@
               <UTooltip text="Nastavení" :popper="{ placement: 'right' }">
                 <Icon class="sidebar-icon" name="uil:setting"/>
               </UTooltip>
-            </button>
+            </button> 
             
+            <button v-if="user" @click="toggleBookmarkState" class="sidebar-but"> 
+              <UTooltip v-if="!isBookmarked" text="Uložit záložku" :popper="{ placement: 'right' }">
+                <Icon class="sidebar-icon" name="heroicons:bookmark"/>
+              </UTooltip>
+              <UTooltip v-else text="Zrušit záložku" :popper="{ placement: 'right' }">
+                <Icon class="sidebar-icon" name="heroicons:bookmark-solid"/>
+              </UTooltip>
+            </button>
+
             <button v-if="inEdit" class="sidebar-but">
               <UTooltip text="Přidat novou událost" :popper="{ placement: 'right' }">
                 <Icon  class="sidebar-icon" name="uil:plus-circle"/>
@@ -63,10 +72,12 @@
 <script setup>
 import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
 import { useRoute } from 'vue-router';
+import { toggleBookmark } from "../composables/useSupabase";
 
 const toast = useToast()
 const user = useSupabaseUser()
 const route = useRoute()
+
 let link = '';
 if (process.client) {
   // Access window only on the client-side
@@ -91,6 +102,30 @@ function copyToClipboard() {
       timeout: 1000,
       pauseTimeoutOnHover: false,
     })
+  }
+}
+
+
+const isBookmarked = ref(false);
+const { id } = useRoute().params
+
+async function toggleBookmarkState() {
+  console.log(user.value.id)
+  try {
+    isBookmarked.value = await toggleBookmark(id, user.value.id, isBookmarked.value);
+    toast.add({
+      title: isBookmarked.value ? "Záložka uložena" : "Záložka zrušena",
+      icon: "i-heroicons-check-circle",
+      color: "green",
+      timeout: 1000,
+    });
+  } catch (error) {
+    toast.add({
+      title: "Chyba při ukládání záložky",
+      icon: "i-heroicons-x-circle",
+      color: "red",
+      timeout: 1000,
+    });
   }
 }
 </script>

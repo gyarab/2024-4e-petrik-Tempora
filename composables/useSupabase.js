@@ -125,3 +125,44 @@ export async function updateNickname(userId, newNickname) {
       return false; // Indicate failure
   }
 }
+
+export async function toggleBookmark(line_id, userID, isBookmarked) {
+  const supabase = useSupabaseClient();
+  const user = useSupabaseUser();
+
+  console.log(line_id)
+  if (!user) {
+    throw new Error("User not logged in.");
+  }
+
+  try {
+    if (isBookmarked) {
+      // If bookmarked, delete the record
+      const { error } = await supabase
+        .from("bookmarks")
+        .delete()
+        .match({ user_id: userID, line_id });
+
+      if (error) {
+        console.error("Error removing bookmark:", error.message);
+        throw error;
+      }
+    } else {
+      // If not bookmarked, insert the record
+      const { error } = await supabase
+        .from("bookmarks")
+        .insert({ user_id: userID, line_id });
+
+      if (error) {
+        console.error("Error adding bookmark:", error.message);
+        throw error;
+      }
+    }
+
+    // Toggle the state
+    return !isBookmarked;
+  } catch (err) {
+    console.error("Unexpected error toggling bookmark:", err);
+    throw err;
+  }
+}

@@ -13,7 +13,7 @@
         <div v-else>
           <h2>Přehled časových os</h2>
           
-          <UButton v-if="user" @click="toggleForm" class="w-fit btn" block label="Vytvořit osu" ></UButton>
+          <UButton v-if="user" icon="heroicons:plus-circle-20-solid" @click="toggleForm" class="w-fit btn mb-4" block label="Vytvořit osu" ></UButton>
           
           <UTabs :items="[
             { label: 'Vybrané' },
