@@ -109,13 +109,18 @@ export async function fetchNickname(user) {
   }
 }
 
-const updateNickname = async (userId, nickname) => {
+export async function updateNickname(userId, newNickname) {
   const supabase = useSupabaseClient();
-  const { data, error } = await supabase
-    .from('user_profiles')
-    .update({ nickname })
-    .eq('id', userId);
+  try {
+      const { error } = await supabase
+          .from("user_profiles") // Adjust table name if needed
+          .update({ nickname: newNickname })
+          .eq("id", userId);
 
-  if (error) throw error;
-  return data;
-};
+      if (error) throw error;
+      return true; // Indicate success
+  } catch (error) {
+      console.error("Error updating nickname:", error.message);
+      return false; // Indicate failure
+  }
+}

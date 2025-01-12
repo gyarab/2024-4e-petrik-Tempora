@@ -46,7 +46,7 @@
 <script setup>
 import { addTimeline } from "~/composables/useSupabase";
 import { ref } from 'vue';
-
+import { toggleForm } from '~/composables/state';
 
 
 const errorMessage = ref("");
@@ -73,7 +73,6 @@ const handleCreate = async () => {
     };
 
     // Add the timeline using the composable
-    console.log(user.value.id);
     const { data, error } = await addTimeline(newTimeline, user.value.id);
 
     if (error) {
@@ -87,6 +86,7 @@ const handleCreate = async () => {
       end.value = null;
 
       // Redirect to the newly created timeline
+      toggleForm();
       router.push(`/lines/${data.line_id}`);
     }
   } catch (error) {

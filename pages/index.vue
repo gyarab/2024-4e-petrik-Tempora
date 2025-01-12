@@ -5,6 +5,19 @@
             <p>Welcome to the interactive timeline site</p>
             <div v-if="user">
                 <p>Logged in as: <span class="underline">{{ user.email }}</span></p>
+                <p>
+                    Nickname: <span v-if="nickname">{{ nickname }}</span>
+                    <span v-else class="italic text-gray-500">Not set</span>
+                </p>
+                <div>
+                    <input
+                        v-model="newNickname"
+                        type="text"
+                        placeholder="Change your nickname"
+                        class="border rounded p-2"
+                    />
+                    <button @click="changeNickname" class="btn ml-2">Save</button>
+                </div>
                 <button @click="logout" class="btn">Logout</button>
             </div>
             <div v-else>
@@ -22,14 +35,16 @@
 </template>
 
 <script setup>
-    //const { data } = await useFetch('/api/test?name=UserName')
+    import { fetchNickname, updateNickname } from "~/composables/useSupabase";
 
     const user = useSupabaseUser()
     const router = useRouter()
     const client = useSupabaseClient()
 
-    async function logout(params) {
-
+    const newNickname = ref("");
+    const nickname = ref("");
+    
+    async function logout() {
         try {
             const { error } = await client.auth.signOut()
             if(error) throw error
@@ -45,6 +60,32 @@ function toggleDarkMode() {
   const html = document.documentElement;
   html.classList.toggle("dark");
   console.log(`Dark mode is ${html.classList.contains("dark") ? "enabled" : "disabled"}`);
+}
+
+onMounted(async () => {
+    if (user.value) {
+        nickname.value = await fetchNickname(user.value);
+    }
+});
+
+// Change nickname
+async function changeNickname() {
+    try {
+        if (!newNickname.value.trim()) {
+            alert("Nickname cannot be empty!");
+            return;
+        }
+        const success = await updateNickname(user.value.id, newNickname.value.trim());
+        if (success) {
+            nickname.value = newNickname.value.trim();
+            newNickname.value = "";
+            alert("Nickname updated successfully!");
+        } else {
+            alert("Failed to update nickname. Please try again.");
+        }
+    } catch (error) {
+        console.error(error.message);
+    }
 }
 
 
