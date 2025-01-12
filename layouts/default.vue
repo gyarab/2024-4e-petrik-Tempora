@@ -38,12 +38,14 @@
     
     const user = useSupabaseUser()
     const nickname = ref('')
-
-    
-  
-    onMounted(async () => {
     if (user.value) {
         nickname.value = (await fetchNickname(user.value)) || user.value.email.split('@')[0]
         }
-    })
+ 
+        // Automatically update the nickname whenever `user.value` changes
+    watchEffect(async () => {
+        if (user.value) {
+            nickname.value = await fetchNickname(user.value) || user.value.email.split('@')[0];
+        }
+    });
 </script>

@@ -34,7 +34,7 @@
                 required
                 label="End (smallint)"
             />
-
+            <UCheckbox v-model="is_private" name="private" label="Vytvořit soukromou osu" />
             <!-- Submit Button -->
             <UButton type="submit" variant="ghost" block label="Vytvořit osu"></UButton>
             <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
@@ -54,6 +54,7 @@ const user = useSupabaseUser();
 const name = ref("");
 const start = ref(null);
 const end = ref(null);
+const is_private = ref(false);
 const router = useRouter()
 
 
@@ -70,6 +71,7 @@ const handleCreate = async () => {
       name: name.value,
       start: start.value,
       end: end.value,
+      is_private: is_private.value,
     };
 
     // Add the timeline using the composable
@@ -84,6 +86,7 @@ const handleCreate = async () => {
       name.value = "";
       start.value = null;
       end.value = null;
+      is_private.value = false;
 
       // Redirect to the newly created timeline
       toggleForm();

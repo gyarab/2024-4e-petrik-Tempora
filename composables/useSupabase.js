@@ -1,5 +1,5 @@
 
-export async function addTimeline({ start, end, name, line_id = null }, userId) {
+export async function addTimeline({ start, end, name, is_private, line_id = null }, userId) {
   const supabase = useSupabaseClient(); // Must be called inside a composable or Vue setup
 
   if (start >= end) {
@@ -20,6 +20,7 @@ export async function addTimeline({ start, end, name, line_id = null }, userId) 
         end,
         name,
         line_id,
+        is_private,
         author: userId,
       },
     ])

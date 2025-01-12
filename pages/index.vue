@@ -62,11 +62,11 @@ function toggleDarkMode() {
   console.log(`Dark mode is ${html.classList.contains("dark") ? "enabled" : "disabled"}`);
 }
 
-onMounted(async () => {
-    if (user.value) {
-        nickname.value = await fetchNickname(user.value);
-    }
-});
+watchEffect(async () => {
+        if (user.value) {
+            nickname.value = await fetchNickname(user.value) || user.value.email.split('@')[0];
+        }
+    });
 
 // Change nickname
 async function changeNickname() {
