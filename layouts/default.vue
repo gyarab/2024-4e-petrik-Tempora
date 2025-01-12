@@ -7,7 +7,7 @@
                 <li><NuxtLink to="/about"> About </NuxtLink></li>  
                 <li><NuxtLink to="/lines"> Lines </NuxtLink></li> 
                 <li v-if="user"> 
-                    <NuxtLink to="/" class="tb-border"> {{ user.email.split('@')[0] }} </NuxtLink> 
+                    <NuxtLink to="/" class="tb-border"> {{ nickname }} </NuxtLink> 
                 </li>
                 <li v-else>
                     <NuxtLink to="/login" class="tb-border"> Login </NuxtLink> 
@@ -34,5 +34,16 @@
 </style>
 
 <script setup>
+    import { fetchNickname } from '~/composables/useSupabase';
+    
     const user = useSupabaseUser()
+    const nickname = ref('')
+
+    
+  
+    onMounted(async () => {
+    if (user.value) {
+        nickname.value = (await fetchNickname(user.value)) || user.value.email.split('@')[0]
+        }
+    })
 </script>

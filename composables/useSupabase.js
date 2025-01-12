@@ -59,26 +59,63 @@ async function generateUniqueLineId(supabase) {
   return line_id;
 }
 
-// Fetch timelines for a specific user
-export async function fetchTimelines(filter = {}, userId = null) {
-  const supabase = useSupabaseClient();
 
-  // Start building the query
-  let query = supabase.from("timelines").select("*");
+export async function fetchTimelines(filters = {}, userId = null) {
+  const supabase = useSupabaseClient()
 
-  // Apply filters
-  if (filter.featured) {
-    query = query.eq("featured", true);
-  } else if (filter.userTimelines && userId) {
-    query = query.eq("author", userId);
+  try {
+    let query = supabase
+      .from('timelines') // Replace with your actual table name
+      .select(` *, user_profiles(nickname) `)
+    if (filters.userTimelines && userId) {
+      query = query.eq('author', userId) // Filter by user's timelines
+    }
+    if (filters.featured) {
+      query = query.eq('featured', true) // Filter for featured timelines
+    }
+
+    const { data, error } = await query
+
+    if (error) {
+      console.error('Error fetching timelines:', error)
+      return []
+    }
+
+    return data
+  } catch (err) {
+    console.error('Unexpected error fetching timelines:', err)
+    return []
   }
-
-  const { data, error } = await query;
-
-  if (error) {
-    console.error("Error fetching timelines:", error.message);
-    throw error;
-  }
-
-  return data;
 }
+
+
+export async function fetchNickname(user) {
+  const supabase = useSupabaseClient()
+  try {
+    const { data, error } = await supabase
+      .from('user_profiles') // Adjust table name if needed
+      .select('nickname')
+      .eq('id', user.id) // Match the user's ID
+      .single()
+
+    if (error) {
+      console.error('Error fetching nickname:', error)
+      return null
+    }
+    return data?.nickname || null
+  } catch (err) {
+    console.error('Unexpected error fetching nickname:', err)
+    return null
+  }
+}
+
+const updateNickname = async (userId, nickname) => {
+  const supabase = useSupabaseClient();
+  const { data, error } = await supabase
+    .from('user_profiles')
+    .update({ nickname })
+    .eq('id', userId);
+
+  if (error) throw error;
+  return data;
+};
