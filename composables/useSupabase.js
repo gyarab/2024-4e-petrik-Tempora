@@ -166,3 +166,30 @@ export async function toggleBookmark(line_id, userID, isBookmarked) {
     throw err;
   }
 }
+
+export async function fetchBookmarkState(id, user) {
+  const supabase = useSupabaseClient();
+
+  if (!user.value) {
+    console.error("User is not logged in.");
+    return false;
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from("bookmarks")
+      .select("*")
+      .eq("user_id", user.value.id)
+      .eq("line_id", id);
+
+    if (error) {
+      console.error("Error fetching bookmark state:", error.message);
+      return false;
+    }
+
+    return data.length > 0; // Return true if the line is bookmarked
+  } catch (err) {
+    console.error("Unexpected error fetching bookmark state:", err);
+    return false;
+  }
+}

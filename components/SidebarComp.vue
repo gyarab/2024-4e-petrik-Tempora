@@ -72,7 +72,7 @@
 <script setup>
 import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
 import { useRoute } from 'vue-router';
-import { toggleBookmark } from "../composables/useSupabase";
+import { toggleBookmark, fetchBookmarkState } from "../composables/useSupabase";
 
 const toast = useToast()
 const user = useSupabaseUser()
@@ -105,6 +105,13 @@ function copyToClipboard() {
   }
 }
 
+async function updateBookmarkState() {
+  isBookmarked.value = await fetchBookmarkState(id, user);
+}
+
+onMounted(() => {
+  updateBookmarkState();
+});
 
 const isBookmarked = ref(false);
 const { id } = useRoute().params
