@@ -62,30 +62,38 @@ async function generateUniqueLineId(supabase) {
 
 
 export async function fetchTimelines(filters = {}, userId = null) {
-  const supabase = useSupabaseClient()
+  const supabase = useSupabaseClient();
 
   try {
     let query = supabase
-      .from('timelines') // Replace with your actual table name
-      .select(` *, user_profiles(nickname) `)
+      .from('timelines')
+      .select('*, user_profiles(nickname)');
+
     if (filters.userTimelines && userId) {
-      query = query.eq('author', userId) // Filter by user's timelines
+      query = query.eq('author', userId); // Filter by user's timelines
     }
     if (filters.featured) {
-      query = query.eq('featured', true) // Filter for featured timelines
+      query = query.eq('featured', true); // Filter for featured timelines
+    }
+    if (filters.bookmarked && userId) {
+      query = supabase
+        .from('bookmarks') // Join bookmarks with timelines
+        .select('timelines(*, user_profiles(nickname))')
+        .eq('user_id', userId);
     }
 
-    const { data, error } = await query
+    const { data, error } = await query;
 
     if (error) {
-      console.error('Error fetching timelines:', error)
-      return []
+      console.error('Error fetching timelines:', error);
+      return [];
     }
 
-    return data
+    // If fetching bookmarks, data contains nested timelines
+    return filters.bookmarked ? data.map((bookmark) => bookmark.timelines) : data;
   } catch (err) {
-    console.error('Unexpected error fetching timelines:', err)
-    return []
+    console.error('Unexpected error fetching timelines:', err);
+    return [];
   }
 }
 
@@ -130,7 +138,7 @@ export async function toggleBookmark(line_id, userID, isBookmarked) {
   const supabase = useSupabaseClient();
   const user = useSupabaseUser();
 
-  console.log(line_id)
+  
   if (!user) {
     throw new Error("User not logged in.");
   }

@@ -50,8 +50,10 @@ const fetchTimelinesByTab = async () => {
   } else if (selectedTab.value === 0) {
     // Fetch "Vybrané" (featured timelines)
     lines.value = await fetchTimelines({ featured: true });
+  } else if (selectedTab.value === 2 && user?.value?.id) {
+    // Fetch "Uložené" (bookmarked timelines)
+    lines.value = await fetchTimelines({ bookmarked: true }, user.value.id);
   } else {
-    // Handle other tabs (e.g., "Uložené") - empty for now
     lines.value = [];
   }
 };

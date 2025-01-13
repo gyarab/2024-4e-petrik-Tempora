@@ -117,7 +117,6 @@ const isBookmarked = ref(false);
 const { id } = useRoute().params
 
 async function toggleBookmarkState() {
-  console.log(user.value.id)
   try {
     isBookmarked.value = await toggleBookmark(id, user.value.id, isBookmarked.value);
     toast.add({
