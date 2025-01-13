@@ -34,6 +34,7 @@
                 required
                 label="End (smallint)"
             />
+            <UTextarea v-model="description" autoresize placeholder="Popis osy"  />
             <UCheckbox v-model="is_private" name="private" label="Vytvořit soukromou osu" />
             <!-- Submit Button -->
             <UButton type="submit" variant="ghost" block label="Vytvořit osu"></UButton>
@@ -48,12 +49,12 @@ import { addTimeline } from "~/composables/useSupabase";
 import { ref } from 'vue';
 import { toggleForm } from '~/composables/state';
 
-
 const errorMessage = ref("");
 const user = useSupabaseUser();
 const name = ref("");
 const start = ref(null);
 const end = ref(null);
+const description = ref("");
 const is_private = ref(false);
 const router = useRouter()
 
@@ -71,6 +72,7 @@ const handleCreate = async () => {
       name: name.value,
       start: start.value,
       end: end.value,
+      description: description.value,
       is_private: is_private.value,
     };
 
@@ -86,6 +88,7 @@ const handleCreate = async () => {
       name.value = "";
       start.value = null;
       end.value = null;
+      description.value = "";
       is_private.value = false;
 
       // Redirect to the newly created timeline
