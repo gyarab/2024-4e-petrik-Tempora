@@ -10,6 +10,10 @@
         <div v-if="openForm">
           <CreateTimeline/>
         </div>
+        
+        <div v-if="inInfo"> <InfoComp></InfoComp> </div>
+        <div v-if="inSettings"> <SettingsComp></SettingsComp> </div>
+        
         <div v-else>
           <h2>Přehled časových os</h2>
           
@@ -35,7 +39,8 @@ import LineCard from '~/components/LineCard.vue';
 import {fetchTimelines } from "~/composables/useSupabase";
 import CreateTimeline from '~/components/CreateTimeline.vue';
 import { ref } from 'vue';
-import { toggleForm } from '~/composables/state';
+import { toggleForm, toggleInfo, toggleSettings, inSettings, inInfo } from '~/composables/state';
+
 
 
 const user = useSupabaseUser();

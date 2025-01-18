@@ -7,8 +7,25 @@
       <p class="text-sm text-gray-600">Rok: {{ line.start }} - {{ line.end }}</p>
       <p class="text-sm text-gray-600">Autor: {{ line.user_profiles?.nickname || 'Unknown' }}</p>
         
+      <div class="text-base container mt-2">
+        <!-- Only if user UUID = the Line author UUID  -->
+        <button @click="toggleInfo" class="mr-2"> 
+          <UTooltip text="Info" :popper="{ placement: 'right' }">
+            <Icon class="size-8" name="uil:info-circle"/>
+          </UTooltip>
+        </button> 
+
+        <button v-if="user" @click="toggleSettings" > 
+          <UTooltip text="Nastavení" :popper="{ placement: 'right' }">
+            <Icon class="size-8" name="uil:setting"/>
+          </UTooltip>
+        </button> 
+      </div>
+
+      
+
       <UButton 
-        class="btn bg-blue-500 text-white px-4 py-2 rounded mt-4" 
+        class="btn bg-blue-500 text-white px-4 py-2 rounded mt-2" 
         :to="`/lines/${line.line_id}`" 
         label="Přejít na osu">
       </UButton>
@@ -16,6 +33,9 @@
   </template>
   
   <script setup>
+  import { toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
+  const user = useSupabaseUser()
+
   defineProps({
     line: {
       type: Object,

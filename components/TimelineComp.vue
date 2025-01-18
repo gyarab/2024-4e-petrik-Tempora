@@ -1,5 +1,4 @@
 <template>
-    <div>
       <div
         class="timeline-container"
         @wheel.prevent="(event) => onMouseWheelZoom(event.deltaY)"
@@ -15,49 +14,49 @@
           @mouseleaveTimeline="onMouseleaveTimeline"
         >
         <template #item="{ item }">
-    <NuxtLink
-      :to="`/lines/1/${item.tag}`"
-      style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
-      :data-tippy-content="item.tooltip"
-    >
-      {{ item.name }}
-    </NuxtLink>
-  </template>
+          <NuxtLink
+            :to="`/lines/1/${item.tag}`"
+            style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
+            :data-tippy-content="item.tooltip"
+          >
+            {{ item.name }}
+          </NuxtLink>
+        </template>
       </Timeline>
     </div>    
-  </div>
-  <div class="bg-white dark:bg-zinc-800 black-white controls-container ">
-        <div class="year-display-container">
-          {{ mouseHoverPosition ? "Ukazatel myši nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na časovou osu zobrazíte rok' }}
-        </div>
-        
-        <div class="scroll-container">
-          <input
-            type="range"
-            id="scroll"
-            :min="minScroll"
-            :max="maxScroll"
-            :step="10"
-            v-model="scrollPosition"
-            @input="(event) => onScrollChange(event.target.value)"
-            class="w-full appearance-none border-sky-900 border-2 rounded-md"
-          />
-        </div>
-
-        <div class="zoom-container">
-          <Icon class="size-7 " name="uil:search-alt" />
-          <input
-            type="range"
-            id="zoom"
-            :min="minZoom"
-            :max="maxZoom"
-            :step="0.1"
-            v-model="zoomLevel"
-            @input="onZoomChange"
-          />
-          <span class="ml-2 inline-block "  style="width: 3ch;"> {{ Math.round((zoomLevel - minZoom) / (maxZoom - minZoom) * 100) }}%</span>
-        </div>
+ 
+    <div class="bg-white dark:bg-zinc-800 black-white controls-container ">
+      <div class="year-display-container">
+        {{ mouseHoverPosition ? "Ukazatel myši nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na časovou osu zobrazíte rok' }}
       </div>
+      
+      <div class="scroll-container">
+        <input
+          type="range"
+          id="scroll"
+          :min="minScroll"
+          :max="maxScroll"
+          :step="10"
+          v-model="scrollPosition"
+          @input="(event) => onScrollChange(event.target.value)"
+          class="w-full appearance-none border-sky-900 border-2 rounded-md"
+        />
+      </div>
+
+      <div class="zoom-container">
+        <Icon class="size-7 " name="uil:search-alt" />
+        <input
+          type="range"
+          id="zoom"
+          :min="minZoom"
+          :max="maxZoom"
+          :step="0.1"
+          v-model="zoomLevel"
+          @input="onZoomChange"
+        />
+        <span class="ml-2 inline-block "  style="width: 3ch;"> {{ Math.round((zoomLevel - minZoom) / (maxZoom - minZoom) * 100) }}%</span>
+      </div>
+    </div>
 </template>
   
   <script setup>

@@ -6,9 +6,25 @@
     <Sidebar/>
     
     <div :style="{'marginLeft': sidebarWidth}">
-      <div v-if="!inInfo && !inSettings"> <Timeline/> </div>
-      <div v-if="inInfo"> <InfoComp></InfoComp> </div>
-      <div v-if="inSettings"> <SettingsComp></SettingsComp> </div>
+      <div v-if="!inInfo && !inSettings"> 
+        <Timeline/> 
+      </div>
+    </div>
+      
+    <div v-if="inInfo" :style="{'marginLeft': sidebarWidth}"> 
+      <div class="container_box h-5rem">
+        <div class="content_box h-full w-full mx-10 relative">
+          <InfoComp></InfoComp> 
+        </div>
+      </div>
+    </div>
+      
+    <div v-if="inSettings" :style="{'marginLeft': sidebarWidth}"> 
+      <div class="container_box h-5rem">
+        <div class="content_box h-full w-full mx-10 relative">
+          <SettingsComp></SettingsComp>
+        </div>
+      </div>
     </div>
     
 

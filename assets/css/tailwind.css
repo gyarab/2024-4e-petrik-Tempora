@@ -5,9 +5,7 @@
 body{
     @apply bg-sky-100 dark:bg-sky-900;
 }
-p{
-    @apply m-2
-}
+
 h2{
     @apply text-3xl mb-5
 }
