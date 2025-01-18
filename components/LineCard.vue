@@ -9,7 +9,7 @@
         
       <div class="text-base container mt-2">
         <!-- Only if user UUID = the Line author UUID  -->
-        <button @click="toggleInfo" class="mr-2"> 
+        <button @click="handleInfoToggle(line.line_id)" class="mr-2"> 
           <UTooltip text="Info" :popper="{ placement: 'right' }">
             <Icon class="size-8" name="uil:info-circle"/>
           </UTooltip>
@@ -36,10 +36,18 @@
   import { toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
   const user = useSupabaseUser()
 
+  
   defineProps({
     line: {
       type: Object,
       required: true,
     },
   });
+  
+  const emit = defineEmits(['infoToggle']);
+  
+  function handleInfoToggle(lineId) {
+  emit('infoToggle', lineId);
+}
+
   </script>

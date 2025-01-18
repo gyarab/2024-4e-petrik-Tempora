@@ -3,7 +3,7 @@
       <Title> Tempora | Timeline {{ id }}</Title>
     </Head>
   
-    <Sidebar/>
+    <Sidebar @info-toggle="handleInfoToggle"/>
     
     <div :style="{'marginLeft': sidebarWidth}">
       <div v-if="!inInfo && !inSettings"> 
@@ -14,7 +14,7 @@
     <div v-if="inInfo" :style="{'marginLeft': sidebarWidth}"> 
       <div class="container_box h-5rem">
         <div class="content_box h-full w-full mx-10 relative">
-          <InfoComp></InfoComp> 
+          <InfoComp :lineId="selectedLineId"></InfoComp> 
         </div>
       </div>
     </div>
@@ -42,6 +42,14 @@ import { inEdit, inInfo, inSettings, sidebarWidth } from '~/composables/state';
 
     // Get route and user info
     const { id } = useRoute().params
+
+    const selectedLineId = ref(null);
+
+function handleInfoToggle() {
+  selectedLineId.value = Number(id);
+  toggleInfo();
+}
+
 
 
 // Error handling for invalid timelines

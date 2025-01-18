@@ -8,7 +8,7 @@
         <Transition name="fade">
           <div v-if="!collapsed" class="space-y-8 mt-8">
             
-            <button @click="toggleInfo" class="sidebar-but" :class="{ 'active-border': inInfo }"> 
+            <button @click="handleInfoToggle" class="sidebar-but" :class="{ 'active-border': inInfo }"> 
               <UTooltip text="Info" :popper="{ placement: 'right' }">
                 <Icon class="sidebar-icon" name="uil:info-circle"/>
               </UTooltip>
@@ -67,7 +67,7 @@
         </div>
         <UNotifications/>
     </div>
-</template>
+  </template>
 
 <script setup>
 import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
@@ -77,6 +77,8 @@ import { toggleBookmark, fetchBookmarkState } from "../composables/useSupabase";
 const toast = useToast()
 const user = useSupabaseUser()
 const route = useRoute()
+const isBookmarked = ref(false);
+const { id } = useRoute().params
 
 let link = '';
 if (process.client) {
@@ -113,8 +115,6 @@ onMounted(() => {
   updateBookmarkState();
 });
 
-const isBookmarked = ref(false);
-const { id } = useRoute().params
 
 async function toggleBookmarkState() {
   try {
@@ -133,6 +133,12 @@ async function toggleBookmarkState() {
       timeout: 1000,
     });
   }
+}
+
+
+const emit = defineEmits(['infoToggle']);
+  function handleInfoToggle(lineId) {
+  emit('infoToggle', lineId);
 }
 </script>
 

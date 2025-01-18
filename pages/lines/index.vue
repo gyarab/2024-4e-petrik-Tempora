@@ -6,18 +6,17 @@
         </Head>
         
         
-        
-        <div v-if="openForm">
-          <CreateTimeline/>
-        </div>
-        
-        <div v-if="inInfo"> <InfoComp></InfoComp> </div>
+         
+        <div v-if="openForm"> <CreateTimeline/> </div>
+        <div v-if="inInfo"> <InfoComp :lineId="selectedLineId"></InfoComp> </div>
         <div v-if="inSettings"> <SettingsComp></SettingsComp> </div>
-        
-        <div v-else>
+        <div v-if="!inInfo && !inSettings && !openForm">
           <h2>Přehled časových os</h2>
           
-          <UButton v-if="user" icon="heroicons:plus-circle-20-solid" @click="toggleForm" class="w-fit btn mb-4" block label="Vytvořit osu" ></UButton>
+          <div class="container">
+            <UButton v-if="user" icon="heroicons:plus-circle-20-solid" @click="toggleForm" class="w-fit btn mb-4" block label="Vytvořit osu" ></UButton>
+          </div>
+         
           
           <UTabs :items="[
             { label: 'Vybrané' },
@@ -26,7 +25,7 @@
           
           <!-- Lines List -->
           <div v-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <LineCard v-for="line in lines" :key="line.line_id" :line="line" />
+              <LineCard v-for="line in lines" :key="line.line_id" :line="line" @infoToggle="handleInfoToggle" />
           </div>
           <p v-else class="text-gray-500">No lines created yet.</p>
         </div>
@@ -35,9 +34,11 @@
 </template>
 
 <script setup>
+import CreateTimeline from '~/components/CreateTimeline.vue';
+import SettingsComp from '~/components/SettingsComp.vue';
+import InfoComp  from '~/components/InfoComp.vue';
 import LineCard from '~/components/LineCard.vue';
 import {fetchTimelines } from "~/composables/useSupabase";
-import CreateTimeline from '~/components/CreateTimeline.vue';
 import { ref } from 'vue';
 import { toggleForm, toggleInfo, toggleSettings, inSettings, inInfo } from '~/composables/state';
 
@@ -82,6 +83,13 @@ const items =
   label: 'Uložené',
 }]
 
+const selectedLineId = ref(null);
+
+
+function handleInfoToggle(lineId) {
+  selectedLineId.value = lineId;
+  toggleInfo();
+}
 </script>
     
 <style  scoped>

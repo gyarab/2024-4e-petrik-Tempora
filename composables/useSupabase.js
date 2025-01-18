@@ -202,3 +202,47 @@ export async function fetchBookmarkState(id, user) {
     return false;
   }
 }
+
+// Fetch timeline information by ID
+export async function fetchInfo(id) {
+  const supabase = useSupabaseClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("timelines")
+      .select("*, user_profiles(nickname)")
+      .eq("line_id", id)
+      .single();
+
+    if (error) {
+      console.error("Error fetching timeline info:", error.message);
+      throw error;
+    }
+
+    return data;
+  } catch (err) {
+    console.error("Unexpected error fetching timeline info:", err);
+    throw err;
+  }
+}
+
+export async function updateSettings(id, updates) {
+  const supabase = useSupabaseClient();
+
+  try {
+    const { error } = await supabase
+      .from("timelines")
+      .update(updates)
+      .eq("line_id", id);
+
+    if (error) {
+      console.error("Error updating timeline settings:", error.message);
+      throw error;
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Unexpected error updating timeline settings:", err);
+    throw err;
+  }
+}
