@@ -228,7 +228,7 @@ export async function fetchInfo(id) {
 
 export async function updateSettings(id, updates) {
   const supabase = useSupabaseClient();
-
+  console.log("updates", updates);
   try {
     const { error } = await supabase
       .from("timelines")

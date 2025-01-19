@@ -3,7 +3,7 @@
       <Title> Tempora | Timeline {{ id }}</Title>
     </Head>
   
-    <Sidebar @info-toggle="handleInfoToggle"/>
+    <Sidebar @info-toggle="handleInfoToggle" @settings-toggle="handleSettingsToggle"/>
     
     <div :style="{'marginLeft': sidebarWidth}">
       <div v-if="!inInfo && !inSettings"> 
@@ -22,7 +22,7 @@
     <div v-if="inSettings" :style="{'marginLeft': sidebarWidth}"> 
       <div class="container_box h-5rem">
         <div class="content_box h-full w-full mx-10 relative">
-          <SettingsComp></SettingsComp>
+          <SettingsComp :lineId="selectedLineId"></SettingsComp>
         </div>
       </div>
     </div>
@@ -50,6 +50,10 @@ function handleInfoToggle() {
   toggleInfo();
 }
 
+function handleSettingsToggle() {
+  selectedLineId.value = Number(id);
+  toggleSettings();
+}
 
 
 // Error handling for invalid timelines

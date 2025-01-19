@@ -9,7 +9,7 @@
          
         <div v-if="openForm"> <CreateTimeline/> </div>
         <div v-if="inInfo"> <InfoComp :lineId="selectedLineId"></InfoComp> </div>
-        <div v-if="inSettings"> <SettingsComp></SettingsComp> </div>
+        <div v-if="inSettings"> <SettingsComp :lineId="selectedLineId"></SettingsComp> </div>
         <div v-if="!inInfo && !inSettings && !openForm">
           <h2>Přehled časových os</h2>
           
@@ -25,7 +25,7 @@
           
           <!-- Lines List -->
           <div v-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <LineCard v-for="line in lines" :key="line.line_id" :line="line" @infoToggle="handleInfoToggle" />
+              <LineCard v-for="line in lines" :key="line.line_id" :line="line" @infoToggle="handleInfoToggle" @settingsToggle="handleSettingsToggle" />
           </div>
           <p v-else class="text-gray-500">No lines created yet.</p>
         </div>
@@ -89,6 +89,12 @@ const selectedLineId = ref(null);
 function handleInfoToggle(lineId) {
   selectedLineId.value = lineId;
   toggleInfo();
+}
+
+
+function handleSettingsToggle(lineId) {
+  selectedLineId.value = lineId;
+  toggleSettings();
 }
 </script>
     

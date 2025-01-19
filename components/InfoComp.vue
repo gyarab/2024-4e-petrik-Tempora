@@ -5,19 +5,18 @@
     </button>
   </div>
   
-  <p>Jméno osy: {{ timelineInfo.name }}</p>
-  <p>ID časové osy: {{ timelineInfo.line_id }}</p>
-  <p>Autor: {{ timelineInfo.user_profiles?.nickname || "Unknown" }}</p>
-  <p>Vytvořeno: {{ new Date(timelineInfo.created_at).toLocaleDateString() }}</p>
-  <p>Popis: {{ timelineInfo.description }}</p>
+  <p>Jméno osy: <span class="font-bold">{{ timelineInfo.name || "Neznámé" }}</span></p>
+  <p>ID časové osy: <span class="font-bold">{{ timelineInfo.line_id }}</span></p>
+  <p> Autor: <span class="font-bold">{{ timelineInfo.user_profiles?.nickname || "Neznámý" }} </span> </p>
+  <p> Vytvořeno: <span class="font-bold">{{ timelineInfo.created_at ? new Date(timelineInfo.created_at).toLocaleDateString() : "Neznámé datum" }}</span> </p>
+  <p> Rok: <span class="font-bold">{{ timelineInfo.start }} - {{ timelineInfo.end }}</span> </p>
+  <p> Soukromá osa: <span class="font-bold">{{ timelineInfo.is_private ? "Ano" : "Ne" }}</span></p>
+  <p>Popis: <span class="italic">{{ timelineInfo.description || "Žádný popis" }}</span></p>
 </template>
-
 <script setup>
   import { toggleOff } from '../composables/state';
   import { fetchInfo } from '../composables/useSupabase';
   
-
-  // Get route and user info
    
   const timelineInfo = ref({});    
     

@@ -26,7 +26,7 @@
               </UTooltip>
             </button>
             
-            <button v-if="user" @click="toggleSettings" class="sidebar-but" :class="{ 'active-border': inSettings }"> 
+            <button v-if="user" @click="handleSettingsToggle" class="sidebar-but" :class="{ 'active-border': inSettings }"> 
               <UTooltip text="Nastavení" :popper="{ placement: 'right' }">
                 <Icon class="sidebar-icon" name="uil:setting"/>
               </UTooltip>
@@ -136,9 +136,12 @@ async function toggleBookmarkState() {
 }
 
 
-const emit = defineEmits(['infoToggle']);
+const emit = defineEmits(['infoToggle', 'settingsToggle']);
   function handleInfoToggle(lineId) {
   emit('infoToggle', lineId);
+}
+function handleSettingsToggle(lineId) {
+  emit('settingsToggle', lineId);
 }
 </script>
 

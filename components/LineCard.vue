@@ -15,7 +15,7 @@
           </UTooltip>
         </button> 
 
-        <button v-if="user" @click="toggleSettings" > 
+        <button v-if="user" @click="handleSettingsToggle(line.line_id)" > 
           <UTooltip text="Nastavení" :popper="{ placement: 'right' }">
             <Icon class="size-8" name="uil:setting"/>
           </UTooltip>
@@ -33,7 +33,6 @@
   </template>
   
   <script setup>
-  import { toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
   const user = useSupabaseUser()
 
   
@@ -44,10 +43,14 @@
     },
   });
   
-  const emit = defineEmits(['infoToggle']);
+  const emit = defineEmits(['infoToggle', 'settingsToggle']);
   
   function handleInfoToggle(lineId) {
   emit('infoToggle', lineId);
+}
+
+function handleSettingsToggle(lineId) {
+  emit('settingsToggle', lineId);
 }
 
   </script>
