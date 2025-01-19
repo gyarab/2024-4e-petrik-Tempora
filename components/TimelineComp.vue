@@ -81,7 +81,7 @@
     { id:'1', tag: '1', name: 'Raketa', group: 'group2', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
     { id:'3', tag: '0', name: 'Super jmeno 0123456789',group: 'group2', type: 'range', start: -631152000000, end: 946684800000 },
     { id:'4', tag: '1', name: 'W', group: 'group1', type: 'marker', start: -400000000000, cssVariables: { '--item-background': '#000' } },
-    { id:'5', tag: '1', name: 'W', group: 'group4', type: 'background', start: -400000000000, end: 977836800000, cssVariables: { '--item-background': '#000' } }, 
+    //{ id:'5', tag: '1', name: 'W', group: 'group4', type: 'background', start: -400000000000, end: 977836800000, cssVariables: { '--item-background': '#000' } }, 
     { id:'6', tag: '1', name: 'Autor Raketa', group: 'group3', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
     { id:'7', tag: '1', name: 'Dílo autora z  o b d o b í Raketa', group: 'group4', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
   ];

@@ -1,16 +1,8 @@
 <template>
-    
-        <Head>
-            <Title> Tempora | line {{ id }}</Title>
-        </Head>
+    <Head>
+        <Title> Tempora | line {{ id }}</Title>
+    </Head>
         
-        
-        
-        
-        
-        
-
-
     <div class="container_box h-5rem" >
         <div class="content_box h-full w-full mx-10 relative">
             
@@ -20,17 +12,11 @@
             
             <div class="text-center">
                 <h2>Content page of line id: {{ id }} content: {{ content }}</h2>
-
-                <UTextarea autoresize placeholder="Search..." model-value="" />
-                <UTextarea autoresize placeholder="Search..." model-value="" />
-                <UTextarea autoresize placeholder="Search..." model-value="" />
-                <UTextarea autoresize placeholder="Search..." model-value="" />
-                <UTextarea autoresize placeholder="Search..." model-value="" />
-                <UTextarea autoresize placeholder="Search..." model-value="" />
-
-                <UButton label="Ulozit zmeny"></UButton>
-                <UButton label="Zahodit zmeny"></UButton>
             </div>
+
+            <ItemEditComp v-if="true"/>
+            <ItemInfoComp v-if="false"/>
+                
         
     
     
@@ -44,8 +30,11 @@
 </template>
 
 <script setup>
+    import ItemEditComp from '~/components/ItemEditComp.vue';
+    import ItemInfoComp from '~/components/ItemInfoComp.vue';
 
     const { id, content } = useRoute().params
+
 
     // Logika pro error page kdyz osa neexistuje
     if(!true)
