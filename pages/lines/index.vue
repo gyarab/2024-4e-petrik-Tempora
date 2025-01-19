@@ -9,7 +9,7 @@
          
         <div v-if="openForm"> <CreateTimeline/> </div>
         <div v-if="inInfo"> <InfoComp :lineId="selectedLineId"></InfoComp> </div>
-        <div v-if="inSettings"> <SettingsComp :lineId="selectedLineId"></SettingsComp> </div>
+        <div v-if="inSettings"> <SettingsComp :lineId="selectedLineId" @refreshTimelines="fetchTimelinesByTab"></SettingsComp> </div>
         <div v-if="!inInfo && !inSettings && !openForm">
           <h2>Přehled časových os</h2>
           

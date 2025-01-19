@@ -36,13 +36,22 @@
     @click="saveSettings"
     label="Uložit nastavení"
   ></UButton>
+  
+  <UButton
+    class="mt-3 bg-red-500 text-white"
+    :disabled="isDeleting"
+    @click="deleteTimelineHandler"
+    label="Smazat časovou osu"
+  ></UButton>
+
   <p v-if="feedbackMessage" :class="{ success: !isError, error: isError }"> {{ feedbackMessage }} </p>
 </template>
 
 <script setup>
 import { toggleOff } from "../composables/state";
-import { fetchInfo, updateSettings } from "../composables/useSupabase";
+import { fetchInfo, updateSettings, deleteTimeline  } from "../composables/useSupabase";
 import { ref, watch } from "vue";
+import { useRouter } from "vue-router";
 
 const timelineInfo = ref({});
 
@@ -61,7 +70,9 @@ const feedbackMessage = ref("");
 const isError = ref(false);
 const first = ref("");
 const last = ref("");
+const isDeleting = ref(false);
 
+const router = useRouter(); 
 
 watch(
   () => props.lineId,
@@ -100,6 +111,30 @@ const saveSettings = async () => {
     isLoading.value = false;
   }
 };
+
+const emit = defineEmits(["refreshTimelines"]);
+const deleteTimelineHandler = async () => {
+
+  isDeleting.value = true;
+  feedbackMessage.value = "";
+
+  try {
+    await deleteTimeline(props.lineId);
+    feedbackMessage.value = "Časová osa byla úspěšně smazána.";
+    isError.value = false;
+    toggleOff(); // Close the component after deletion
+    emit("refreshTimelines");
+    router.push("/lines");
+
+  } catch (err) {
+    console.error("Error deleting timeline:", err);
+    feedbackMessage.value = "Nepodařilo se smazat časovou osu.";
+    isError.value = true;
+  } finally {
+    isDeleting.value = false;
+  }
+};
+
 </script>
 
 <style scoped>

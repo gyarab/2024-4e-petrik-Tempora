@@ -246,3 +246,26 @@ export async function updateSettings(id, updates) {
     throw err;
   }
 }
+
+export async function deleteTimeline(lineId) {
+  const supabase = useSupabaseClient();
+
+  
+
+  try {
+    const { error } = await supabase
+      .from("timelines")
+      .delete()
+      .eq("line_id", lineId);
+
+    if (error) {
+      console.error("Error deleting timeline:", error.message);
+      throw error;
+    }
+
+    return true;
+  } catch (err) {
+    console.error("Unexpected error deleting timeline:", err);
+    throw err;
+  }
+}
