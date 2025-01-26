@@ -63,28 +63,50 @@
   import { useTimeline } from '@/composables/timelineFeatures';
   import { Timeline } from 'vue-timeline-chart';
   import 'vue-timeline-chart/style.css';
+  import { fetchItemsByLineId } from '@/composables/supabaseItem';
+  import { useRoute } from 'vue-router';
   
+  const { id } = useRoute().params
+
   // Timeline groups and items
   const groups = [
-    { id: 'group1', label: 'Kontext cz', className: 'kontextGroup' },
-    { id: 'group2', label: 'Group 2', className: 'primaryGroup', },
-    { id: 'group3', label: 'Group 3', className: 'secondaryGroup'  },
-    { id: 'group4', label: 'Group 4', className: 'detailGroup' },
+    { id: 1, label: 'Kontext cz', className: 'kontextGroup' },
+    { id: 2, label: 'Group 2', className: 'primaryGroup', },
+    { id: 3, label: 'Group 3', className: 'secondaryGroup'  },
+    { id: 4, label: 'Group 4', className: 'detailGroup' },
     { id: 'Timestamps'}, //Timestamps
-    { id: 'group5', label: 'Group 5', className: 'primaryGroup' },
-    { id: 'group6', label: 'Group 6', className: 'secondaryGroup' },
-    { id: 'group7', label: 'Group 7', className: 'detailGroup' },
-    { id: 'group8', label: 'Kontext svet',  className: 'kontextGroup' },
+    { id: 5, label: 'Group 5', className: 'primaryGroup' },
+    { id: 6, label: 'Group 6', className: 'secondaryGroup' },
+    { id: 7, label: 'Group 7', className: 'detailGroup' },
+    { id: 8, label: 'Kontext svet',  className: 'kontextGroup' },
   ];
+  /*
   const items = [
-    { id:'0', tag: '0', name: 'W', group: 'group1', type: 'point', start: 2000, cssVariables: { '--item-background': '#3498db' } },
-    { id:'1', tag: '1', name: 'Raketa', group: 'group2', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-    { id:'3', tag: '0', name: 'Super jmeno 0123456789',group: 'group2', type: 'range', start: -631152000000, end: 946684800000 },
-    { id:'4', tag: '1', name: 'W', group: 'group1', type: 'marker', start: -400000000000, cssVariables: { '--item-background': '#000' } },
+    { id:'0', tag: '0', name: 'W', group:  1, type: 'point', start: 946684800000, cssVariables: { '--item-background': '#3498db' } },
+    { id:'1', tag: '1', name: 'Raketa', group: 2, type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
+    { id:'3', tag: '0', name: 'Super jmeno 0123456789', group: 2, type: 'range', start: -631152000000, end: 946684800000 },
+    { id:'4', tag: '1', name: 'W', group: 1, type: 'marker', start: -400000000000, cssVariables: { '--item-background': '#000' } },
     //{ id:'5', tag: '1', name: 'W', group: 'group4', type: 'background', start: -400000000000, end: 977836800000, cssVariables: { '--item-background': '#000' } }, 
-    { id:'6', tag: '1', name: 'Autor Raketa', group: 'group3', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-    { id:'7', tag: '1', name: 'Dílo autora z  o b d o b í Raketa', group: 'group4', type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-  ];
+    { id:'6', tag: '1', name: 'Autor Raketa', group: 3, type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
+    { id:'7', tag: '1', name: 'Dílo autora z  o b d o b í Raketa', group: 4, type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
+  ];*/
+
+// Empty array for items, to be populated dynamically
+let items = [];
+
+// Fetch and load items based on line_id
+const loadItems = async (lineId) => {
+  try {
+    const fetchedItems = await fetchItemsByLineId(lineId); // Fetch items
+    items = fetchedItems.map((item) => item.item_data); // Extract `item_data` into `items`
+    //console.log('Mapped items:', items); // Debugging log to check the mapped structure
+  } catch (error) {
+    //console.error('Error fetching items:', error); // Error log
+  }
+};
+
+// Call the function to fetch items (replace 1 with the appropriate line_id)
+loadItems(id);
   
  // Use the composableA
  const {
