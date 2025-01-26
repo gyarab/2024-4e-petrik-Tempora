@@ -91,17 +91,40 @@
     { id:'7', tag: '1', name: 'Dílo autora z  o b d o b í Raketa', group: 4, type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
   ];*/
 
-// Empty array for items, to be populated dynamically
+// Empty array for items, to be populated dynamically 
 let items = [];
 
 // Fetch and load items based on line_id
 const loadItems = async (lineId) => {
   try {
-    const fetchedItems = await fetchItemsByLineId(lineId); // Fetch items
-    items = fetchedItems.map((item) => item.item_data); // Extract `item_data` into `items`
-    //console.log('Mapped items:', items); // Debugging log to check the mapped structure
+    const fetchedItems = await fetchItemsByLineId(lineId);
+
+    // Map items with additional CSS and inferred type
+    items = fetchedItems.map((item) => {
+      const itemData = item.item_data;
+
+      // Dynamically assign CSS class based on group
+      const groupCssMap = {
+        1: 'row1css',
+        2: 'row2css',
+        3: 'row3css',
+        4: 'row4css',
+        // Add mappings for other groups as needed
+      };
+
+      // Infer type: 'range' if `end` exists, otherwise 'point'
+      const type = itemData.end ? 'range' : 'point';
+
+      return {
+        ...itemData, // Original data
+        className: `${groupCssMap[itemData.group] || 'defaultCss'}`, // Ensure single-quoted CSS class
+        type, // Add inferred type
+      };
+    });
+
+    console.log('Processed items with CSS:', items);
   } catch (error) {
-    //console.error('Error fetching items:', error); // Error log
+    console.error('Error fetching items:', error);
   }
 };
 
@@ -246,9 +269,22 @@ div.group {
 
 .group{
   display: flex;
-  align-items: center; /* Vertically centers the label */
+  /*align-items: center; /* Vertically centers the label (Not centered due to item height)  */
   justify-content: flex-start; /* Keeps the label aligned to the left */
   padding-bottom: 0 !important;
 }
 
+
+.row1css{
+  background-color: #34db34;
+  
+}
+
+.row2css{
+  height: var(--primaryGH) !important;
+  
+}
+.row3css{
+  height: var(--secondaryGH) !important;
+}
 </style>
