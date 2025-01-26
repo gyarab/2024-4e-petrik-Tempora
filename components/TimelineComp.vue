@@ -15,7 +15,7 @@
         >
         <template #item="{ item }">
           <NuxtLink
-            :to="`/lines/1/${item.tag}`"
+            :to="`/lines/${id}/${item.tag}`"
             style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
             :data-tippy-content="item.tooltip"
           >
@@ -105,20 +105,23 @@ const loadItems = async (lineId) => {
 
       // Dynamically assign CSS class based on group
       const groupCssMap = {
-        1: 'row1css',
-        2: 'row2css',
-        3: 'row3css',
-        4: 'row4css',
-        // Add mappings for other groups as needed
+        1: 'contextGroupCss',
+        2: 'primaryGroupCss',
+        3: 'secondaryGroupCss',
+        4: 'detailGroupCss',
+        5: 'primaryGroupCss',
+        6: 'secondaryGroupCss',
+        7: 'detailGroupCss',
+        8: 'contextGroupCss'
       };
 
       // Infer type: 'range' if `end` exists, otherwise 'point'
       const type = itemData.end ? 'range' : 'point';
 
       return {
-        ...itemData, // Original data
-        className: `${groupCssMap[itemData.group] || 'defaultCss'}`, // Ensure single-quoted CSS class
-        type, // Add inferred type
+        ...itemData,
+        className: `${groupCssMap[itemData.group] || 'defaultCss'}`,
+        type, 
       };
     });
 
@@ -275,16 +278,16 @@ div.group {
 }
 
 
-.row1css{
-  background-color: #34db34;
-  
+.contextGroupCss{
+  height: var(--group-height) !important;
 }
-
-.row2css{
+.primaryGroupCss{
   height: var(--primaryGH) !important;
-  
 }
-.row3css{
+.secondaryGroupCss{
   height: var(--secondaryGH) !important;
+}
+.detailGroupCss{
+  height: var(--detailGH) !important;
 }
 </style>
