@@ -1,6 +1,6 @@
 <template>
     <div class="container_box ">
-        <div class="content_box h-5rem w-full mx-10" > 
+        <div class="content_box w-full mx-10" > 
             <h2>Home page</h2>
             <p>Welcome to the interactive timeline site</p>
             <div v-if="user">

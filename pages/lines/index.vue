@@ -1,6 +1,6 @@
 <template>
     <div class="container_box">
-    <div class="content_box h-5rem w-full mx-10 relative">
+    <div class="content_box w-full mx-10 relative">
         <Head>
             <Title> Tempora | lines</Title>
         </Head>

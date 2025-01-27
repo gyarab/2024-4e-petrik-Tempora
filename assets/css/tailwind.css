@@ -57,9 +57,6 @@ h2{
     
 }
 @layer utilities {
-    .h-5rem {
-        height: calc(100vh - 5rem); /* 4rem = 64px = height of topbar */
-    }
     .h-4rem {
         height: calc(100vh - 4rem); /* 4rem = 64px = height of topbar */
     }
