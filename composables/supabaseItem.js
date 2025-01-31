@@ -2,15 +2,11 @@
 export async function fetchItemsByLineId(line_id) {
     const supabase = useSupabaseClient();
   
-    console.log("fetchItemsByLineId called with line_id:", line_id);
-  
     try {
       const { data, error } = await supabase
         .from("items")
         .select("*")
         .eq("line_id", line_id);
-  
-      console.log("fetchItemsByLineId response:", data);
   
       if (error) {
         console.error("Error fetching items by line_id:", error.message);
@@ -28,8 +24,6 @@ export async function fetchItemsByLineId(line_id) {
 export async function fetchLastItemIdByLineId(line_id) {
   const supabase = useSupabaseClient();
 
-  console.log("fetchLastItemIdByLineId called with line_id:", line_id);
-
   try {
     const { data, error } = await supabase
       .from("items")
@@ -44,7 +38,6 @@ export async function fetchLastItemIdByLineId(line_id) {
     }
 
     const lastId = data.length > 0 ? data[0].item_data.id : 0;
-    console.log("Last item ID:", lastId);
     return lastId;
   } catch (err) {
     console.error("Unexpected error fetching last item id by line_id:", err);

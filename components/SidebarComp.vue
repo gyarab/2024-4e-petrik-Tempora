@@ -112,7 +112,6 @@ function copyToClipboard() {
 
 async function addEvent() {
   const lastItemId = await fetchLastItemIdByLineId(id);
-  console.log(lastItemId);
   const newItemId = lastItemId + 1;
   router.push(`/lines/${id}/${newItemId}`);
 }

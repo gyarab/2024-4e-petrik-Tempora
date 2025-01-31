@@ -10,8 +10,8 @@
                 <NuxtLink :to="`/lines/${id}`"> <Icon class="size-8" name="uil:multiply"></Icon> </NuxtLink>
             </div>
             
-            <div class="text-center">
-                <h2>Content page of line id: {{ id }} content: {{ content }}</h2>
+            <div class="absolute bottom-0 right-1 text-xs">
+                <p>line: {{ id }} id: {{ content }}</p>
             </div>
 
             <ItemEditComp v-if="true"/>

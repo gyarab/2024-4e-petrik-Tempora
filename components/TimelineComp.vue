@@ -124,8 +124,6 @@ const loadItems = async (lineId) => {
         type, 
       };
     });
-
-    console.log('Processed items with CSS:', items);
   } catch (error) {
     console.error('Error fetching items:', error);
   }

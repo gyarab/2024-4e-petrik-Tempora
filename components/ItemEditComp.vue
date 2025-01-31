@@ -2,26 +2,31 @@
   <UTabs :items="items" @change="onChange" />
   
   <div class="container">
-    <UInput type="number" size="xl" v-model="start" />
-    <UCheckbox v-model="isBottom" label="Bottom" />
+    <UInput  type="number" size="xl" v-model="start" />
+    <UCheckbox class="self-center" v-model="isBottom" label="Bottom" />
     <UInput type="number" size="xl" v-model="end" />
   </div>
 
-  <UInput v-model="mainTitle" placeholder="Název hlavní události" />
-  <UTextarea v-model="mainDescription" autoresize placeholder="Popis hlavní události (období)" />
-  
-  <div v-if="!contextType">
+  <div class="mt-4">
+    <UInput v-model="mainTitle" placeholder="Název hlavní události" />
+    <UTextarea v-model="mainDescription" autoresize placeholder="Popis hlavní události (období)" />
+  </div>
+
+  <div v-if="!contextType" class="mt-4">
     <UInput v-model="secondaryTitle" placeholder="Název Secondary" />
     <UTextarea v-model="secondaryDescription" autoresize placeholder="Popis Secondary" />
   </div>
   
-  <div v-if="!contextType">
+  <div v-if="!contextType" class="mt-4">
     <UInput v-model="detailTitle" placeholder="Název detailu" />
     <UTextarea v-model="detailDescription" autoresize placeholder="Popis detailu" />
   </div>
   
-  <UButton label="Ulozit zmeny" @click="saveChanges" />
-  <UButton label="Zahodit zmeny" @click="discardChanges" />
+  <div class="cointainer mt-4 gap-4" >
+    <UButton label="Ulozit zmeny" @click="saveChanges" />
+    <UButton label="Zahodit zmeny" @click="discardChanges" />
+  </div>
+  
 </template>
 
 <script setup>
