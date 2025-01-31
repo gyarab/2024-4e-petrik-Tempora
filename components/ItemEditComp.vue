@@ -23,7 +23,7 @@
   </div>
   
   <div class="cointainer mt-4 gap-4" >
-    <UButton label="Ulozit zmeny" @click="saveChanges" />
+    <UButton label="Ulozit zmeny" @click="saveChanges" class="mr-4"/>
     <UButton label="Zahodit zmeny" @click="discardChanges" />
   </div>
   
@@ -31,6 +31,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { addItem } from '~/composables/supabaseItem';
+
+const route = useRoute();
+const { id, content } = route.params;
 
 const items = [
   { label: 'Hlavní událost', icon: 'i-heroicons-information-circle' },
@@ -52,39 +57,49 @@ function onChange(index) {
   contextType.value = index === 1;
 }
 
-function saveChanges() {
-  if (contextType.value) {
-    console.log({
-      group: isBottom.value ? 8 : 1,
-      name: mainTitle.value,
-      description: mainDescription.value,
-      start: start.value,
-      end: end.value
-    });
-  } else {
-    console.log(
-      {
-        group: isBottom.value ? 5 : 2,
-        name: mainTitle.value,
-        //description: mainDescription.value,
-        start: start.value,
-        end: end.value
-      },
-      {
-        group: isBottom.value ? 6 : 3,
-        name: secondaryTitle.value,
-        //description: secondaryDescription.value
-        start: start.value,
-        end: end.value
-      },
-      {
-        group: isBottom.value ? 7 : 4,
-        name: detailTitle.value,
-        //description: detailDescription.value
-        start: start.value,
-        end: end.value
-      }
-    );
+function convertYearToMs(year) {
+  return new Date(year, 0, 1).getTime();
+}
+
+//TODO osetrit kdyz nejsou vyplnene vsechny udaje tak nepridavat
+
+async function saveChanges() {
+  const startMs = convertYearToMs(start.value);
+  const endMs = convertYearToMs(end.value);
+
+  const mainItem = {
+    id: parseInt(content),
+    tag: parseInt(content),
+    name: mainTitle.value,
+    group: isBottom.value ? 8 : 1,
+    start: startMs,
+    end: endMs
+  };
+  await addItem(id, mainItem, mainDescription.value);
+  console.log("Inserted main item:", mainItem);
+
+  if (!contextType.value) {
+    const secondaryItem = {
+      id: parseInt(content) + 1,
+      tag: parseInt(content),
+      name: secondaryTitle.value,
+      group: isBottom.value ? 6 : 3,
+      start: startMs,
+      end: endMs
+    };
+    await addItem(id, secondaryItem, secondaryDescription.value);
+    console.log("Inserted secondary item:", secondaryItem);
+
+    const detailItem = {
+      id: parseInt(content) + 2,
+      tag: parseInt(content),
+      name: detailTitle.value,
+      group: isBottom.value ? 7 : 4,
+      start: startMs,
+      end: endMs
+    };
+    await addItem(id, detailItem, detailDescription.value);
+    console.log("Inserted detail item:", detailItem);
   }
 }
 

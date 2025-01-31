@@ -14,8 +14,8 @@
                 <p>line: {{ id }} id: {{ content }}</p>
             </div>
 
-            <ItemEditComp v-if="true"/>
-            <ItemInfoComp v-if="false"/>
+            <ItemEditComp v-if="inEdit"/>
+            <ItemInfoComp v-if="!inEdit"/>
                 
         
     
@@ -32,6 +32,7 @@
 <script setup>
     import ItemEditComp from '~/components/ItemEditComp.vue';
     import ItemInfoComp from '~/components/ItemInfoComp.vue';
+    import { inEdit } from '~/composables/state';
 
     const { id, content } = useRoute().params
 

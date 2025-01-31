@@ -49,58 +49,33 @@ export async function fetchLastItemIdByLineId(line_id) {
 
 
 
-  // Add item to the timeline
-export async function addItem({
-    line_id,
-    item_id,
-    group_id = null,
-    name,
-    tag = null,
-    beginning,
-    ending,
-  }) {
-    const supabase = useSupabaseClient(); // Initialize Supabase client
+// Add item to the timeline
+export async function addItem(line_id, item_data, description) {
+  const supabase = useSupabaseClient();
+
+  const itemToInsert = {
+      line_id,
+      item_data,
+      description
+  };
+
+  console.log("Item to insert:", itemToInsert);
   
-    // Validate required fields
-    if (!line_id || !item_id || !name || beginning === undefined || ending === undefined) {
-      throw new Error("Missing required fields: line_id, item_id, name, beginning, or ending.");
-    }
-  
-    if (beginning >= ending) {
-      throw new Error("The beginning value must be less than the ending value.");
-    }
-  
-    try {
-      const itemData = {
-        item_id,
-        group_id,
-        name,
-        tag,
-        start: beginning,
-        end: ending,
-      };
-  
-      const { data, error } = await supabase
-        .from("items")
-        .insert([
-          {
-            line_id,
-            item_data: itemData,
-          },
-        ])
-        .select("*"); // Return the inserted row for confirmation
-  
-      if (error) {
-        console.error("Error adding item:", error.message);
-        throw error;
-      }
-  
-      return data[0]; // Return the first (and only) inserted item
-    } catch (err) {
-      console.error("Unexpected error adding item:", err);
+  try {
+      const { data, error } = await supabase.from("items").insert(itemToInsert);
+      if (error) throw error;
+      console.log("Insert successful:", data);
+      return data;
+  } catch (err) {
+      console.error("Error inserting item:", err);
       throw err;
-    }
   }
+}
+
+
+
+
+
   
   
   // Delete item from the timeline
