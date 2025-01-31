@@ -1,4 +1,62 @@
-// Add item to the timeline
+// Fetch all items by line_id
+export async function fetchItemsByLineId(line_id) {
+    const supabase = useSupabaseClient();
+  
+    console.log("fetchItemsByLineId called with line_id:", line_id);
+  
+    try {
+      const { data, error } = await supabase
+        .from("items")
+        .select("*")
+        .eq("line_id", line_id);
+  
+      console.log("fetchItemsByLineId response:", data);
+  
+      if (error) {
+        console.error("Error fetching items by line_id:", error.message);
+        throw error;
+      }
+  
+      return data;
+    } catch (err) {
+      console.error("Unexpected error fetching items by line_id:", err);
+      throw err;
+    }
+  }
+
+// Fetch the last item ID for a given line_id
+export async function fetchLastItemIdByLineId(line_id) {
+  const supabase = useSupabaseClient();
+
+  console.log("fetchLastItemIdByLineId called with line_id:", line_id);
+
+  try {
+    const { data, error } = await supabase
+      .from("items")
+      .select("item_data")
+      .eq("line_id", line_id)
+      .order("id", { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.error("Error fetching last item id by line_id:", error.message);
+      throw error;
+    }
+
+    const lastId = data.length > 0 ? data[0].item_data.id : 0;
+    console.log("Last item ID:", lastId);
+    return lastId;
+  } catch (err) {
+    console.error("Unexpected error fetching last item id by line_id:", err);
+    throw err;
+  }
+}
+
+
+
+
+
+  // Add item to the timeline
 export async function addItem({
     line_id,
     item_id,
@@ -84,31 +142,6 @@ export async function addItem({
   }
 
 
-// Fetch all items by line_id
-export async function fetchItemsByLineId(line_id) {
-    const supabase = useSupabaseClient();
-  
-    console.log("fetchItemsByLineId called with line_id:", line_id);
-  
-    try {
-      const { data, error } = await supabase
-        .from("items")
-        .select("*")
-        .eq("line_id", line_id);
-  
-      console.log("fetchItemsByLineId response:", data);
-  
-      if (error) {
-        console.error("Error fetching items by line_id:", error.message);
-        throw error;
-      }
-  
-      return data;
-    } catch (err) {
-      console.error("Unexpected error fetching items by line_id:", err);
-      throw err;
-    }
-  }
   
   // Update item in the timeline
   export async function updateItem(line_id, updates) {

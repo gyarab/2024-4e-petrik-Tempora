@@ -41,7 +41,7 @@
               </UTooltip>
             </button>
 
-            <button v-if="inEdit" class="sidebar-but">
+            <button v-if="inEdit" class="sidebar-but" @click="addEvent">
               <UTooltip text="Přidat novou událost" :popper="{ placement: 'right' }">
                 <Icon  class="sidebar-icon" name="uil:plus-circle"/>
               </UTooltip>
@@ -73,10 +73,12 @@
 import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
 import { useRoute } from 'vue-router';
 import { toggleBookmark, fetchBookmarkState } from "../composables/useSupabase";
+import { fetchLastItemIdByLineId } from "../composables/supabaseItem";
 
 const toast = useToast()
 const user = useSupabaseUser()
 const route = useRoute()
+const router = useRouter()
 const isBookmarked = ref(false);
 const { id } = useRoute().params
 
@@ -105,6 +107,14 @@ function copyToClipboard() {
       pauseTimeoutOnHover: false,
     })
   }
+}
+
+
+async function addEvent() {
+  const lastItemId = await fetchLastItemIdByLineId(id);
+  console.log(lastItemId);
+  const newItemId = lastItemId + 1;
+  router.push(`/lines/${id}/${newItemId}`);
 }
 
 async function updateBookmarkState() {
