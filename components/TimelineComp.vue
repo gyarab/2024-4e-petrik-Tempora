@@ -10,6 +10,7 @@
           :viewportMin="viewportMin"
           :viewportMax="viewportMax"
           :renderTimestampLabel="(timestamp) => new Date(timestamp).getFullYear()"
+          :fixedLabels=true
           @mousemoveTimeline="onMousemoveTimeline"
           @mouseleaveTimeline="onMouseleaveTimeline"
         >
@@ -25,7 +26,7 @@
       </Timeline>
     </div>    
  
-    <div class="bg-white dark:bg-zinc-800 black-white controls-container ">
+    <div class="bg-white dark:bg-zinc-800 black-white controls-container">
       <div class="year-display-container">
         {{ mouseHoverPosition ? "Ukazatel myši nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na časovou osu zobrazíte rok' }}
       </div>

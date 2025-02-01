@@ -1,6 +1,6 @@
 import { ref, watch, computed } from 'vue';
 
-export const useTimeline = (zoomLimits = { min: 0.3, max: 3 }) => {
+export const useTimeline = (zoomLimits = { min: 0.1, max: 3 }) => {
   const start = 1950;
   const end = 2020;
   
