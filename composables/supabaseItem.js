@@ -46,31 +46,40 @@ export async function fetchLastItemIdByLineId(line_id) {
 }
 
 
-
-
-
-// Add item to the timeline
-export async function addItem(line_id, item_data, description) {
+// Fetch items by line_id and tag from JSONB item_data
+export async function fetchItemsByTag(line_id, tag) {
   const supabase = useSupabaseClient();
 
-  const itemToInsert = {
-      line_id,
-      item_data,
-      description
-  };
-
-  console.log("Item to insert:", itemToInsert);
-  
   try {
-      const { data, error } = await supabase.from("items").insert(itemToInsert);
-      if (error) throw error;
-      console.log("Insert successful:", data);
-      return data;
+    const { data, error } = await supabase
+      .from("items")
+      .select("item_data, description")
+      .eq("line_id", line_id)
+      .filter('item_data->>tag', 'eq', tag.toString())
+      .order("id", { ascending: true });
+
+    if (error) {
+      console.error("Error fetching items by tag:", error.message);
+      throw error;
+    }
+
+    return data.map(item => ({
+      ...item.item_data,
+      description: item.description
+    }));
   } catch (err) {
-      console.error("Error inserting item:", err);
-      throw err;
+    console.error("Unexpected error fetching items by tag:", err);
+    throw err;
   }
 }
+
+
+
+
+
+
+
+
 
 
 
