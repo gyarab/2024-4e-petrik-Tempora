@@ -75,7 +75,28 @@ export async function fetchItemsByTag(line_id, tag) {
 
 
 
+// Add item to the timeline
+export async function addItem(line_id, item_data, description) {
+  const supabase = useSupabaseClient();
 
+  const itemToInsert = {
+      line_id,
+      item_data,
+      description
+  };
+
+  console.log("Item to insert:", itemToInsert);
+  
+  try {
+      const { data, error } = await supabase.from("items").insert(itemToInsert);
+      if (error) throw error;
+      console.log("Insert successful:", data);
+      return data;
+  } catch (err) {
+      console.error("Error inserting item:", err);
+      throw err;
+  }
+}
 
 
 

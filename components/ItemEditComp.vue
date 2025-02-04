@@ -1,6 +1,14 @@
 <template>
   <UTabs :items="items" @change="onChange" />
   
+  <!-- Color Picker for Background -->
+  
+  <color-picker-block
+    v-model="refVariable"
+    @change="console.log('New color:', $event)"
+  />
+<p>Vybraná barva: {{ refVariable }}</p>
+
   <div class="container">
     <UInput type="number" size="xl" v-model="start" />
     <UCheckbox class="self-center" v-model="isBottom" label="Bottom" />
@@ -38,6 +46,8 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { addItem } from '~/composables/supabaseItem';
+ 
+const refVariable = ref('#000');
 
 const route = useRoute();
 const { id, content } = route.params;
@@ -59,6 +69,8 @@ const detailTitle = ref('');
 const detailDescription = ref('');
 const showSecondary = ref(false);
 const showDetail = ref(false);
+
+const backgroundColor = ref('#ffffff'); // Default color set to white
 
 function onChange(index) {
   contextType.value = index === 1;
