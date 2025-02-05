@@ -1,13 +1,17 @@
-<template>
+<template >
+  
   <UTabs :items="items" @change="onChange" />
   
-  <!-- Color Picker for Background -->
-  
-  <color-picker-block
-    v-model="refVariable"
-    @change="console.log('New color:', $event)"
-  />
-<p>Vybraná barva: {{ refVariable }}</p>
+  <color-picker
+  :with-hex-input=true
+  v-model="selectedColor"
+    v-slot="{ color, show }"    
+  >
+    <UButton icon="uil:palette" @click="show">  </UButton>
+  </color-picker>
+  <!--@change="console.log('New color:', $event)"
+    @close="console.log('ColorPicker is closed')" -->
+
 
   <div class="container">
     <UInput type="number" size="xl" v-model="start" />
@@ -15,7 +19,7 @@
     <UInput type="number" size="xl" v-model="end" />
   </div>
 
-  <div class="mt-4">
+  <div class="mt-4" >
     <UInput v-model="mainTitle" placeholder="Název hlavní události" />
     <UTextarea v-model="mainDescription" autoresize placeholder="Popis hlavní události (období)" />
   </div>
@@ -40,6 +44,7 @@
     <UButton label="Ulozit zmeny" @click="saveChanges" class="mr-4" />
     <UButton label="Zahodit zmeny" @click="discardChanges" />
   </div>
+
 </template>
 
 <script setup>
@@ -47,7 +52,7 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { addItem } from '~/composables/supabaseItem';
  
-const refVariable = ref('#000');
+
 
 const route = useRoute();
 const { id, content } = route.params;
@@ -69,8 +74,6 @@ const detailTitle = ref('');
 const detailDescription = ref('');
 const showSecondary = ref(false);
 const showDetail = ref(false);
-
-const backgroundColor = ref('#ffffff'); // Default color set to white
 
 function onChange(index) {
   contextType.value = index === 1;
@@ -96,7 +99,8 @@ async function saveChanges() {
       name: mainTitle.value,
       group: isBottom.value ? 8 : 1,
       start: startMs,
-      end: endMs
+      end: endMs,
+      cssVariables: { '--item-background': selectedColor.value }
     };
     await addItem(id, contextItem, mainDescription.value);
     console.log("Inserted context item:", contextItem);
@@ -109,7 +113,8 @@ async function saveChanges() {
       name: mainTitle.value,
       group: isBottom.value ? 5 : 2,
       start: startMs,
-      end: endMs
+      end: endMs,
+      cssVariables: { '--item-background': selectedColor.value }
     };
     await addItem(id, mainItem, mainDescription.value);
     console.log("Inserted main item:", mainItem);
@@ -121,7 +126,8 @@ async function saveChanges() {
         name: secondaryTitle.value,
         group: isBottom.value ? 6 : 3,
         start: startMs,
-        end: endMs
+        end: endMs,
+        cssVariables: { '--item-background': selectedColor.value }
       };
       await addItem(id, secondaryItem, secondaryDescription.value);
       console.log("Inserted secondary item:", secondaryItem);
@@ -134,7 +140,8 @@ async function saveChanges() {
         name: detailTitle.value,
         group: isBottom.value ? 7 : 4,
         start: startMs,
-        end: endMs
+        end: endMs,
+        cssVariables: { '--item-background': selectedColor.value }
       };
       await addItem(id, detailItem, detailDescription.value);
       console.log("Inserted detail item:", detailItem);
@@ -145,6 +152,16 @@ async function saveChanges() {
 function discardChanges() {
   console.clear();
 }
+
+
+const selectedColor = ref('#ff0000'); // Default color for testing
+
+// Watch for color changes and emit to parent
+watch(selectedColor, (newColor) => {
+  emit('update-background', newColor);
+});
+
+const emit = defineEmits(['update-background']);
 </script>
 
 <style scoped>
