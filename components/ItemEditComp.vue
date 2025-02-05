@@ -103,7 +103,6 @@ async function saveChanges() {
       cssVariables: { '--item-background': selectedColor.value }
     };
     await addItem(id, contextItem, mainDescription.value);
-    console.log("Inserted context item:", contextItem);
     return;
   }
   else{
@@ -117,7 +116,6 @@ async function saveChanges() {
       cssVariables: { '--item-background': selectedColor.value }
     };
     await addItem(id, mainItem, mainDescription.value);
-    console.log("Inserted main item:", mainItem);
 
     if (showSecondary.value) {
       const secondaryItem = {
@@ -130,7 +128,6 @@ async function saveChanges() {
         cssVariables: { '--item-background': selectedColor.value }
       };
       await addItem(id, secondaryItem, secondaryDescription.value);
-      console.log("Inserted secondary item:", secondaryItem);
     }
 
     if (showDetail.value) {
@@ -144,7 +141,6 @@ async function saveChanges() {
         cssVariables: { '--item-background': selectedColor.value }
       };
       await addItem(id, detailItem, detailDescription.value);
-      console.log("Inserted detail item:", detailItem);
     }
   }
 }
@@ -154,7 +150,7 @@ function discardChanges() {
 }
 
 
-const selectedColor = ref('#ff0000'); // Default color for testing
+const selectedColor = ref('#BAE6FD');
 
 // Watch for color changes and emit to parent
 watch(selectedColor, (newColor) => {

@@ -84,8 +84,6 @@ export async function addItem(line_id, item_data, description) {
       item_data,
       description
   };
-
-  console.log("Item to insert:", itemToInsert);
   
   try {
       const { data, error } = await supabase.from("items").insert(itemToInsert);

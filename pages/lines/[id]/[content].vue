@@ -17,7 +17,7 @@
 
             <!-- Listen for emitted events -->
             <ItemEditComp v-if="inEdit" @update-background="updateBackgroundColor" />
-            <ItemInfoComp v-if="!inEdit" @update-background="updateBackgroundColor" />
+            <ItemInfoComp v-if="!inEdit" @colorSelected="updateBackgroundColor" />
                 
         
     
@@ -39,7 +39,7 @@
     const { id, content } = useRoute().params
 
 
-    const backgroundColor = ref('#ffffff'); // Default color
+    const backgroundColor = ref('#BAE6FD'); // Default color
 
     function updateBackgroundColor(newColor) {
     backgroundColor.value = newColor;

@@ -29,6 +29,10 @@
   import { useRoute } from 'vue-router';
   import { fetchItemsByTag } from '~/composables/supabaseItem';
   
+
+  // Define the emit
+  const emit = defineEmits(['colorSelected']);
+
   const route = useRoute();
   const { id, content } = route.params;
   
@@ -50,7 +54,6 @@
   async function loadItemData() {
   try {
     const items = await fetchItemsByTag(id, content);
-    console.log('Fetched items:', items);
 
     if (items.length > 0) {
       // Determine if the item is a context item based on groups present in items
@@ -67,6 +70,11 @@
 
       if (itemData.value) {
         itemDescription.value = itemData.value.description;
+        const color = itemData.value.cssVariables?.['--item-background'];
+        
+        if (color) {
+          emit('colorSelected', color);
+        }
       } else {
         console.warn('No suitable item found.');
       }
