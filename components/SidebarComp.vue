@@ -113,7 +113,7 @@ function copyToClipboard() {
 async function addEvent() {
   const lastItemId = await fetchLastItemIdByLineId(id);
   const newItemId = lastItemId + 1;
-  router.push(`/lines/${id}/${newItemId}`);
+  router.push({ path: `/lines/${id}/${newItemId}`, query: { creatingNew: 'true' } });
 }
 
 async function updateBookmarkState() {

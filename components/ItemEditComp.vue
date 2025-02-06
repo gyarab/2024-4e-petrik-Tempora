@@ -1,6 +1,6 @@
 <template >
   
-  <UTabs :items="items" @change="onChange" />
+  <UTabs v-if="creatingNew" :items="items" @change="onChange" />
   
   <color-picker
   :with-hex-input=true
@@ -55,6 +55,7 @@ import { addItem } from '~/composables/supabaseItem';
 
 
 const route = useRoute();
+const creatingNew = ref(route.query.creatingNew === 'true');
 const { id, content } = route.params;
 
 const items = [
@@ -83,7 +84,18 @@ function convertYearToMs(year) {
   return new Date(year, 0, 1).getTime();
 }
 
-async function saveChanges() {
+
+function saveChanges()
+{
+  if(creatingNew.value) {
+    createNewItem();
+  }
+  else {
+    updateItem();
+  }
+}
+
+async function createNewItem() {
   const startMs = convertYearToMs(start.value);
   const endMs = convertYearToMs(end.value);
 
@@ -158,6 +170,62 @@ watch(selectedColor, (newColor) => {
 });
 
 const emit = defineEmits(['update-background']);
+
+
+
+
+async function loadItemData() {
+  if (creatingNew.value) return; // Skip fetching if creating a new item
+
+  try {
+    const items = await fetchItemsByTag(id, content);
+
+    if (items.length > 0) {
+      const contextItem = items.find(item => item.group === 1 || item.group === 8);
+      const regularItem = items.find(item => item.group === 2 || item.group === 5);
+
+      if (contextItem) {
+        contextType.value = true;
+        start.value = new Date(contextItem.start).getFullYear();
+        end.value = new Date(contextItem.end).getFullYear();
+        mainTitle.value = contextItem.name;
+        mainDescription.value = contextItem.description;
+        selectedColor.value = contextItem.cssVariables?.['--item-background'] || '#BAE6FD';
+      } else if (regularItem) {
+        contextType.value = false;
+        start.value = new Date(regularItem.start).getFullYear();
+        end.value = new Date(regularItem.end).getFullYear();
+        mainTitle.value = regularItem.name;
+        mainDescription.value = regularItem.description;
+        selectedColor.value = regularItem.cssVariables?.['--item-background'] || '#BAE6FD';
+      }
+
+      // Load secondary and detail data
+      const secondaryItem = items.find(item => item.group === 3 || item.group === 6);
+      if (secondaryItem) {
+        showSecondary.value = true;
+        secondaryTitle.value = secondaryItem.name;
+        secondaryDescription.value = secondaryItem.description;
+      }
+
+      const detailItem = items.find(item => item.group === 4 || item.group === 7);
+      if (detailItem) {
+        showDetail.value = true;
+        detailTitle.value = detailItem.name;
+        detailDescription.value = detailItem.description;
+      }
+    } else {
+      console.warn("No items found.");
+    }
+  } catch (err) {
+    console.error("Error loading item data:", err);
+  }
+}
+
+onMounted(() => {
+  loadItemData();
+});
+
 </script>
 
 <style scoped>
