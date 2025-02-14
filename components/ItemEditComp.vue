@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { addItem } from '~/composables/supabaseItem';
+import { createNewItem, loadItemData } from '~/composables/itemManipulation';
  
 
 
@@ -80,81 +80,34 @@ function onChange(index) {
   contextType.value = index === 1;
 }
 
-function convertYearToMs(year) {
-  return new Date(year, 0, 1).getTime();
-}
 
 
-function saveChanges()
-{
+async function saveChanges() {
   if(creatingNew.value) {
-    createNewItem();
-  }
-  else {
-    updateItem();
-  }
-}
-
-async function createNewItem() {
-  const startMs = convertYearToMs(start.value);
-  const endMs = convertYearToMs(end.value);
-
-  if(startMs > endMs) {
-    console.error("Start year must be less than end year");
-    return;
-  }
-
-  if(contextType.value) {
-    const contextItem = {
-      id: parseInt(content),
-      tag: parseInt(content),
-      name: mainTitle.value,
-      group: isBottom.value ? 8 : 1,
-      start: startMs,
-      end: endMs,
-      cssVariables: { '--item-background': selectedColor.value }
-    };
-    await addItem(id, contextItem, mainDescription.value);
-    return;
-  }
-  else{
-    const mainItem = {
-      id: parseInt(content),
-      tag: parseInt(content),
-      name: mainTitle.value,
-      group: isBottom.value ? 5 : 2,
-      start: startMs,
-      end: endMs,
-      cssVariables: { '--item-background': selectedColor.value }
-    };
-    await addItem(id, mainItem, mainDescription.value);
-
-    if (showSecondary.value) {
-      const secondaryItem = {
-        id: parseInt(content) + 1,
-        tag: parseInt(content),
-        name: secondaryTitle.value,
-        group: isBottom.value ? 6 : 3,
-        start: startMs,
-        end: endMs,
-        cssVariables: { '--item-background': selectedColor.value }
-      };
-      await addItem(id, secondaryItem, secondaryDescription.value);
-    }
-
-    if (showDetail.value) {
-      const detailItem = {
-        id: parseInt(content) + 2,
-        tag: parseInt(content),
-        name: detailTitle.value,
-        group: isBottom.value ? 7 : 4,
-        start: startMs,
-        end: endMs,
-        cssVariables: { '--item-background': selectedColor.value }
-      };
-      await addItem(id, detailItem, detailDescription.value);
+    try {
+      await createNewItem({
+        id,
+        content,
+        contextType: contextType.value,
+        start: start.value,
+        end: end.value,
+        isBottom: isBottom.value,
+        mainTitle: mainTitle.value,
+        mainDescription: mainDescription.value,
+        showSecondary: showSecondary.value,
+        secondaryTitle: secondaryTitle.value,
+        secondaryDescription: secondaryDescription.value,
+        showDetail: showDetail.value,
+        detailTitle: detailTitle.value,
+        detailDescription: detailDescription.value,
+        selectedColor: selectedColor.value
+      });
+    } catch (error) {
+      console.error('Failed to create item:', error);
+      // Handle error (maybe show notification)
     }
   }
+  // ... handle updateItem case
 }
 
 function discardChanges() {
@@ -174,56 +127,31 @@ const emit = defineEmits(['update-background']);
 
 
 
-async function loadItemData() {
-  if (creatingNew.value) return; // Skip fetching if creating a new item
-
-  try {
-    const items = await fetchItemsByTag(id, content);
-
-    if (items.length > 0) {
-      const contextItem = items.find(item => item.group === 1 || item.group === 8);
-      const regularItem = items.find(item => item.group === 2 || item.group === 5);
-
-      if (contextItem) {
-        contextType.value = true;
-        start.value = new Date(contextItem.start).getFullYear();
-        end.value = new Date(contextItem.end).getFullYear();
-        mainTitle.value = contextItem.name;
-        mainDescription.value = contextItem.description;
-        selectedColor.value = contextItem.cssVariables?.['--item-background'] || '#BAE6FD';
-      } else if (regularItem) {
-        contextType.value = false;
-        start.value = new Date(regularItem.start).getFullYear();
-        end.value = new Date(regularItem.end).getFullYear();
-        mainTitle.value = regularItem.name;
-        mainDescription.value = regularItem.description;
-        selectedColor.value = regularItem.cssVariables?.['--item-background'] || '#BAE6FD';
+onMounted(async () => {
+  if (!creatingNew.value) {
+    try {
+      const data = await loadItemData(id, content);
+      if (data) {
+        // Destructure data and assign to refs
+        ({
+          contextType: contextType.value,
+          start: start.value,
+          end: end.value,
+          mainTitle: mainTitle.value,
+          mainDescription: mainDescription.value,
+          selectedColor: selectedColor.value,
+          showSecondary: showSecondary.value,
+          secondaryTitle: secondaryTitle.value,
+          secondaryDescription: secondaryDescription.value,
+          showDetail: showDetail.value,
+          detailTitle: detailTitle.value,
+          detailDescription: detailDescription.value
+        } = data);
       }
-
-      // Load secondary and detail data
-      const secondaryItem = items.find(item => item.group === 3 || item.group === 6);
-      if (secondaryItem) {
-        showSecondary.value = true;
-        secondaryTitle.value = secondaryItem.name;
-        secondaryDescription.value = secondaryItem.description;
-      }
-
-      const detailItem = items.find(item => item.group === 4 || item.group === 7);
-      if (detailItem) {
-        showDetail.value = true;
-        detailTitle.value = detailItem.name;
-        detailDescription.value = detailItem.description;
-      }
-    } else {
-      console.warn("No items found.");
+    } catch (error) {
+      console.error('Failed to load item data:', error);
     }
-  } catch (err) {
-    console.error("Error loading item data:", err);
   }
-}
-
-onMounted(() => {
-  loadItemData();
 });
 
 </script>
