@@ -235,5 +235,45 @@ export async function handleItemUpdate(params) {
     }
   }
 
+  // Add items if conditions are met
+  let lastItemId = await fetchLastItemIdByLineId(line_id);
+
+  // If we only have 1 item and showSecondary is true -> add secondary
+  if (items.length === 1 && showSecondary) {
+    lastItemId += 1;
+    const secondaryItemData = {
+      id: lastItemId,
+      start: startMs,
+      end: endMs,
+      tag: content,
+      name: secondaryTitle,
+      group: secondaryGroup,
+      cssVariables: {
+        '--item-background': selectedColor,
+      },
+    };
+
+    await addItem(line_id, secondaryItemData, secondaryDescription);
+    console.log(`Secondary item added for tag ${content}`);
+  }
+
+  // If we have 1 or 2 items and showDetail is true -> add detail
+  if ((items.length === 1 || items.length === 2) && showDetail) {
+    lastItemId += 1;
+    const detailItemData = {
+      id: lastItemId,
+      start: startMs,
+      end: endMs,
+      tag: content,
+      name: detailTitle,
+      group: detailGroup,
+      cssVariables: {
+        '--item-background': selectedColor,
+      },
+    };
+
+    await addItem(line_id, detailItemData, detailDescription);
+    console.log(`Detail item added for tag ${content}`);
+  }
 }
 
