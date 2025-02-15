@@ -108,7 +108,7 @@ async function saveChanges() {
   } else {
     try {
       handleItemUpdate({
-        isBottom,
+        isBottom: isBottom.value,
         line_id: id,
         content,
         contextType: contextType.value,
@@ -136,6 +136,7 @@ async function saveChanges() {
 function discardChanges() {
   console.clear();
   console.log(isBottom.value)
+  console.log(contextType.value)
 }
 
 

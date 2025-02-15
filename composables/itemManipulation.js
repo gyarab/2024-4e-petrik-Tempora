@@ -138,15 +138,16 @@ export async function handleItemUpdate(params) {
     selectedColor,
   } = params;
 
-  const mainGroup = contextType === 1 || contextType === 8
-    ? isBottom
-      ? 8
-      : 1
-    : isBottom
-    ? 5
-    : 2;
+  const mainGroup = contextType
+  ? isBottom
+    ? 8: 1
+  : isBottom
+    ? 5 : 2;
 
-  // Fetch the main item by tag
+  const secondaryGroup = isBottom ? 6 : 3;
+  const detailGroup = isBottom ? 7 : 4;
+
+  // Fetch all related items (main, secondary, detail) by tag
   const items = await fetchItemsByTag(line_id, content);
 
   if (!items || items.length === 0) {
@@ -154,19 +155,21 @@ export async function handleItemUpdate(params) {
     throw new Error(`Main item with tag ${content} not found`);
   }
 
-  const mainItem = items[0]; // Assuming only one main item per tag
-
   // Convert years to milliseconds
   const startMs = convertYearToMs(start);
   const endMs = convertYearToMs(end);
 
-  // Validate start and end dates
-  if(startMs > endMs) {
+  if (startMs > endMs) {
     throw new Error("Start year must be less than end year");
   }
 
-  // Create item data with converted timestamps
-  const itemData = {
+  // Extract main, secondary, and detail items based on item count
+  const mainItem = items[0];
+  const secondaryItem = items.length >= 2 ? items[1] : null;
+  const detailItem = items.length >= 3 ? items[2] : null;
+
+  // Update main item
+  const mainItemData = {
     id: mainItem.id,
     start: startMs,
     end: endMs,
@@ -178,6 +181,40 @@ export async function handleItemUpdate(params) {
     },
   };
 
-  // Call updateItem with item_data.id instead of table id
-  await updateItem(line_id, mainItem.id, itemData, mainDescription);
+  await updateItem(line_id, mainItem.id, mainItemData, mainDescription);
+
+  // Update secondary item if conditions are met
+  if (showSecondary && secondaryItem) {
+    const secondaryItemData = {
+      id: secondaryItem.id,
+      start: startMs,
+      end: endMs,
+      tag: secondaryItem.tag,
+      name: secondaryTitle,
+      group: secondaryGroup,
+      cssVariables: {
+        '--item-background': selectedColor,
+      },
+    };
+
+    await updateItem(line_id, secondaryItem.id, secondaryItemData, secondaryDescription);
+  }
+
+  // Update detail item if conditions are met
+  if (showDetail && detailItem) {
+    const detailItemData = {
+      id: detailItem.id,
+      start: startMs,
+      end: endMs,
+      tag: detailItem.tag,
+      name: detailTitle,
+      group: detailGroup,
+      cssVariables: {
+        '--item-background': selectedColor,
+      },
+    };
+
+    await updateItem(line_id, detailItem.id, detailItemData, detailDescription);
+  }
 }
+
