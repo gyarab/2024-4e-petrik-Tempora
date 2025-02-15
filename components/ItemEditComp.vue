@@ -43,6 +43,7 @@
   <div class="container mt-4 gap-4">
     <UButton label="Ulozit zmeny" @click="saveChanges" class="mr-4" />
     <UButton label="Zahodit zmeny" @click="discardChanges" />
+    <UButton label="Smazat událost" @click="removeItemsByTag(id,content)" />
   </div>
 
 </template>
@@ -51,6 +52,7 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { createNewItem, loadItemData, handleItemUpdate } from '~/composables/itemManipulation';
+import {removeItemsByTag} from '~/composables/supabaseItem';
  
 
 

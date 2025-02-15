@@ -98,7 +98,6 @@ export async function addItem(line_id, item_data, description) {
 }
 
 
-
 // Update item in the timeline
 export async function updateItem(line_id, item_data_id, item_data, description) {
   const supabase = useSupabaseClient();
@@ -121,24 +120,44 @@ export async function updateItem(line_id, item_data_id, item_data, description) 
 }
 
 
-
-
-
-
-
-
 // Remove item from the timeline
-export async function removeItem(line_id, id) {
+export async function removeItem(line_id, item_data_id) {
   const supabase = useSupabaseClient();
 
   try {
-    const { data, error } = await supabase.from('items').delete().eq('id', id).eq('line_id', line_id);
+    const { data, error } = await supabase
+      .from('items')
+      .delete()
+      .eq('line_id', line_id)
+      .filter('item_data->>id', 'eq', item_data_id.toString());
+
     if (error) throw error;
-    console.log('Delete successful:', data);
+
+    console.log('Item removed successfully:', data);
     return data;
   } catch (err) {
-    console.error('Error deleting item:', err);
+    console.error('Error removing item:', err);
     throw err;
   }
 }
-  
+
+  // Remove all items from a line by tag
+export async function removeItemsByTag(line_id, tag) {
+  const supabase = useSupabaseClient();
+
+  try {
+    const { data, error } = await supabase
+      .from('items')
+      .delete()
+      .eq('line_id', line_id)
+      .filter('item_data->>tag', 'eq', tag);
+
+    if (error) throw error;
+
+    console.log(`Items with tag "${tag}" removed successfully from line ${line_id}:`, data);
+    return data;
+  } catch (err) {
+    console.error('Error removing items by tag:', err);
+    throw err;
+  }
+}

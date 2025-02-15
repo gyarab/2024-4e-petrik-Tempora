@@ -216,5 +216,24 @@ export async function handleItemUpdate(params) {
 
     await updateItem(line_id, detailItem.id, detailItemData, detailDescription);
   }
+
+
+
+  // Remove items if conditions are met
+  // Remove detail item if it exists and showDetail is false
+  if (!showDetail && detailItem) {
+    await removeItem(line_id, detailItem.id);
+  }
+
+  // Remove secondary item (and potentially detail) if showSecondary is false
+  if (!showSecondary && secondaryItem) {
+    await removeItem(line_id, secondaryItem.id);
+
+    // Also remove detail if it exists since it relies on secondary
+    if (detailItem) {
+      await removeItem(line_id, detailItem.id);
+    }
+  }
+
 }
 
