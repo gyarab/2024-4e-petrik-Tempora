@@ -50,6 +50,7 @@ export async function fetchLastItemIdByLineId(line_id) {
 export async function fetchItemsByTag(line_id, tag) {
   const supabase = useSupabaseClient();
 
+
   try {
     const { data, error } = await supabase
       .from("items")
@@ -98,69 +99,46 @@ export async function addItem(line_id, item_data, description) {
 
 
 
+// Update item in the timeline
+export async function updateItem(line_id, item_data_id, item_data, description) {
+  const supabase = useSupabaseClient();
 
+  try {
+    const { data, error } = await supabase
+      .from('items')
+      .update({ item_data, description })
+      .eq('line_id', line_id)
+      .filter('item_data->>id', 'eq', item_data_id.toString());
 
+    if (error) throw error;
 
-
-
-
-  
-  
-  // Delete item from the timeline
-  export async function deleteItem({ id = null, line_id = null }) {
-    const supabase = useSupabaseClient();
-  
-    if (!id && !line_id) {
-      throw new Error("You must provide either an item ID or a line ID to delete an item.");
-    }
-  
-    try {
-      let query = supabase.from("items").delete();
-  
-      if (id) {
-        query = query.eq("id", id);
-      } else if (line_id) {
-        query = query.eq("line_id", line_id);
-      }
-  
-      const { error } = await query;
-  
-      if (error) {
-        console.error("Error deleting item:", error.message);
-        throw error;
-      }
-  
-      return true; // Confirm deletion
-    } catch (err) {
-      console.error("Unexpected error deleting item:", err);
-      throw err;
-    }
+    console.log('Update successful:', data);
+    return data;
+  } catch (err) {
+    console.error('Error updating item:', err);
+    throw err;
   }
+}
 
 
-  
-  // Update item in the timeline
-  export async function updateItem(line_id, updates) {
-    const supabase = useSupabaseClient();
-  
-    console.log("updateItem called with:", { id: line_id, updates });
-  
-    try {
-      const { error } = await supabase
-        .from("items")
-        .update(updates)
-        .eq("id", line_id);
-  
-      if (error) {
-        console.error("Error updating item:", error.message);
-        throw error;
-      }
-  
-      console.log("updateItem successful for id:", line_id);
-      return true;
-    } catch (err) {
-      console.error("Unexpected error updating item:", err);
-      throw err;
-    }
+
+
+
+
+
+
+// Remove item from the timeline
+export async function removeItem(line_id, id) {
+  const supabase = useSupabaseClient();
+
+  try {
+    const { data, error } = await supabase.from('items').delete().eq('id', id).eq('line_id', line_id);
+    if (error) throw error;
+    console.log('Delete successful:', data);
+    return data;
+  } catch (err) {
+    console.error('Error deleting item:', err);
+    throw err;
   }
+}
   

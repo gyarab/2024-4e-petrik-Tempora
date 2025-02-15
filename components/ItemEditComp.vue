@@ -15,7 +15,7 @@
 
   <div class="container">
     <UInput type="number" size="xl" v-model="start" />
-    <UCheckbox class="self-center" v-model="isBottom" label="Bottom" />
+    <UCheckbox v-if="creatingNew" class="self-center" v-model="isBottom" label="Bottom" />
     <UInput type="number" size="xl" v-model="end" />
   </div>
 
@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { createNewItem, loadItemData } from '~/composables/itemManipulation';
+import { createNewItem, loadItemData, handleItemUpdate } from '~/composables/itemManipulation';
  
 
 
@@ -83,7 +83,7 @@ function onChange(index) {
 
 
 async function saveChanges() {
-  if(creatingNew.value) {
+  if (creatingNew.value) {
     try {
       await createNewItem({
         id,
@@ -100,18 +100,42 @@ async function saveChanges() {
         showDetail: showDetail.value,
         detailTitle: detailTitle.value,
         detailDescription: detailDescription.value,
-        selectedColor: selectedColor.value
+        selectedColor: selectedColor.value,
       });
     } catch (error) {
       console.error('Failed to create item:', error);
-      // Handle error (maybe show notification)
+    }
+  } else {
+    try {
+      handleItemUpdate({
+        isBottom,
+        line_id: id,
+        content,
+        contextType: contextType.value,
+        start: start.value,
+        end: end.value,
+        isBottom: isBottom.value,
+        mainTitle: mainTitle.value,
+        mainDescription: mainDescription.value,
+        showSecondary: showSecondary.value,
+        secondaryTitle: secondaryTitle.value,
+        secondaryDescription: secondaryDescription.value,
+        showDetail: showDetail.value,
+        detailTitle: detailTitle.value,
+        detailDescription: detailDescription.value,
+        selectedColor: selectedColor.value,
+      });
+    }
+    catch (error) {
+      console.error('Failed to update item:', error);
     }
   }
-  // ... handle updateItem case
 }
+
 
 function discardChanges() {
   console.clear();
+  console.log(isBottom.value)
 }
 
 
@@ -134,6 +158,7 @@ onMounted(async () => {
       if (data) {
         // Destructure data and assign to refs
         ({
+          isBottom: isBottom.value,
           contextType: contextType.value,
           start: start.value,
           end: end.value,

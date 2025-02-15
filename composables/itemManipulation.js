@@ -1,4 +1,4 @@
-import { addItem, fetchItemsByTag } from '~/composables/supabaseItem';
+import {  addItem, updateItem, removeItem, fetchLastItemIdByLineId, fetchItemsByTag } from '~/composables/supabaseItem';
 
 export function convertYearToMs(year) {
   return new Date(year, 0, 1).getTime();
@@ -96,6 +96,7 @@ export async function loadItemData(id, content) {
     const detailItem = items.find(item => item.group === 4 || item.group === 7);
 
     return {
+      isBottom: regularItem?.group === 5,
       contextType: !!contextItem,
       start: new Date(contextItem?.start || regularItem?.start).getFullYear(),
       end: new Date(contextItem?.end || regularItem?.end).getFullYear(),
@@ -115,4 +116,68 @@ export async function loadItemData(id, content) {
     console.error("Error loading item data:", err);
     throw err;
   }
+}
+
+
+export async function handleItemUpdate(params) {
+  const {
+    line_id,
+    content,
+    contextType,
+    start,
+    end,
+    isBottom,
+    mainTitle,
+    mainDescription,
+    showSecondary,
+    secondaryTitle,
+    secondaryDescription,
+    showDetail,
+    detailTitle,
+    detailDescription,
+    selectedColor,
+  } = params;
+
+  const mainGroup = contextType === 1 || contextType === 8
+    ? isBottom
+      ? 8
+      : 1
+    : isBottom
+    ? 5
+    : 2;
+
+  // Fetch the main item by tag
+  const items = await fetchItemsByTag(line_id, content);
+
+  if (!items || items.length === 0) {
+    console.error(`Main item with tag ${content} not found for line ${line_id}`);
+    throw new Error(`Main item with tag ${content} not found`);
+  }
+
+  const mainItem = items[0]; // Assuming only one main item per tag
+
+  // Convert years to milliseconds
+  const startMs = convertYearToMs(start);
+  const endMs = convertYearToMs(end);
+
+  // Validate start and end dates
+  if(startMs > endMs) {
+    throw new Error("Start year must be less than end year");
+  }
+
+  // Create item data with converted timestamps
+  const itemData = {
+    id: mainItem.id,
+    start: startMs,
+    end: endMs,
+    tag: mainItem.tag,
+    name: mainTitle,
+    group: mainGroup,
+    cssVariables: {
+      '--item-background': selectedColor,
+    },
+  };
+
+  // Call updateItem with item_data.id instead of table id
+  await updateItem(line_id, mainItem.id, itemData, mainDescription);
 }
