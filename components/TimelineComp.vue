@@ -70,8 +70,9 @@
   const { id } = useRoute().params
 
   // Timeline groups and items
+  /*
   const groups = [
-    { id: 1, label: 'Kontext cz', className: 'kontextGroup' },
+    { id: 1, label: "Kontext cz", className: 'kontextGroup' },
     { id: 2, label: 'Group 2', className: 'primaryGroup', },
     { id: 3, label: 'Group 3', className: 'secondaryGroup'  },
     { id: 4, label: 'Group 4', className: 'detailGroup' },
@@ -81,19 +82,11 @@
     { id: 7, label: 'Group 7', className: 'detailGroup' },
     { id: 8, label: 'Kontext svet',  className: 'kontextGroup' },
   ];
-  /*
-  const items = [
-    { id:'0', tag: '0', name: 'W', group:  1, type: 'point', start: 946684800000, cssVariables: { '--item-background': '#3498db' } },
-    { id:'1', tag: '1', name: 'Raketa', group: 2, type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-    { id:'3', tag: '0', name: 'Super jmeno 0123456789', group: 2, type: 'range', start: -631152000000, end: 946684800000 },
-    { id:'4', tag: '1', name: 'W', group: 1, type: 'marker', start: -400000000000, cssVariables: { '--item-background': '#000' } },
-    //{ id:'5', tag: '1', name: 'W', group: 'group4', type: 'background', start: -400000000000, end: 977836800000, cssVariables: { '--item-background': '#000' } }, 
-    { id:'6', tag: '1', name: 'Autor Raketa', group: 3, type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-    { id:'7', tag: '1', name: 'Dílo autora z  o b d o b í Raketa', group: 4, type: 'range', start: 946684800000, end: 1577836800000, cssVariables: { '--item-background': '#e74c3c' } },
-  ];*/
-
+*/
 // Empty array for items, to be populated dynamically 
-let items = [];
+const items = ref([]);
+const groups = ref([]);
+
 
 // Fetch and load items based on line_id
 const loadItems = async (lineId) => {
@@ -130,7 +123,41 @@ const loadItems = async (lineId) => {
   }
 };
 
-// Call the function to fetch items (replace 1 with the appropriate line_id)
+async function getStructuredGroups(id) {
+  try {
+    const timeline = await fetchInfo(id);
+
+    if (!timeline.groups) {
+      console.log("No groups found in timeline data.");
+      return [];
+    }
+
+    const groupNames = timeline.groups;
+
+    console.log({ id: 1, label: groupNames[1], className: "kontextGroup" });
+    groups.value = [
+      { id: 1, label: groupNames[1], className: "kontextGroup" },
+      { id: 2, label: groupNames[2], className: "primaryGroup" },
+      { id: 3, label: groupNames[3], className: "secondaryGroup" },
+      { id: 4, label: groupNames[4], className: "detailGroup" },
+      { id: "Timestamps" },
+      { id: 5, label: groupNames[5], className: "primaryGroup" },
+      { id: 6, label: groupNames[6], className: "secondaryGroup" },
+      { id: 7, label: groupNames[7], className: "detailGroup" },
+      { id: 8, label: groupNames[8], className: "kontextGroup" },
+    ];
+
+    console.log(groups);
+    return groups;
+  } catch (err) {
+    console.error("Failed to structure groups:", err);
+    return [];
+  }
+}
+
+
+// Load items on component mount
+getStructuredGroups(id);
 loadItems(id);
   
  // Use the composableA
