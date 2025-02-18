@@ -156,13 +156,13 @@ async function fetchData() {
     if (error.message === 'TimelineNotFound' || error.code === 'PGRST116') {
       showError({
         statusCode: 404,
-        statusMessage: 'Časová osa neexisuje nebo je soukromá.',
+        message: 'Časová osa neexisuje nebo je soukromá.',
       });
     } else {
       console.error('Unexpected error fetching timeline data:', error);
       showError({
         statusCode: 500,
-        statusMessage: 'An unexpected error occurred. Please try again later.',
+        message: 'An unexpected error occurred. Please try again later.',
       });
     }
   } finally {
