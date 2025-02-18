@@ -253,6 +253,9 @@ export async function deleteTimeline(lineId) {
           .select('timelines(*, user_profiles(nickname))')
           .eq('user_id', userId);
       }
+      if (filters.id) {
+        query = query.eq('line_id', filters.id); // Filter by 6-digit ID
+      }
   
       const { data, error } = await query;
   
