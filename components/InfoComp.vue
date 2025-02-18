@@ -9,7 +9,7 @@
   <p>ID časové osy: <span class="font-bold">{{ timelineInfo.line_id }}</span></p>
   <p> Autor: <span class="font-bold">{{ timelineInfo.user_profiles?.nickname || "Neznámý" }} </span> </p>
   <p> Vytvořeno: <span class="font-bold">{{ timelineInfo.created_at ? new Date(timelineInfo.created_at).toLocaleDateString() : "Neznámé datum" }}</span> </p>
-  <p> Rok: <span class="font-bold">{{ timelineInfo.start }} - {{ timelineInfo.end }}</span> </p>
+  <p> Roky: <span class="font-bold">{{ displayStartYear }} - {{ displayEndYear }}</span> </p>
   <p> Soukromá osa: <span class="font-bold">{{ timelineInfo.is_private ? "Ano" : "Ne" }}</span></p>
   <p>Popis: <span class="italic">{{ timelineInfo.description || "Žádný popis" }}</span></p>
 
@@ -52,6 +52,15 @@
     },
     { immediate: true }
   );
+
+const displayStartYear = computed(() => {
+  return timelineInfo.value.start < 0 ? `${Math.abs(timelineInfo.value.start)} BC` : timelineInfo.value.start;
+});
+
+const displayEndYear = computed(() => {
+  return timelineInfo.value.end < 0 ? `${Math.abs(timelineInfo.value.end)} BC` : timelineInfo.value.end;
+});
+
 </script>
 
 <style scoped>

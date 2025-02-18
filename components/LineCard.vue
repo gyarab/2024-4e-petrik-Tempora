@@ -4,7 +4,7 @@
         <UIcon v-if="line.is_private" class="size-4" name="heroicons:lock-closed-16-solid"></UIcon>
         <UIcon v-if="line.featured" class="size-4" name="heroicons:star-16-solid"></UIcon>
       </h3>
-      <p class="text-sm text-gray-600">Rok: {{ line.start }} - {{ line.end }}</p>
+      <p class="text-sm text-gray-600">Roky: {{ displayStartYear  }} - {{ displayEndYear }}</p>
       <p class="text-sm text-gray-600">Autor: {{ line.user_profiles?.nickname || 'Unknown' }}</p>
         
       <div class="text-base container mt-2">
@@ -36,7 +36,7 @@
   const user = useSupabaseUser()
 
   
-  defineProps({
+  const props = defineProps({
     line: {
       type: Object,
       required: true,
@@ -53,4 +53,12 @@ function handleSettingsToggle(lineId) {
   emit('settingsToggle', lineId);
 }
 
-  </script>
+const displayStartYear = computed(() => {
+  return props.line.start < 0 ? `${Math.abs(props.line.start)} BC` : props.line.start;
+});
+
+const displayEndYear = computed(() => {
+  return props.line.end < 0 ? `${Math.abs(props.line.end)} BC` : props.line.end;
+});
+
+</script>

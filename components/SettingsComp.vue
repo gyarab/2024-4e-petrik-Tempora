@@ -16,7 +16,7 @@
   <p>ID časové osy: <span class="font-bold">  {{ timelineInfo.line_id || "Neznámý" }} </span> </p>
   <p>Autor:  <span class="font-bold"> {{ timelineInfo.user_profiles?.nickname || "Neznámý" }} </span></p>
   <p>Vytvořeno:  <span class="font-bold"> {{ timelineInfo.created_at ? new Date(timelineInfo.created_at).toLocaleDateString() : "Neznámé datum" }} </span></p>
-  <p>Rok:  <span class="font-bold"> {{ first }} - {{ last }} </span></p>
+  <p>Rok: <span class="font-bold"> {{ displayStartYear }} - {{ displayEndYear }} </span></p>
 
   <UCheckbox v-model="is_private" name="private" label="Soukromá osa" />
   <div class="mt-3">
@@ -152,6 +152,15 @@ const deleteTimelineHandler = async () => {
     isDeleting.value = false;
   }
 };
+
+
+const displayStartYear = computed(() => {
+  return timelineInfo.value.start < 0 ? `${Math.abs(timelineInfo.value.start)} BC` : timelineInfo.value.start;
+});
+
+const displayEndYear = computed(() => {
+  return timelineInfo.value.end < 0 ? `${Math.abs(timelineInfo.value.end)} BC` : timelineInfo.value.end;
+});
 
 </script>
 
