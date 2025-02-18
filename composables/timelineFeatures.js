@@ -1,22 +1,34 @@
 import { ref, watch, computed } from 'vue';
 
-export const useTimeline = (zoomLimits = { min: 0.1, max: 3 }) => {
-  const start = 1950;
-  const end = 2020;
+export const useTimeline = (start, end, zoomLimits = { min: 0.1, max: 3 }) => {
   
   
+
   // Configuration for zoom and initial settings
   const minZoom = zoomLimits.min; // Minimum zoom level
   const maxZoom = zoomLimits.max; // Maximum zoom level
   const initialZoom = 0.4; // Default zoom level
-  const yearToMs = (year) => Date.UTC(year, 0, 1);
-  const rangeStart = ref(yearToMs(start)); // Default range start
-  const rangeEnd = ref(yearToMs(end)); // Default range end
+  const yearToMs = (year) => {
+    if (year >= 100) {
+      return Date.UTC(year, 0, 1);
+    } else {
+      // For years before 100, we need to use a different approach
+      const baseYear = year >= 0 ? 1900 : 2000;
+      const yearDiff = Math.abs(year - baseYear);
+      return -(-Date.UTC(baseYear, 0, 1) + (yearDiff * 31536000000));
+    }
+  };
   
+  const rangeStart = computed(() => yearToMs(start.value));
+  const rangeEnd = computed(() => yearToMs(end.value));
+  
+  watch([rangeStart, rangeEnd], ([start, end]) => {
+    console.log("Updated rangeStart and rangeEnd:", start, end);
+  });
 
   // Reactive states for zoom, scroll, and viewport
   const zoomLevel = ref(initialZoom); // Current zoom level
-  const scrollPosition = ref(yearToMs((start+end)/2)); // Current scroll position
+  const scrollPosition = ref((rangeStart.value +rangeEnd.value)/2); // Current scroll position
   const viewportMin = ref(0); // Left edge of the viewport
   const viewportMax = ref(0); // Right edge of the viewport
   const minScroll = ref(0); // Minimum scroll limit

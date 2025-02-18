@@ -1,28 +1,31 @@
 <template>
-      <div
-        class="timeline-container"
-        @wheel.prevent="(event) => onMouseWheelZoom(event.deltaY)"
+  <div v-if="isLoading">
+    <p>Loading timeline...</p>
+  </div>
+    <div v-else
+      class="timeline-container"
+      @wheel.prevent="(event) => onMouseWheelZoom(event.deltaY)"
+    >
+      <Timeline
+        :groups="groups"
+        :items="items"
+        :markers="markers"
+        :viewportMin="viewportMin"
+        :viewportMax="viewportMax"
+        :renderTimestampLabel="(timestamp) => new Date(timestamp).getFullYear()"
+        :fixedLabels=true
+        @mousemoveTimeline="onMousemoveTimeline"
+        @mouseleaveTimeline="onMouseleaveTimeline"
       >
-        <Timeline
-          :groups="groups"
-          :items="items"
-          :markers="markers"
-          :viewportMin="viewportMin"
-          :viewportMax="viewportMax"
-          :renderTimestampLabel="(timestamp) => new Date(timestamp).getFullYear()"
-          :fixedLabels=true
-          @mousemoveTimeline="onMousemoveTimeline"
-          @mouseleaveTimeline="onMouseleaveTimeline"
+      <template #item="{ item }">
+        <NuxtLink
+          :to="`/lines/${id}/${item.tag}`"
+          style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
+          :data-tippy-content="item.tooltip"
         >
-        <template #item="{ item }">
-          <NuxtLink
-            :to="`/lines/${id}/${item.tag}`"
-            style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
-            :data-tippy-content="item.tooltip"
-          >
-            {{ item.name }}
-          </NuxtLink>
-        </template>
+          {{ item.name }}
+        </NuxtLink>
+      </template>
       </Timeline>
     </div>    
  
@@ -60,95 +63,25 @@
     </div>
 </template>
   
-  <script setup>
-  import { useTimeline } from '@/composables/timelineFeatures';
-  import { Timeline } from 'vue-timeline-chart';
-  import 'vue-timeline-chart/style.css';
-  import { fetchItemsByLineId } from '@/composables/supabaseItem';
-  import { useRoute } from 'vue-router';
-  
-  const { id } = useRoute().params
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useTimeline } from '@/composables/timelineFeatures';
+import { fetchItemsByLineId } from '@/composables/supabaseItem';
+import { useRoute } from 'vue-router';
+import { Timeline } from 'vue-timeline-chart';
+import 'vue-timeline-chart/style.css';
 
- 
-// Empty array for items, to be populated dynamically 
+const route = useRoute();
+const id = route.params.id;
+
+const isLoading = ref(true);
 const items = ref([]);
 const groups = ref([]);
+const rangeStart = ref(0);
+const rangeEnd = ref(null);
 
-
-// Fetch and load items based on line_id
-const loadItems = async (lineId) => {
-  try {
-    const fetchedItems = await fetchItemsByLineId(lineId);
-
-    // Map items with additional CSS and inferred type
-    items = fetchedItems.map((item) => {
-      const itemData = item.item_data;
-
-      // Dynamically assign CSS class based on group
-      const groupCssMap = {
-        1: 'contextGroupCss',
-        2: 'primaryGroupCss',
-        3: 'secondaryGroupCss',
-        4: 'detailGroupCss',
-        5: 'primaryGroupCss',
-        6: 'secondaryGroupCss',
-        7: 'detailGroupCss',
-        8: 'contextGroupCss'
-      };
-
-      // Infer type: 'range' if `end` exists, otherwise 'point'
-      const type = itemData.end ? 'range' : 'point';
-
-      return {
-        ...itemData,
-        className: `${groupCssMap[itemData.group]}`,
-        type, 
-      };
-    });
-  } catch (error) {
-    console.error('Error fetching items:', error);
-  }
-};
-
-async function getStructuredGroups(id) {
-  try {
-    const timeline = await fetchInfo(id);
-
-    if (!timeline.groups) {
-      console.log("No groups found in timeline data.");
-      return [];
-    }
-
-    const groupNames = timeline.groups;
-
-    console.log({ id: 1, label: groupNames[1], className: "kontextGroup" });
-    groups.value = [
-      { id: 1, label: groupNames[1], className: "kontextGroup" },
-      { id: 2, label: groupNames[2], className: "primaryGroup" },
-      { id: 3, label: groupNames[3], className: "secondaryGroup" },
-      { id: 4, label: groupNames[4], className: "detailGroup" },
-      { id: "Timestamps" },
-      { id: 5, label: groupNames[5], className: "primaryGroup" },
-      { id: 6, label: groupNames[6], className: "secondaryGroup" },
-      { id: 7, label: groupNames[7], className: "detailGroup" },
-      { id: 8, label: groupNames[8], className: "kontextGroup" },
-    ];
-
-    console.log(groups);
-    return groups;
-  } catch (err) {
-    console.error("Failed to structure groups:", err);
-    return [];
-  }
-}
-
-
-// Load items on component mount
-getStructuredGroups(id);
-loadItems(id);
-  
- // Use the composableA
- const {
+// Timeline utilities (initialize but reactive to rangeStart, rangeEnd)
+const {
   minZoom,
   maxZoom,
   zoomLevel,
@@ -164,7 +97,57 @@ loadItems(id);
   onMouseleaveTimeline,
   markers,
   mouseHoverPosition,
-} = useTimeline();
+} = useTimeline(rangeStart, rangeEnd);
+
+async function fetchData() {
+  try {
+    const timeline = await fetchInfo(id);
+    rangeStart.value = timeline.start;
+    rangeEnd.value = timeline.end;
+
+    const fetchedItems = await fetchItemsByLineId(id);
+
+    const groupCssMap = {
+      1: 'contextGroupCss',
+      2: 'primaryGroupCss',
+      3: 'secondaryGroupCss',
+      4: 'detailGroupCss',
+      5: 'primaryGroupCss',
+      6: 'secondaryGroupCss',
+      7: 'detailGroupCss',
+      8: 'contextGroupCss',
+    };
+
+    items.value = fetchedItems.map((item) => {
+      const itemData = item.item_data;
+      const type = itemData.end ? 'range' : 'point';
+
+      return {
+        ...itemData,
+        className: groupCssMap[itemData.group] || '',
+        type,
+      };
+    });
+
+    groups.value = [
+      { id: 1, label: timeline.groups[1], className: 'kontextGroup' },
+      { id: 2, label: timeline.groups[2], className: 'primaryGroup' },
+      { id: 3, label: timeline.groups[3], className: 'secondaryGroup' },
+      { id: 4, label: timeline.groups[4], className: 'detailGroup' },
+      { id: 'Timestamps'},
+      { id: 5, label: timeline.groups[5], className: 'primaryGroup' },
+      { id: 6, label: timeline.groups[6], className: 'secondaryGroup' },
+      { id: 7, label: timeline.groups[7], className: 'detailGroup' },
+      { id: 8, label: timeline.groups[8], className: 'kontextGroup' },
+    ];
+  } catch (error) {
+    console.error('Failed to fetch timeline data:', error);
+  } finally {
+    isLoading.value = false;
+  }
+}
+
+onMounted(fetchData);
 </script>
   
 <style>
