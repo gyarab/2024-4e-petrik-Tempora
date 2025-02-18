@@ -22,9 +22,10 @@ export const useTimeline = (start, end, zoomLimits = { min: 0.1, max: 3 }) => {
   const rangeStart = computed(() => yearToMs(start.value));
   const rangeEnd = computed(() => yearToMs(end.value));
   
+  /* Log to print the updated rangeStart and rangeEnd values
   watch([rangeStart, rangeEnd], ([start, end]) => {
     console.log("Updated rangeStart and rangeEnd:", start, end);
-  });
+  });*/
 
   // Reactive states for zoom, scroll, and viewport
   const zoomLevel = ref(initialZoom); // Current zoom level

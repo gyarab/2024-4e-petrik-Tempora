@@ -63,7 +63,7 @@ async function generateUniqueLineId(supabase) {
 }
 
 
-export async function fetchTimelines(filters = {}, userId = null) {
+export async function fetchTimelines(filters = {}, userId) {
   const supabase = useSupabaseClient();
 
   try {
@@ -208,23 +208,21 @@ export async function fetchBookmarkState(id, user) {
 export async function fetchInfo(id) {
   const supabase = useSupabaseClient();
 
-  try {
-    const { data, error } = await supabase
-      .from("timelines")
-      .select("*, user_profiles(nickname)")
-      .eq("line_id", id)
-      .single();
+  const { data, error } = await supabase
+    .from("timelines")
+    .select("*, user_profiles(nickname)")
+    .eq("line_id", id)
+    .maybeSingle();
 
-    if (error) {
-      console.error("Error fetching timeline info:", error.message);
-      throw error;
+  if (error) {
+    // Optional: log only unexpected errors, suppress 'not found'
+    if (error.code !== 'PGRST116') {
+      console.error("Unexpected error fetching timeline info:", error);
     }
-
-    return data;
-  } catch (err) {
-    console.error("Unexpected error fetching timeline info:", err);
-    throw err;
+    throw error; // Still throw so the caller can handle it
   }
+
+  return data;
 }
 
 export async function updateSettings(id, updates) {

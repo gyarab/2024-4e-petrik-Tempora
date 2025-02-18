@@ -108,7 +108,7 @@ async function fetchData() {
     
     
     if (!timeline) {
-      throw new Error('Timeline not found or is private');
+      throw new Error('TimelineNotFound');
     }
     
     
@@ -153,11 +153,18 @@ async function fetchData() {
     ];
   } catch (error) {
     // Error handling for invalid timelines
-    console.error('Failed to fetch timeline data:', error);
-    showError({
-      statusCode: 404,
-      statusMessage: 'Timeline does not exist or is private.',
-    });
+    if (error.message === 'TimelineNotFound' || error.code === 'PGRST116') {
+      showError({
+        statusCode: 404,
+        statusMessage: 'Časová osa neexisuje nebo je soukromá.',
+      });
+    } else {
+      console.error('Unexpected error fetching timeline data:', error);
+      showError({
+        statusCode: 500,
+        statusMessage: 'An unexpected error occurred. Please try again later.',
+      });
+    }
   } finally {
     isLoading.value = false;
   }
