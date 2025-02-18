@@ -22,6 +22,8 @@
           :to="`/lines/${id}/${item.tag}`"
           style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
           :data-tippy-content="item.tooltip"
+         
+  class="no-preview-link"
         >
           {{ item.name }}
         </NuxtLink>
@@ -148,9 +150,15 @@ async function fetchData() {
 }
 
 onMounted(fetchData);
+
+
 </script>
   
 <style>
+
+.no-preview-link {
+    pointer-events: none;  /* Disables interaction (use carefully) */
+  }
 
 .scroll-container {
   flex: 1 1 50%; /* 50% of the width */
