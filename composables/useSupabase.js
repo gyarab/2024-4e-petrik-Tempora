@@ -1,105 +1,3 @@
-
-export async function addTimeline({ start, end, name, is_private, description, groups, line_id = null }, userId) {
-  const supabase = useSupabaseClient(); // Must be called inside a composable or Vue setup
-
-  if (start >= end) {
-    throw new Error("Start value must be less than End value.");
-  }
-
-  // Generate a unique line_id if not provided
-  if (!line_id) {
-    line_id = await generateUniqueLineId(supabase);
-  }
-
-  // Insert into the database
-  const { data, error } = await supabase
-    .from("timelines")
-    .insert([
-      {
-        start,
-        end,
-        name,
-        line_id,
-        description,
-        is_private,
-        author: userId,
-        groups,
-      },
-    ])
-    .select("line_id");
-
-  if (error) {
-    console.error("Error adding timeline:", error.message);
-    throw error;
-  }
-
-  return { data: data[0], error };
-}
-
-// Generate a unique line_id
-async function generateUniqueLineId(supabase) {
-  let line_id;
-  let isUnique = false;
-
-  while (!isUnique) {
-    line_id = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit number
-
-    // Check if it's unique
-    const { data, error } = await supabase
-      .from("timelines")
-      .select("line_id")
-      .eq("line_id", line_id)
-      .limit(1);
-
-    if (error) {
-      console.error("Error checking line_id uniqueness:", error.message);
-      throw error;
-    }
-
-    isUnique = data.length === 0;
-  }
-
-  return line_id;
-}
-
-
-export async function fetchTimelines(filters = {}, userId) {
-  const supabase = useSupabaseClient();
-
-  try {
-    let query = supabase
-      .from('timelines')
-      .select('*, user_profiles(nickname)');
-
-    if (filters.userTimelines && userId) {
-      query = query.eq('author', userId); // Filter by user's timelines
-    }
-    if (filters.featured) {
-      query = query.eq('featured', true); // Filter for featured timelines
-    }
-    if (filters.bookmarked && userId) {
-      query = supabase
-        .from('bookmarks') // Join bookmarks with timelines
-        .select('timelines(*, user_profiles(nickname))')
-        .eq('user_id', userId);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      console.error('Error fetching timelines:', error);
-      return [];
-    }
-
-    // If fetching bookmarks, data contains nested timelines
-    return filters.bookmarked ? data.map((bookmark) => bookmark.timelines) : data;
-  } catch (err) {
-    console.error('Unexpected error fetching timelines:', err);
-    return [];
-  }
-}
-
-
 export async function fetchNickname(user) {
   const supabase = useSupabaseClient()
   try {
@@ -131,7 +29,7 @@ export async function updateNickname(userId, newNickname) {
       if (error) throw error;
       return true; // Indicate success
   } catch (error) {
-      console.error("Error updating nickname:", error.message);
+    console.error("Error updating nickname:", error.message);
       return false; // Indicate failure
   }
 }
@@ -204,6 +102,10 @@ export async function fetchBookmarkState(id, user) {
   }
 }
 
+
+
+// TIMELINE RELATED FUNCTIONS
+
 // Fetch timeline information by ID
 export async function fetchInfo(id) {
   const supabase = useSupabaseClient();
@@ -267,3 +169,102 @@ export async function deleteTimeline(lineId) {
   }
 }
 
+
+  export async function addTimeline({ start, end, name, is_private, description, groups, line_id = null }, userId) {
+    const supabase = useSupabaseClient(); // Must be called inside a composable or Vue setup
+  
+    if (start >= end) {
+      throw new Error("Start value must be less than End value.");
+    }
+  
+    // Generate a unique line_id if not provided
+    if (!line_id) {
+      line_id = await generateUniqueLineId(supabase);
+    }
+  
+    // Insert into the database
+    const { data, error } = await supabase
+      .from("timelines")
+      .insert([
+        {
+          start,
+          end,
+          name,
+          line_id,
+          description,
+          is_private,
+          author: userId,
+          groups,
+        },
+      ])
+      .select("line_id");
+  
+    if (error) {
+      console.error("Error adding timeline:", error.message);
+      throw error;
+    }
+  
+    return { data: data[0], error };
+  }
+  
+  // Generate a unique line_id
+  async function generateUniqueLineId(supabase) {
+    let line_id;
+    let isUnique = false;
+  
+    while (!isUnique) {
+      line_id = Math.floor(100000 + Math.random() * 900000); // Generate 6-digit number
+  
+      // Check if it's unique
+      const { data, error } = await supabase
+        .from("timelines")
+        .select("line_id")
+        .eq("line_id", line_id)
+        .limit(1);
+  
+      if (error) {
+        console.error("Error checking line_id uniqueness:", error.message);
+        throw error;
+      }
+  
+      isUnique = data.length === 0;
+    }
+  
+    return line_id;
+  }
+  
+  export async function fetchTimelines(filters = {}, userId) {
+    const supabase = useSupabaseClient();
+  
+    try {
+      let query = supabase
+        .from('timelines')
+        .select('*, user_profiles(nickname)');
+  
+      if (filters.userTimelines && userId) {
+        query = query.eq('author', userId); // Filter by user's timelines
+      }
+      if (filters.featured) {
+        query = query.eq('featured', true); // Filter for featured timelines
+      }
+      if (filters.bookmarked && userId) {
+        query = supabase
+          .from('bookmarks') // Join bookmarks with timelines
+          .select('timelines(*, user_profiles(nickname))')
+          .eq('user_id', userId);
+      }
+  
+      const { data, error } = await query;
+  
+      if (error) {
+        console.error('Error fetching timelines:', error);
+        return [];
+      }
+  
+      // If fetching bookmarks, data contains nested timelines
+      return filters.bookmarked ? data.map((bookmark) => bookmark.timelines) : data;
+    } catch (err) {
+      console.error('Unexpected error fetching timelines:', err);
+      return [];
+    }
+  }
