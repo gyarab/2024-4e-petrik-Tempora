@@ -69,20 +69,7 @@
   
   const { id } = useRoute().params
 
-  // Timeline groups and items
-  /*
-  const groups = [
-    { id: 1, label: "Kontext cz", className: 'kontextGroup' },
-    { id: 2, label: 'Group 2', className: 'primaryGroup', },
-    { id: 3, label: 'Group 3', className: 'secondaryGroup'  },
-    { id: 4, label: 'Group 4', className: 'detailGroup' },
-    { id: 'Timestamps'}, //Timestamps
-    { id: 5, label: 'Group 5', className: 'primaryGroup' },
-    { id: 6, label: 'Group 6', className: 'secondaryGroup' },
-    { id: 7, label: 'Group 7', className: 'detailGroup' },
-    { id: 8, label: 'Kontext svet',  className: 'kontextGroup' },
-  ];
-*/
+ 
 // Empty array for items, to be populated dynamically 
 const items = ref([]);
 const groups = ref([]);
@@ -114,7 +101,7 @@ const loadItems = async (lineId) => {
 
       return {
         ...itemData,
-        className: `${groupCssMap[itemData.group] || 'defaultCss'}`,
+        className: `${groupCssMap[itemData.group]}`,
         type, 
       };
     });

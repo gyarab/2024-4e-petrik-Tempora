@@ -12,6 +12,17 @@
   <p> Rok: <span class="font-bold">{{ timelineInfo.start }} - {{ timelineInfo.end }}</span> </p>
   <p> Soukromá osa: <span class="font-bold">{{ timelineInfo.is_private ? "Ano" : "Ne" }}</span></p>
   <p>Popis: <span class="italic">{{ timelineInfo.description || "Žádný popis" }}</span></p>
+
+  <div class="mt-4">
+    <p class="font-bold">Řádky:</p>
+    <ul>
+      <li v-for="groupId in 8" :key="groupId">
+        <span class="font-semibold">Řádek {{ groupId }}:</span>
+        {{ groupLabels[groupId] }}
+      </li>
+    </ul>
+  </div>
+
 </template>
 <script setup>
   import { toggleOff } from '../composables/state';
@@ -19,7 +30,8 @@
   
    
   const timelineInfo = ref({});    
-    
+  const groupLabels = ref({});  
+
   const props = defineProps({
     lineId: {
       type: Number,
@@ -33,6 +45,7 @@
     async (newLineId) => {
       try {
         timelineInfo.value = await fetchInfo(newLineId);
+        groupLabels.value = timelineInfo.value.groups || {};
       } catch (err) {
         console.error("Error loading timeline info:", err);
       }

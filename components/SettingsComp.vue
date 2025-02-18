@@ -28,6 +28,11 @@
       :model-value="newDesc"
     />
   </div>
+
+  <h3 class="mt-5 font-bold">Názvy řádků:</h3>
+  <div v-for="groupId in 8" :key="groupId" class="mt-2">
+    <UInput v-model="groupLabels[groupId]" type="text" :placeholder="`Název řádku ${groupId}`" />
+  </div>
   
   <UButton
     class="mt-3"
@@ -68,6 +73,7 @@ const newDesc = ref("");
 const isLoading = ref(false);
 const feedbackMessage = ref("");
 const isError = ref(false);
+const groupLabels = ref({});
 const first = ref("");
 const last = ref("");
 const isDeleting = ref(false);
@@ -84,6 +90,12 @@ watch(
       newDesc.value = timelineInfo.value.description;
       first.value = timelineInfo.value.start;
       last.value = timelineInfo.value.end; 
+
+      // Load existing group names if available
+      const existingGroups = timelineInfo.value.groups || {};
+      for (let i = 1; i <= 8; i++) {
+        groupLabels.value[i] = existingGroups[i] || "";
+      }
     } catch (err) {
       console.error("Error loading timeline info:", err);
     }
@@ -96,10 +108,16 @@ const saveSettings = async () => {
   feedbackMessage.value = "";
 
   try {
+    const groupUpdates = {};
+    for (let i = 1; i <= 8; i++) {
+      groupUpdates[i] = groupLabels.value[i] || `Group ${i}`;
+    }
+
     await updateSettings(props.lineId, {
       name: newName.value,
       is_private: is_private.value,
       description: newDesc.value,
+      groups: groupUpdates,
     });
     feedbackMessage.value = "Nastavení bylo úspěšně uloženo.";
     isError.value = false;
