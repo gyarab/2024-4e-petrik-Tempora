@@ -72,6 +72,7 @@ import { fetchItemsByLineId } from '@/composables/supabaseItem';
 import { useRoute } from 'vue-router';
 import { Timeline } from 'vue-timeline-chart';
 import 'vue-timeline-chart/style.css';
+const router = useRouter();
 
 const route = useRoute();
 const id = route.params.id;
@@ -104,6 +105,14 @@ const {
 async function fetchData() {
   try {
     const timeline = await fetchInfo(id);
+    
+    
+    if (!timeline) {
+      throw new Error('Timeline not found or is private');
+    }
+    
+    
+    
     rangeStart.value = timeline.start;
     rangeEnd.value = timeline.end;
 
@@ -143,7 +152,12 @@ async function fetchData() {
       { id: 8, label: timeline.groups[8], className: 'kontextGroup' },
     ];
   } catch (error) {
+    // Error handling for invalid timelines
     console.error('Failed to fetch timeline data:', error);
+    showError({
+      statusCode: 404,
+      statusMessage: 'Timeline does not exist or is private.',
+    });
   } finally {
     isLoading.value = false;
   }

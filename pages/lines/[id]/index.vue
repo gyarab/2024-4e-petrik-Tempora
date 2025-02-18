@@ -56,10 +56,7 @@ function handleSettingsToggle() {
 }
 
 
-// Error handling for invalid timelines
-if (!true) {
-  throw createError({ statusCode: 404, statusMessage: 'Timeline not found', fatal: false });
-}
+
 </script>
 
 <style scoped>

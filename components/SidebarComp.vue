@@ -121,7 +121,9 @@ async function updateBookmarkState() {
 }
 
 onMounted(() => {
-  updateBookmarkState();
+  if(user.value) {
+    updateBookmarkState();
+  }
 });
 
 
