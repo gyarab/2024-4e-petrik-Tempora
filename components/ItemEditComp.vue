@@ -1,25 +1,20 @@
-<template >
-  
+<template>
   <UTabs v-if="creatingNew" :items="items" @change="onChange" />
   
-  <color-picker
-  :with-hex-input=true
-  v-model="selectedColor"
-    v-slot="{ color, show }"    
-  >
-    <UButton icon="uil:palette" @click="show">  </UButton>
-  </color-picker>
-  <!--@change="console.log('New color:', $event)"
-    @close="console.log('ColorPicker is closed')" -->
-
-
-  <div class="container">
+  <div class="container items-center">
     <UInput type="number" size="xl" v-model="start" />
     <UCheckbox v-if="creatingNew" class="self-center" v-model="isBottom" label="Bottom" />
     <UInput type="number" size="xl" v-model="end" />
+    <color-picker
+      :with-hex-input=true
+      v-model="selectedColor"
+      v-slot="{ color, show }"    
+    >
+      <UButton icon="uil:palette" @click="show" class="self-center"></UButton>
+    </color-picker>
   </div>
 
-  <div class="mt-4" >
+  <div class="mt-4">
     <UInput v-model="mainTitle" placeholder="Název hlavní události" />
     <UTextarea v-model="mainDescription" autoresize placeholder="Popis hlavní události (období)" />
   </div>
@@ -27,34 +22,56 @@
   <div v-if="!contextType">
     <UButton v-if="!showSecondary" label="Přidat Secondary" @click="showSecondary = true" class="mt-4" />
     <div v-if="showSecondary" class="mt-4">
-      <UInput v-model="secondaryTitle" placeholder="Název Secondary" />
+      <div class="flex items-center gap-2">
+        <UInput v-model="secondaryTitle" placeholder="Název Secondary" class="flex-grow" />
+        <UTooltip text="Odstranit Secondary" :popper="{ placement: 'left' }">
+          <UButton 
+            icon="heroicons:minus"
+            color="black"
+            variant="ghost"
+            @click="showSecondary = false; showDetail = false"
+          />
+        </UTooltip>
+      </div>
       <UTextarea v-model="secondaryDescription" autoresize placeholder="Popis Secondary" />
-      <UButton label="Odstranit Secondary" @click="showSecondary = false; showDetail = false" class="mt-2" />
     </div>
   
     <UButton v-if="showSecondary && !showDetail" label="Přidat Detail" @click="showDetail = true" class="mt-4" />
     <div v-if="showDetail" class="mt-4">
-      <UInput v-model="detailTitle" placeholder="Název detailu" />
+      <div class="flex items-center gap-2">
+        <UInput v-model="detailTitle" placeholder="Název detailu" class="flex-grow" />
+        <UTooltip text="Odstranit Detail" :popper="{ placement: 'left' }">
+          <UButton 
+            icon="heroicons:minus"
+            color="black"
+            variant="ghost"
+            @click="showDetail = false"
+          />
+        </UTooltip>
+      </div>
       <UTextarea v-model="detailDescription" autoresize placeholder="Popis detailu" />
-      <UButton label="Odstranit Detail" @click="showDetail = false" class="mt-2" />
     </div>
   </div>
 
-  <div class="container mt-4 gap-4">
-    <UButton label="Ulozit zmeny" @click="saveChanges" class="mr-4" />
-    <UButton label="Zahodit zmeny" @click="discardChanges" />
-    <UButton label="Smazat událost" @click="removeItemsByTag(id,content)" />
+  <div class="container mt-4 flex justify-between items-center">
+    <div class="flex gap-4">
+      <UButton label="Uložit změny" @click="saveChanges" />
+      <UButton v-if="!creatingNew" label="Zahodit změny" @click="discardChanges" />
+    </div>
+    <UButton 
+      v-if="!creatingNew"
+      label="Smazat událost" 
+      color="red"
+      @click="removeItemsByTag(id,content)" 
+    />
   </div>
-
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, onMounted, defineEmits } from 'vue';
 import { useRoute } from 'vue-router';
 import { createNewItem, loadItemData, handleItemUpdate } from '~/composables/itemManipulation';
-import {removeItemsByTag} from '~/composables/supabaseItem';
- 
-
+import { removeItemsByTag } from '~/composables/supabaseItem';
 
 const route = useRoute();
 const creatingNew = ref(route.query.creatingNew === 'true');
@@ -77,12 +94,11 @@ const detailTitle = ref('');
 const detailDescription = ref('');
 const showSecondary = ref(false);
 const showDetail = ref(false);
+const selectedColor = ref('#BAE6FD');
 
 function onChange(index) {
   contextType.value = index === 1;
 }
-
-
 
 async function saveChanges() {
   if (creatingNew.value) {
@@ -134,32 +150,42 @@ async function saveChanges() {
   }
 }
 
-
-function discardChanges() {
-  console.clear();
-  console.log(isBottom.value)
-  console.log(contextType.value)
+async function discardChanges() {
+  try {
+    const data = await loadItemData(id, content);
+    if (data) {
+      ({
+        isBottom: isBottom.value,
+        contextType: contextType.value,
+        start: start.value,
+        end: end.value,
+        mainTitle: mainTitle.value,
+        mainDescription: mainDescription.value,
+        selectedColor: selectedColor.value,
+        showSecondary: showSecondary.value,
+        secondaryTitle: secondaryTitle.value,
+        secondaryDescription: secondaryDescription.value,
+        showDetail: showDetail.value,
+        detailTitle: detailTitle.value,
+        detailDescription: detailDescription.value
+      } = data);
+    }
+  } catch (error) {
+    console.error('Failed to reload item data:', error);
+  }
 }
 
-
-const selectedColor = ref('#BAE6FD');
-
-// Watch for color changes and emit to parent
 watch(selectedColor, (newColor) => {
   emit('update-background', newColor);
 });
 
 const emit = defineEmits(['update-background']);
 
-
-
-
 onMounted(async () => {
   if (!creatingNew.value) {
     try {
       const data = await loadItemData(id, content);
       if (data) {
-        // Destructure data and assign to refs
         ({
           isBottom: isBottom.value,
           contextType: contextType.value,
@@ -181,7 +207,6 @@ onMounted(async () => {
     }
   }
 });
-
 </script>
 
 <style scoped>
