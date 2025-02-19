@@ -1,8 +1,15 @@
 import {  addItem, updateItem, removeItem, fetchLastItemIdByLineId, fetchItemsByTag } from '~/composables/supabaseItem';
 
-export function convertYearToMs(year) {
-  return new Date(year, 0, 1).getTime();
-}
+export function convertYearToMs (year) {
+  if (year >= 100) {
+    return Date.UTC(year, 0, 1);
+  } else {
+    // For years before 100, we need to use a different approach
+    const baseYear = year >= 0 ? 1900 : 2000;
+    const yearDiff = Math.abs(year - baseYear);
+    return -(-Date.UTC(baseYear, 0, 1) + (yearDiff * 31536000000));
+  }
+};
 
 export async function createNewItem(params) {
   const { 

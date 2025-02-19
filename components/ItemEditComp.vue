@@ -83,8 +83,8 @@ const items = [
 ];
 
 const contextType = ref(false);
-const start = ref(1950);
-const end = ref(2020);
+const start = ref(0);
+const end = ref(0);
 const isBottom = ref(false);
 const mainTitle = ref('');
 const mainDescription = ref('');
