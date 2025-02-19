@@ -22,18 +22,23 @@ export const useTimeline = (start, end, zoomLimits = { min: 0.1, max: 3 }) => {
   const rangeStart = computed(() => yearToMs(start.value));
   const rangeEnd = computed(() => yearToMs(end.value));
   
-  /* Log to print the updated rangeStart and rangeEnd values
   watch([rangeStart, rangeEnd], ([start, end]) => {
     console.log("Updated rangeStart and rangeEnd:", start, end);
-  });*/
-
+    scrollPosition.value = (rangeStart.value +rangeEnd.value)/2;
+    console.log("Updated scroll position:", scrollPosition.value);
+    
+  });
+  
   // Reactive states for zoom, scroll, and viewport
   const zoomLevel = ref(initialZoom); // Current zoom level
   const scrollPosition = ref((rangeStart.value +rangeEnd.value)/2); // Current scroll position
+  console.log("Initial scroll position:", scrollPosition.value);
   const viewportMin = ref(0); // Left edge of the viewport
   const viewportMax = ref(0); // Right edge of the viewport
   const minScroll = ref(0); // Minimum scroll limit
   const maxScroll = ref(0); // Maximum scroll limit
+  
+  // Log to print the updated rangeStart and rangeEnd values
   
   // Helper function to clamp a value between min and max
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);

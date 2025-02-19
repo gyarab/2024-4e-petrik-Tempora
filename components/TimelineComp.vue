@@ -253,22 +253,22 @@ onMounted(fetchData);
 
 
 .kontextGroup{
-    background-color: #1eff0017;
+    background-color: #ffffff15;
     height: var(--group-height);
   }
 
   .primaryGroup {
-  background-color: #0400ff0a;
+  background-color: #3de2ff15;
   height: var(--primaryGH);
 }
 
 .secondaryGroup{
-  background-color: #ff88001a;
+  background-color: #ffffff15;
   height: var(--secondaryGH);
 }
 
 .detailGroup{
-  background-color: #ff000015;
+  background-color: #3de2ff15;
   height: var(--detailGH);
 }
 
