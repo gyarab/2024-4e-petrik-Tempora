@@ -1,6 +1,15 @@
 <template>
-  <div v-if="isLoading">
-    <p>Loading timeline...</p>
+  <div v-if="isLoading" class="flex flex-col items-center justify-center h-[80vh] space-y-8">
+    <h2 class="text-3xl font-bold text-center text-sky-950">Načítání časové osy...</h2>
+    <div class="w-96 space-y-4">
+      <UProgress
+        animation="carousel"
+        color="sky"
+        class="w-full"
+        size="lg"
+      />
+      <p class="text-center text-gray-600">{{ loadingMessage }}</p>
+    </div>
   </div>
     <div v-else
       class="timeline-container"
@@ -81,6 +90,9 @@ const groups = ref([]);
 const rangeStart = ref(0);
 const rangeEnd = ref(null);
 
+// Add new refs for loading state
+const loadingMessage = ref('Připojování k databázi...')
+
 // Timeline utilities (initialize but reactive to rangeStart, rangeEnd)
 const {
   minZoom,
@@ -102,20 +114,34 @@ const {
 
 async function fetchData() {
   try {
-    const timeline = await fetchInfo(id);
-    
+    loadingMessage.value = 'Načítání informací o časové ose...'
+    const timeline = await fetchInfo(id)
     
     if (!timeline) {
-      throw new Error('TimelineNotFound');
+      throw new Error('TimelineNotFound')
     }
     
-    
-    
-    rangeStart.value = timeline.start;
-    rangeEnd.value = timeline.end;
+    loadingMessage.value = 'Zpracování časového rozsahu...'
+    rangeStart.value = timeline.start
+    rangeEnd.value = timeline.end
 
-    const fetchedItems = await fetchItemsByLineId(id);
+    loadingMessage.value = 'Nastavování řádků...'
+    groups.value = [
+      { id: 1, label: timeline.groups[1], className: 'kontextGroup' },
+      { id: 2, label: timeline.groups[2], className: 'primaryGroup' },
+      { id: 3, label: timeline.groups[3], className: 'secondaryGroup' },
+      { id: 4, label: timeline.groups[4], className: 'detailGroup' },
+      { id: 'Timestamps'},
+      { id: 5, label: timeline.groups[5], className: 'primaryGroup' },
+      { id: 6, label: timeline.groups[6], className: 'secondaryGroup' },
+      { id: 7, label: timeline.groups[7], className: 'detailGroup' },
+      { id: 8, label: timeline.groups[8], className: 'kontextGroup' },
+    ];
 
+    loadingMessage.value = 'Načítání událostí...'
+    const fetchedItems = await fetchItemsByLineId(id)
+
+    loadingMessage.value = 'Zpracování událostí...'
     const groupCssMap = {
       1: 'contextGroupCss',
       2: 'primaryGroupCss',
@@ -138,17 +164,7 @@ async function fetchData() {
       };
     });
 
-    groups.value = [
-      { id: 1, label: timeline.groups[1], className: 'kontextGroup' },
-      { id: 2, label: timeline.groups[2], className: 'primaryGroup' },
-      { id: 3, label: timeline.groups[3], className: 'secondaryGroup' },
-      { id: 4, label: timeline.groups[4], className: 'detailGroup' },
-      { id: 'Timestamps'},
-      { id: 5, label: timeline.groups[5], className: 'primaryGroup' },
-      { id: 6, label: timeline.groups[6], className: 'secondaryGroup' },
-      { id: 7, label: timeline.groups[7], className: 'detailGroup' },
-      { id: 8, label: timeline.groups[8], className: 'kontextGroup' },
-    ];
+    loadingMessage.value = 'Dokončování...'
   } catch (error) {
     // Error handling for invalid timelines
     if (error.message === 'TimelineNotFound' || error.code === 'PGRST116') {

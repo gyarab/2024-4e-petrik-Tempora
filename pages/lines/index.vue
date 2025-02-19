@@ -44,7 +44,7 @@
           <div v-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <LineCard v-for="line in lines" :key="line.line_id" :line="line" @infoToggle="handleInfoToggle" @settingsToggle="handleSettingsToggle" />
           </div>
-          <p v-else class="text-gray-500">No lines created yet.</p>
+          <p v-else class="text-gray-500">Nebyli vytvořeny nebo nalezeny žádné osy</p>
         </div>
       </div>
     </div>
