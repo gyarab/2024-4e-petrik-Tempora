@@ -51,7 +51,7 @@ const router = useRouter();
 // Store labels for groups 1-8
 const groupLabels = ref({
   1: "Kontext nahoře",
-  2: "Hlavní řáek nahoře",
+  2: "Hlavní řádek nahoře",
   3: "Sekundární řádek",
   4: "Detail řádek",
   5: "Hlavní řádek dole",
@@ -100,7 +100,7 @@ const handleCreate = async () => {
       // Reset group labels to default
       groupLabels.value = {
         1: "Kontext nahoře",
-        2: "Hlavní řáek nahoře",
+        2: "Hlavní řádek nahoře",
         3: "Sekundární řádek",
         4: "Detail řádek",
         5: "Hlavní řádek dole",
