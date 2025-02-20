@@ -62,9 +62,30 @@
       v-if="!creatingNew"
       label="Smazat událost" 
       color="red"
-      @click="removeItemsByTag(id,content)" 
+      @click="isDeleteModalOpen = true"
     />
   </div>
+
+  <!-- Add Modal Component -->
+  <UModal v-model="isDeleteModalOpen">
+    <div class="p-4">
+      <h3 class="text-lg font-bold mb-4">Potvrdit smazání</h3>
+      <p class="mb-4">Opravdu chcete smazat tuto událost? Tato akce je nevratná.</p>
+      <div class="flex justify-end gap-2">
+        <UButton
+          color="gray"
+          label="Zrušit"
+          @click="isDeleteModalOpen = false"
+        />
+        <UButton
+          color="red"
+          label="Smazat"
+          @click="handleDelete"
+        />
+      </div>
+    </div>
+  </UModal>
+
   <UNotifications/>
 </template>
 
@@ -98,12 +119,37 @@ const detailDescription = ref('');
 const showSecondary = ref(false);
 const showDetail = ref(false);
 const selectedColor = ref('#BAE6FD');
+const isDeleteModalOpen = ref(false);
 
 function onChange(index) {
   contextType.value = index === 1;
 }
 
-async function saveChanges() {
+async function saveChanges() { 
+  console.log(start.value, end.value);
+  
+  if(!(typeof start.value === 'number' &&
+  typeof end.value === 'number')) {
+    toast.add({
+      title: 'Chyba při ukládání',
+      description: 'Roky musejí být zadány jako čísla',
+      icon: 'i-heroicons-exclamation-circle',
+      color: 'red',
+      timeout: 3000,
+    });
+    return;
+  }
+  if(start.value > end.value) {
+    toast.add({
+      title: 'Chyba při ukládání',
+      description: 'Začátek události nemůže být později než její konec',
+      icon: 'i-heroicons-exclamation-circle',
+      color: 'red',
+      timeout: 3000,
+    });
+    return;
+  }
+  
   try {
     if (creatingNew.value) {
       await createNewItem({
@@ -192,6 +238,31 @@ async function discardChanges() {
     }
   } catch (error) {
     console.error('Failed to reload item data:', error);
+  }
+}
+
+async function handleDelete() {
+  try {
+    await removeItemsByTag(id, content)
+    toast.add({
+      title: 'Událost smazána',
+      description: 'Událost byla úspěšně odstraněna',
+      icon: 'i-heroicons-check-circle',
+      color: 'green',
+      timeout: 3000
+    })
+    isDeleteModalOpen.value = false
+    // Navigate back to timeline
+    navigateTo(`/lines/${id}`)
+  } catch (error) {
+    console.error('Failed to delete item:', error)
+    toast.add({
+      title: 'Chyba při mazání',
+      description: 'Nastala chyba při mazání události',
+      icon: 'i-heroicons-exclamation-circle',
+      color: 'red',
+      timeout: 3000
+    })
   }
 }
 
