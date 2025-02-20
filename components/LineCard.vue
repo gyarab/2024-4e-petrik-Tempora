@@ -1,11 +1,11 @@
 <template>
-    <div class="line-card border border-gray-300 p-4 rounded-lg bg-gray-50 shadow-sm">
+    <div class="line-card border border-gray-300 p-4 rounded-lg bg-gray-50 shadow-sm dark:bg-gray-800 dark:border-gray-950" >
       <h3 class="font-bold text-lg">{{ line.name }}
         <UIcon v-if="line.is_private" class="size-4" name="heroicons:lock-closed-16-solid"></UIcon>
         <UIcon v-if="line.featured" class="size-4" name="heroicons:star-16-solid"></UIcon>
       </h3>
-      <p class="text-sm text-gray-600">Roky: {{ displayStartYear  }} - {{ displayEndYear }}</p>
-      <p class="text-sm text-gray-600">Autor: {{ line.user_profiles?.nickname || 'Unknown' }}</p>
+      <p class="text-sm text-gray-600 dark:text-gray-300">Roky: {{ displayStartYear  }} - {{ displayEndYear }}</p>
+      <p class="text-sm text-gray-600 dark:text-gray-300">Autor: {{ line.user_profiles?.nickname || 'Unknown' }}</p>
         
       <div class="text-base container mt-2">
         <!-- Only if user UUID = the Line author UUID  -->
