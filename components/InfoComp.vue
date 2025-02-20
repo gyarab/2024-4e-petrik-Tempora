@@ -17,7 +17,7 @@
     <p class="font-bold">Řádky:</p>
     <ul>
       <li v-for="groupId in 8" :key="groupId">
-        <span class="font-semibold">Řádek {{ groupId }}:</span>
+        <span class="font-semibold">{{ groupId }}:</span>
         {{ groupLabels[groupId] }}
       </li>
     </ul>

@@ -148,7 +148,7 @@ export async function handleItemUpdate(params) {
     selectedColor,
   } = params;
 
-  console.log(isBottom, contextType);
+ 
   
 
   const mainGroup = contextType
@@ -267,7 +267,6 @@ export async function handleItemUpdate(params) {
     };
 
     await addItem(line_id, secondaryItemData, secondaryDescription);
-    console.log(`Secondary item added for tag ${content}`);
   }
 
   // If we have 1 or 2 items and showDetail is true -> add detail
@@ -286,7 +285,6 @@ export async function handleItemUpdate(params) {
     };
 
     await addItem(line_id, detailItemData, detailDescription);
-    console.log(`Detail item added for tag ${content}`);
   }
 }
 
