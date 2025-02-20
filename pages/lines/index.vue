@@ -61,6 +61,7 @@ import { ref } from 'vue';
 import { toggleForm, toggleInfo, toggleSettings, inSettings, inInfo } from '~/composables/state';
 
 
+const toast = useToast();
 
 const user = useSupabaseUser();
 const lines = ref([]);
@@ -97,7 +98,14 @@ const searchById = async () => {
   searchId.value = searchId.value.trim();
   
   if (!/^\d{6}$/.test(searchId.value)) {
-    alert('ID musí být přesně 6 číslic.');
+    toast.add({
+      title: 'Špatně zadané ID',
+      description: 'ID musí obsahovat přesně 6 číslic nebo odkaz na časovou osu',
+      icon: 'i-heroicons-exclamation-circle',
+      color: 'red',
+      timeout: 3000,
+      pauseTimeoutOnHover: false,
+    });
     return;
   }
   isSearching.value = true;
