@@ -17,6 +17,12 @@ h2{
                 p-2 rounded-md text-sm border-2 font-bold border-black m-1
     }
 
+    .skyButton{
+        @apply !bg-sky-700 hover:!bg-sky-600 dark:!bg-sky-300 dark:hover:!bg-sky-400 
+        rounded-md border-black p-2 border-2 m-1
+        text-sm  text-white dark:text-black font-bold
+    }
+
     .container_box {
         @apply flex items-center justify-center mt-2
     }

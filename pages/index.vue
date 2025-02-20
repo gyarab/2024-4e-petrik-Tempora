@@ -24,12 +24,12 @@
                 <p>You are browsing as a <span class="underline font-bold"> Guest</span>. </p>
                 <button class="btn"> <router-link to="/login" >Login</router-link> </button>  
             </div>
-            <button class="btn" @click="toggleDarkMode">
-                Toggle Dark Mode  
-            </button>
+            
+            <UButton label="Toggle Dark Mode" class="skyButton"  @click="toggleDarkMode"></UButton>
+            
+            
         </div>
         
-
         <!-- api response test   <div>{{ data }}</div>-->
     </div>
 </template>
