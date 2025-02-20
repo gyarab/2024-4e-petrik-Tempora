@@ -167,4 +167,5 @@ onMounted(() => {
 :deep(.ql-formula) {
   margin: 1em 0;
 }
+
 </style>

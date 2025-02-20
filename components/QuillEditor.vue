@@ -21,28 +21,33 @@
     </div>
 </template>
   
-  <script setup>
-  import { ref, computed } from 'vue'
-  import { QuillEditor } from '@vueup/vue-quill'
-  import '@vueup/vue-quill/dist/vue-quill.snow.css'
-  import 'katex/dist/katex.min.css'
+<script setup>
+import { ref, computed, onMounted } from 'vue'
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css'
+import katex from 'katex'
+import 'katex/dist/katex.min.css'
+
+if (process.client) {
+  window.katex = katex
+}
+
+const isFocused = ref(false)
   
-  const isFocused = ref(false)
-  
-  const props = defineProps({
-    modelValue: {
-      type: String,
-      default: ''
-    }
-  });
-  
-  const emit = defineEmits(['update:modelValue']);
-  
-  const content = computed({
-    get: () => props.modelValue,
-    set: (value) => emit('update:modelValue', value)
-  });
-  </script>
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: ''
+  }
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const content = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+});
+</script>
   
   <style>
   .editor-container .ql-toolbar {
