@@ -126,8 +126,6 @@ function onChange(index) {
 }
 
 async function saveChanges() { 
-  console.log(start.value, end.value);
-  
   if(!(typeof start.value === 'number' &&
   typeof end.value === 'number')) {
     toast.add({
