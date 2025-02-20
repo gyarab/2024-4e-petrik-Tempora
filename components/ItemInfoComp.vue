@@ -9,18 +9,18 @@
     <div v-else-if="itemData">
       <h2 class="text-3xl font-bold">{{ itemData.name }}</h2>
       <p class="text-sm text-gray-600">{{ formatDate(itemData.start) }} - {{ formatDate(itemData.end) }}</p>
-      <div class="mt-2 prose prose-sm max-w-none" v-html="itemDescription"></div>
+      <div class="mt-2 prose prose-sm max-w-none quill-content" v-html="itemDescription"></div>
 
       <div v-if="secondaryData" class="mt-4">
         <h3 class="text-lg font-semibold">{{ secondaryData.name }}</h3>
         <p class="text-sm text-gray-600">{{ formatDate(secondaryData.start) }} - {{ formatDate(secondaryData.end) }}</p>
-        <p class="mt-2">{{ secondaryDescription }}</p>
+        <div class="mt-2 prose prose-sm max-w-none quill-content" v-html="secondaryDescription"></div>
       </div>
 
       <div v-if="detailData" class="mt-4">
         <h4 class="text-md font-medium">{{ detailData.name }}</h4>
         <p class="text-sm text-gray-600">{{ formatDate(detailData.start) }} - {{ formatDate(detailData.end) }}</p>
-        <p class="mt-2">{{ detailDescription }}</p>
+        <div class="mt-2 prose prose-sm max-w-none quill-content" v-html="detailDescription"></div>
       </div>
     </div>
     
@@ -167,5 +167,14 @@ onMounted(() => {
 :deep(.ql-formula) {
   margin: 1em 0;
 }
+
+.quill-content {
+  line-height: 1.5;
+}
+
+.quill-content :deep(p) {
+  margin-bottom: 0.5em;
+}
+
 
 </style>

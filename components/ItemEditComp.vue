@@ -16,7 +16,6 @@
 
   <div class="mt-4">
     <UInput v-model="mainTitle" placeholder="Název hlavní události" />
-    <!-- <UTextarea v-model="mainDescription" autoresize placeholder="Popis hlavní události (období)" />-->
     <QuillEditor v-model="mainDescription" />
   </div>
 
@@ -34,7 +33,7 @@
           />
         </UTooltip>
       </div>
-      <UTextarea v-model="secondaryDescription" autoresize placeholder="Popis Secondary" />
+      <QuillEditor v-model="secondaryDescription" />
     </div>
   
     <UButton v-if="showSecondary && !showDetail" label="Přidat Detail" @click="showDetail = true" class="mt-4" />
@@ -50,7 +49,7 @@
           />
         </UTooltip>
       </div>
-      <UTextarea v-model="detailDescription" autoresize placeholder="Popis detailu" />
+      <QuillEditor v-model="detailDescription" />
     </div>
   </div>
 
