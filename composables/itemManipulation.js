@@ -30,8 +30,12 @@ export async function createNewItem(params) {
     selectedColor
   } = params;
 
+  console.log(start, end);
+
   const startMs = convertYearToMs(start);
   const endMs = convertYearToMs(end);
+
+  console.log("ahoj" + startMs, endMs);
 
   if(startMs > endMs) {
     throw new Error("Start year must be less than end year");

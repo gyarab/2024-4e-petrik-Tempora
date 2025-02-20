@@ -155,7 +155,7 @@ async function fetchData() {
 
     items.value = fetchedItems.map((item) => {
       const itemData = item.item_data;
-      const type = itemData.end ? 'range' : 'point';
+      const type = itemData.start === itemData.end ? 'point' : 'range';
 
       return {
         ...itemData,
