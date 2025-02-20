@@ -2,9 +2,9 @@
   <UTabs v-if="creatingNew" :items="items" @change="onChange" />
   
   <div class="container items-center">
-    <UInput type="number" size="xl" v-model="start" />
-    <UCheckbox v-if="creatingNew" class="self-center" v-model="isBottom" label="Bottom" />
-    <UInput type="number" size="xl" v-model="end" />
+    <UInput type="number" size="md" v-model="start" placeholder="Začátek události"/>
+    <UInput type="number" size="md" v-model="end" placeholder="Konec události"  />
+    <UCheckbox class="self-center" v-model="isBottom" label="Dolní část" />
     <color-picker
       :with-hex-input=true
       v-model="selectedColor"
@@ -16,7 +16,7 @@
 
   <div class="mt-4">
     <UInput v-model="mainTitle" placeholder="Název hlavní události" />
-    <QuillEditor v-model="mainDescription" />
+    <QuillEditor v-model="mainDescription" class="mt-1" />
   </div>
 
   <div v-if="!contextType">
@@ -33,7 +33,8 @@
           />
         </UTooltip>
       </div>
-      <QuillEditor v-model="secondaryDescription" />
+      
+      <QuillEditor v-model="secondaryDescription"  class="mt-1"/>
     </div>
   
     <UButton v-if="showSecondary && !showDetail" label="Přidat Detail" @click="showDetail = true" class="mt-4" />
@@ -49,7 +50,7 @@
           />
         </UTooltip>
       </div>
-      <QuillEditor v-model="detailDescription" />
+      <QuillEditor v-model="detailDescription"  class="mt-1"/>
     </div>
   </div>
 
@@ -96,19 +97,19 @@ import { createNewItem, loadItemData, handleItemUpdate } from '~/composables/ite
 import { removeItemsByTag } from '~/composables/supabaseItem';
 import QuillEditor from '~/components/QuillEditor.vue';
 const toast = useToast();
-
+const router = useRouter();
 const route = useRoute();
 const creatingNew = ref(route.query.creatingNew === 'true');
 const { id, content } = route.params;
 
 const items = [
   { label: 'Hlavní událost', icon: 'i-heroicons-information-circle' },
-  { label: 'Kontextová událost', icon: 'i-heroicons-eye-dropper' }
+  { label: 'Kontextová událost', icon: 'heroicons:chat-bubble-bottom-center-text' }
 ];
 
 const contextType = ref(false);
-const start = ref(0);
-const end = ref(0);
+const start = ref('');
+const end = ref('');
 const isBottom = ref(false);
 const mainTitle = ref('');
 const mainDescription = ref('');
@@ -175,14 +176,15 @@ async function saveChanges() {
         color: 'green',
         timeout: 3000,
       });
+      router.push(`/lines/${id}`);
     } else {
       await handleItemUpdate({
-        isBottom: isBottom.value,
         line_id: id,
         content,
         contextType: contextType.value,
         start: start.value,
         end: end.value,
+        isBottom: isBottom.value,
         mainTitle: mainTitle.value,
         mainDescription: mainDescription.value,
         showSecondary: showSecondary.value,

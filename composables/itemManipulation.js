@@ -106,7 +106,7 @@ export async function loadItemData(id, content) {
     const detailItem = items.find(item => item.group === 4 || item.group === 7);
 
     return {
-      isBottom: regularItem?.group === 5,
+      isBottom: regularItem?.group === 5 || contextItem?.group === 8,
       contextType: !!contextItem,
       start: new Date(contextItem?.start || regularItem?.start).getFullYear(),
       end: new Date(contextItem?.end || regularItem?.end).getFullYear(),
@@ -148,9 +148,12 @@ export async function handleItemUpdate(params) {
     selectedColor,
   } = params;
 
+  console.log(isBottom, contextType);
+  
+
   const mainGroup = contextType
   ? isBottom
-    ? 8: 1
+    ? 8 : 1
   : isBottom
     ? 5 : 2;
 
