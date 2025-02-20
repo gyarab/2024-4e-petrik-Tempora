@@ -40,8 +40,21 @@
             ...(user ? [{ label: 'Moje osy' }, { label: 'Uložené' }] : [])
           ]" :default-index="0" @change="onChange"/>
           
-          <!-- Lines List -->
-          <div v-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <!-- Loading State -->
+          <div v-if="isLoading" class="flex flex-col items-center justify-center py-8">
+            <h2 class="text-xl font-bold text-center text-sky-950 mb-4">Načítání časových os...</h2>
+            <div class="w-96 space-y-4">
+              <UProgress
+                animation="carousel"
+                color="sky"
+                class="w-full"
+                size="md"
+              />
+            </div>
+          </div>
+
+          <!-- Lines List (update with v-else-if) -->
+          <div v-else-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <LineCard v-for="line in lines" :key="line.line_id" :line="line" @infoToggle="handleInfoToggle" @settingsToggle="handleSettingsToggle" />
           </div>
           <p v-else class="text-gray-500">Nebyli vytvořeny nebo nalezeny žádné osy</p>
@@ -68,21 +81,27 @@ const lines = ref([]);
 const selectedTab = ref(0);
 const searchId = ref('');
 const isSearching = ref(false);
+const isLoading = ref(true);
 
 
 // Fetch all timelines for the authenticated user
 const fetchTimelinesByTab = async () => {
-  if (selectedTab.value === 1 && user?.value?.id) {
-    // Fetch "Moje osy" (user's timelines)
-    lines.value = await fetchTimelines({ userTimelines: true }, user.value.id);
-  } else if (selectedTab.value === 0) {
-    // Fetch "Vybrané" (featured timelines)
-    lines.value = await fetchTimelines({ featured: true });
-  } else if (selectedTab.value === 2 && user?.value?.id) {
-    // Fetch "Uložené" (bookmarked timelines)
-    lines.value = await fetchTimelines({ bookmarked: true }, user.value.id);
-  } else {
-    lines.value = [];
+  try {
+    isLoading.value = true;
+    if (selectedTab.value === 1 && user?.value?.id) {
+      // Fetch "Moje osy" (user's timelines)
+      lines.value = await fetchTimelines({ userTimelines: true }, user.value.id);
+    } else if (selectedTab.value === 0) {
+      // Fetch "Vybrané" (featured timelines)
+      lines.value = await fetchTimelines({ featured: true });
+    } else if (selectedTab.value === 2 && user?.value?.id) {
+      // Fetch "Uložené" (bookmarked timelines)
+      lines.value = await fetchTimelines({ bookmarked: true }, user.value.id);
+    } else {
+      lines.value = [];
+    }
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -108,8 +127,13 @@ const searchById = async () => {
     });
     return;
   }
-  isSearching.value = true;
-  lines.value = await fetchTimelines({ id: searchId.value });
+  try {
+    isLoading.value = true;
+    isSearching.value = true;
+    lines.value = await fetchTimelines({ id: searchId.value });
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 // Watch for tab changes
