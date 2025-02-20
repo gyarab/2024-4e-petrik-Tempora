@@ -16,7 +16,8 @@
 
   <div class="mt-4">
     <UInput v-model="mainTitle" placeholder="Název hlavní události" />
-    <UTextarea v-model="mainDescription" autoresize placeholder="Popis hlavní události (období)" />
+    <!-- <UTextarea v-model="mainDescription" autoresize placeholder="Popis hlavní události (období)" />-->
+    <QuillEditor v-model="mainDescription" />
   </div>
 
   <div v-if="!contextType">
@@ -72,6 +73,7 @@ import { ref, watch, onMounted, defineEmits } from 'vue';
 import { useRoute } from 'vue-router';
 import { createNewItem, loadItemData, handleItemUpdate } from '~/composables/itemManipulation';
 import { removeItemsByTag } from '~/composables/supabaseItem';
+import QuillEditor from '~/components/QuillEditor.vue';
 
 const route = useRoute();
 const creatingNew = ref(route.query.creatingNew === 'true');

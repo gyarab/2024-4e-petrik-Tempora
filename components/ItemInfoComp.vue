@@ -7,9 +7,9 @@
     </div>
     
     <div v-else-if="itemData">
-      <h2 class="text-xl font-bold">{{ itemData.name }}</h2>
+      <h2 class="text-3xl font-bold">{{ itemData.name }}</h2>
       <p class="text-sm text-gray-600">{{ formatDate(itemData.start) }} - {{ formatDate(itemData.end) }}</p>
-      <p class="mt-2">{{ itemDescription }}</p>
+      <div class="mt-2 prose prose-sm max-w-none" v-html="itemDescription"></div>
 
       <div v-if="secondaryData" class="mt-4">
         <h3 class="text-lg font-semibold">{{ secondaryData.name }}</h3>
@@ -122,5 +122,49 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+/* Style Quill content */
+:deep(.ql-align-center) {
+  text-align: center;
+}
+
+:deep(.ql-align-right) {
+  text-align: right;
+}
+
+:deep(.ql-align-justify) {
+  text-align: justify;
+}
+
+:deep(h2) {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+:deep(h3) {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin: 1em 0;
+}
+
+:deep(ul) {
+  list-style-type: disc;
+  padding-left: 2em;
+}
+
+:deep(ol) {
+  list-style-type: decimal;
+  padding-left: 2em;
+}
+
+:deep(a) {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+:deep(.ql-formula) {
+  margin: 1em 0;
 }
 </style>
