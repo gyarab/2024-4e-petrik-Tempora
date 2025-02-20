@@ -2,7 +2,7 @@
     <div class="container_box">
     <div class="content_box w-full mx-10 relative">
         <Head>
-            <Title> Tempora | lines</Title>
+            <Title> Tempora | lines </Title>
         </Head>
         
         
@@ -47,6 +47,7 @@
           <p v-else class="text-gray-500">Nebyli vytvořeny nebo nalezeny žádné osy</p>
         </div>
       </div>
+      <UNotifications/>
     </div>
 </template>
 
