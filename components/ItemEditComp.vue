@@ -65,6 +65,7 @@
       @click="removeItemsByTag(id,content)" 
     />
   </div>
+  <UNotifications/>
 </template>
 
 <script setup>
@@ -73,6 +74,7 @@ import { useRoute } from 'vue-router';
 import { createNewItem, loadItemData, handleItemUpdate } from '~/composables/itemManipulation';
 import { removeItemsByTag } from '~/composables/supabaseItem';
 import QuillEditor from '~/components/QuillEditor.vue';
+const toast = useToast();
 
 const route = useRoute();
 const creatingNew = ref(route.query.creatingNew === 'true');
@@ -102,8 +104,8 @@ function onChange(index) {
 }
 
 async function saveChanges() {
-  if (creatingNew.value) {
-    try {
+  try {
+    if (creatingNew.value) {
       await createNewItem({
         id,
         content,
@@ -121,19 +123,22 @@ async function saveChanges() {
         detailDescription: detailDescription.value,
         selectedColor: selectedColor.value,
       });
-    } catch (error) {
-      console.error('Failed to create item:', error);
-    }
-  } else {
-    try {
-      handleItemUpdate({
+      
+      toast.add({
+        title: 'Událost byla vytvořena',
+        description: 'Nová událost byla úspěšně přidána do časové osy',
+        icon: 'i-heroicons-check-circle',
+        color: 'green',
+        timeout: 3000,
+      });
+    } else {
+      await handleItemUpdate({
         isBottom: isBottom.value,
         line_id: id,
         content,
         contextType: contextType.value,
         start: start.value,
         end: end.value,
-        isBottom: isBottom.value,
         mainTitle: mainTitle.value,
         mainDescription: mainDescription.value,
         showSecondary: showSecondary.value,
@@ -144,10 +149,24 @@ async function saveChanges() {
         detailDescription: detailDescription.value,
         selectedColor: selectedColor.value,
       });
+
+      toast.add({
+        title: 'Změny uloženy',
+        description: 'Změny byly úspěšně uloženy',
+        icon: 'i-heroicons-check-circle',
+        color: 'green',
+        timeout: 1000,
+      });
     }
-    catch (error) {
-      console.error('Failed to update item:', error);
-    }
+  } catch (error) {
+    console.error('Failed to save item:', error);
+    toast.add({
+      title: 'Chyba při ukládání',
+      description: 'Nastala chyba při ukládání změn',
+      icon: 'i-heroicons-exclamation-circle',
+      color: 'red',
+      timeout: 3000,
+    });
   }
 }
 
