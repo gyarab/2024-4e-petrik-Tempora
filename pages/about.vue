@@ -17,9 +17,9 @@
                 >
                 <div>
                     <span>
-                    <Icon class="size-16" name="uil:github" /> <br>
+                    <Icon class="size-16 text-gray-950 " name="uil:github"  /> <br>
                     </span>
-                    GitHub
+                    <span class="text-gray-950"> GitHub </span> 
                 </div>
                 </a>
                

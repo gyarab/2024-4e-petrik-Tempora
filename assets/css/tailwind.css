@@ -42,12 +42,7 @@ h2{
     .error {
         @apply text-red-600; 
     }
-    .topbar{
-        @apply shadow-sm bg-white dark:bg-zinc-800 black-white h-16 fixed w-full z-50;
-    }
-    .tb-border{
-        @apply border-2 border-black dark:border-white rounded-xl px-4 py-2
-    }
+    
     .icon-style{
         @apply max-w-fit border-2 border-black rounded-2xl text-center bg-white font-bold block px-2 py-1
     }
