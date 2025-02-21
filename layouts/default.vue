@@ -1,7 +1,7 @@
 <template>
-    <header class="backdrop-blur-sm fixed w-full z-50 bg-white dark:bg-zinc-900 shadow-md">
-        <nav class="container mx-auto p-4">
-            <div class="flex justify-between items-center">
+    <header class="backdrop-blur-sm fixed w-full z-50 bg-white dark:bg-zinc-900 shadow-md h-16">
+        <nav class="container mx-auto h-full">
+            <div class="flex justify-between items-center h-full px-4">
                 <NuxtLink to="/" class="font-bold text-2xl hover:text-sky-700 dark:hover:text-sky-300 transition-colors"> 
                     Tempora
                 </NuxtLink>
@@ -17,7 +17,7 @@
                         </NuxtLink>
                     </li>
                     <li v-if="user"> 
-                        <NuxtLink to="/" class="btn"> 
+                        <NuxtLink to="/" class="rounded-md border-black border-2 p-2 "> 
                             {{ nickname || 'Profile' }} 
                         </NuxtLink> 
                     </li>
@@ -30,11 +30,11 @@
 
                 <!-- Mobile Menu Button -->
                 <UButton
-                    class="md:hidden flex items-center justify-center skyButton"
+                    class="md:hidden flex items-center justify-center skyButton h-10 w-10"
                     :aria-label="isMenuOpen ? 'Close menu' : 'Open menu'"
                     @click="toggleMenu"
                 >
-                    <Icon :name="isMenuOpen ? 'uil:times' : 'uil:bars'" class="size-6"/>
+                    <Icon :name="isMenuOpen ? 'uil:times' : 'uil:bars'" class="size-5"/>
                 </UButton>
             </div>
 
@@ -48,7 +48,7 @@
                 leave-to-class="transform -translate-y-4 opacity-0"
             >
                 <div v-show="isMenuOpen" 
-                     class="md:hidden absolute right-4 mt-4 w-48 bg-white dark:bg-zinc-800 shadow-lg rounded-lg border dark:border-zinc-700">
+                     class="md:hidden absolute right-4 top-16 w-48 bg-white dark:bg-zinc-800 shadow-lg rounded-lg border dark:border-zinc-700">
                     <ul class="flex flex-col items-stretch p-2 gap-2">
                         <li v-for="item in menuItems" :key="item.path">
                             <NuxtLink 
@@ -60,7 +60,7 @@
                             </NuxtLink>
                         </li>
                         <li v-if="user" class="px-2"> 
-                            <NuxtLink to="/" class="btn block text-center"> 
+                            <NuxtLink to="/" class="rounded-md border-black border-2 p-2 block text-center"> 
                                 {{ nickname || 'Profile' }} 
                             </NuxtLink> 
                         </li>
