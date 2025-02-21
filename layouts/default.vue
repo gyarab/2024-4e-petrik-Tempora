@@ -88,7 +88,7 @@
 <script setup>
 import { ref, watchEffect } from 'vue'
 import { fetchNickname } from '~/composables/useSupabase'
-import { toggleOff } from '~/composables/state'
+import { toggleOff, openForm } from '~/composables/state'
 
 const user = useSupabaseUser()
 const nickname = ref('')
@@ -111,10 +111,11 @@ function toggleMenu() {
     isMenuOpen.value = !isMenuOpen.value
 }
 
-// Close mobile menu and reset state on route change
+// Close mobile menu and reset all states on route change
 watch(useRoute(), () => {
     isMenuOpen.value = false
-    toggleOff() // Add this line to reset state when route changes
+    toggleOff() // Reset sidebar states
+    openForm.value = false // Reset form state
 })
 
 watchEffect(async () => {

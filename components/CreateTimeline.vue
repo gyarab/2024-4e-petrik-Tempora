@@ -1,37 +1,112 @@
 <template>
-  <div class="absolute top-0 right-0">
-    <button @click="toggleForm">
-      <Icon class="size-8" name="uil:multiply"></Icon>
-    </button>
-  </div>
+  <div class="bg-white dark:bg-zinc-800 p-6 pt-8 mt-4 rounded-lg border-2 border-black shadow-lg w-full max-w-5xl">
+    <!-- Close Button -->
+    <div class="absolute top-4 right-4">
+      <button @click="toggleForm">
+        <Icon class="size-6" name="uil:multiply"/>
+      </button>
+    </div>
+    
+    <!-- Main Content Container -->
+    <div class="flex flex-col md:flex-row gap-6 w-full">
+      <!-- Form Section -->
+      <div class="flex-1 space-y-4 min-w-0">
+        <h2 class="text-2xl font-bold text-sky-700 dark:text-sky-300 mb-4">
+          Vytvořit novou časovou osu
+        </h2>
+        
+        <form @submit.prevent="handleCreate" class="grid gap-4">
+          <!-- Timeline Info -->
+          <div class="space-y-2">
+            <label class="text-gray-600 dark:text-gray-400">Název osy:</label>
+            <UInput
+              v-model="name"
+              color="sky"
+              type="text"
+              placeholder="Zadejte název osy"
+              class="w-full"
+              required
+            />
+          </div>
 
-  <!-- New Line Form -->
-  <UCard class="mb-5">
-    <form @submit.prevent="handleCreate">
-      <div class="space-y-4">
-        <!-- Name Input -->
-        <UInput v-model="name" type="text" placeholder="Název nové časové osy" required label="Name" />
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-gray-600 dark:text-gray-400">Rok začátku:</label>
+              <UInput
+                v-model.number="start"
+                color="sky"
+                type="number"
+                placeholder="Rok začátku"
+                class="w-full"
+                required
+              />
+            </div>
+            
+            <div class="space-y-2">
+              <label class="text-gray-600 dark:text-gray-400">Rok konce:</label>
+              <UInput
+                v-model.number="end"
+                color="sky"
+                type="number"
+                placeholder="Rok konce"
+                class="w-full"
+                required
+              />
+            </div>
+          </div>
 
-        <!-- Start Input -->
-        <UInput v-model.number="start" type="number" placeholder="Rok začátku" required label="Start (smallint)" />
+          <div class="space-y-2">
+            <label class="text-gray-600 dark:text-gray-400">Popis:</label>
+            <UTextarea
+              v-model="description"
+              color="sky"
+              :autoresize="true"
+              placeholder="Zadejte popis osy"
+              class="w-full"
+            />
+          </div>
 
-        <!-- End Input -->
-        <UInput v-model.number="end" type="number" placeholder="Rok konce" required label="End (smallint)" />
+          <div class="py-2">
+            <UCheckbox 
+              v-model="is_private" 
+              name="private" 
+              label="Vytvořit jako soukromou osu" 
+            />
+          </div>
 
-        <!-- Group Inputs -->
-        <div v-for="groupId in 8" :key="groupId">
-          <UInput v-model="groupLabels[groupId]" type="text" :placeholder="`Název řádku: ${groupId}`" :label="`Group ${groupId} Label`" />
-        </div>
-
-        <UTextarea v-model="description" autoresize placeholder="Popis osy" />
-        <UCheckbox v-model="is_private" name="private" label="Vytvořit soukromou osu" />
-
-        <!-- Submit Button -->
-        <UButton type="submit" variant="ghost" block label="Vytvořit osu"></UButton>
-        <p v-if="errorMessage" class="text-red-500">{{ errorMessage }}</p>
+          <div class="pt-4">
+            <UButton
+              type="submit"
+              class="skyButton"
+              label="Vytvořit časovou osu"
+            />
+            <p v-if="errorMessage" class="mt-2 text-red-500 text-sm">{{ errorMessage }}</p>
+          </div>
+        </form>
       </div>
-    </form>
-  </UCard>
+
+      <!-- Groups Section -->
+      <div class="md:w-80 flex-shrink-0">
+        <h3 class="font-bold text-lg mb-3">Názvy řádků:</h3>
+        <div class="flex flex-col gap-2">
+          <div 
+            v-for="groupId in 8" 
+            :key="groupId"
+            class="flex items-center gap-2 p-2 bg-gray-50 dark:bg-zinc-700 rounded border-2 border-black"
+          >
+            <span class="font-semibold min-w-[24px]">{{ groupId }}:</span>
+            <UInput 
+              v-model="groupLabels[groupId]"
+              color="sky"
+              type="text" 
+              :placeholder="`Název řádku ${groupId}`"
+              class="flex-1"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
