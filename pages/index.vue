@@ -137,24 +137,34 @@ async function changeNickname() {
         })
         return
     }
+
+    if (newNickname.value.trim().length > 32) {
+        toast.add({
+            title: 'Chyba',
+            description: 'Přezdívka nesmí být delší než 32 znaků',
+            icon: 'i-heroicons-exclamation-circle',
+            color: 'red',
+            timeout: 3000
+        })
+        return
+    }
+
     isChangingNickname.value = true
     try {
-        const success = await updateNickname(user.value.id, newNickname.value.trim())
-        if (success) {
-            nickname.value = newNickname.value.trim()
-            newNickname.value = ""
-            toast.add({
-                title: 'Úspěch',
-                description: 'Přezdívka byla úspěšně změněna',
-                icon: 'i-heroicons-check-circle',
-                color: 'green',
-                timeout: 3000
-            })
-        }
+        await updateNickname(user.value.id, newNickname.value.trim())
+        nickname.value = newNickname.value.trim()
+        newNickname.value = ""
+        toast.add({
+            title: 'Úspěch',
+            description: 'Přezdívka byla úspěšně změněna',
+            icon: 'i-heroicons-check-circle',
+            color: 'green',
+            timeout: 3000
+        })
     } catch (error) {
         toast.add({
             title: 'Chyba',
-            description: 'Nepodařilo se změnit přezdívku',
+            description: error.message || 'Nepodařilo se změnit přezdívku',
             icon: 'i-heroicons-exclamation-circle',
             color: 'red',
             timeout: 3000

@@ -22,15 +22,20 @@ export async function updateNickname(userId, newNickname) {
   const supabase = useSupabaseClient();
   try {
       const { error } = await supabase
-          .from("user_profiles") // Adjust table name if needed
+          .from("user_profiles")
           .update({ nickname: newNickname })
           .eq("id", userId);
 
-      if (error) throw error;
-      return true; // Indicate success
+      if (error) {
+          if (error.message.includes('value too long')) {
+              throw new Error('Přezdívka nesmí být delší než 32 znaků');
+          }
+          throw error;
+      }
+      return true;
   } catch (error) {
-    console.error("Error updating nickname:", error.message);
-      return false; // Indicate failure
+      console.error("Error updating nickname:", error.message);
+      throw error; // Propagate the error to handle it in the component
   }
 }
 
