@@ -19,7 +19,7 @@ h2{
 
     .skyButton{
         @apply !bg-sky-700 hover:!bg-sky-600 dark:!bg-sky-300 dark:hover:!bg-sky-400 
-        rounded-md border-black p-2 border-2 m-1
+        rounded-md border-black border-2 m-1  p-2
         text-sm  text-white dark:text-black font-bold
     }
 

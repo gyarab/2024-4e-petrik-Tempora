@@ -1,97 +1,172 @@
 <template>
-    <div class="container_box ">
-        <div class="content_box w-full mx-10" > 
-            <h2>Home page</h2>
-            <p>Welcome to the interactive timeline site</p>
-            <div v-if="user">
-                <p>Logged in as: <span class="underline">{{ user.email }}</span></p>
-                <p>
-                    Nickname: <span v-if="nickname">{{ nickname }}</span>
-                    <span v-else class="italic text-gray-500">Not set</span>
-                </p>
-                <div>
-                    <input
-                        v-model="newNickname"
-                        type="text"
-                        placeholder="Change your nickname"
-                        class="border rounded p-2"
-                    />
-                    <button @click="changeNickname" class="btn ml-2">Save</button>
+    <div class="container_box">
+        <div class="content_box w-full mx-10">
+            <h1 class="text-3xl font-bold mb-6 text-sky-700 dark:text-sky-300">
+                Vítejte v aplikaci Tempora
+            </h1>
+            
+            <div v-if="user" class="space-y-6">
+                <!-- Account Info Section -->
+                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg border-2 border-black w-full md:w-1/2">
+                    <h2 class="text-xl font-semibold mb-4">Informace o účtu</h2>
+                    <div class="space-y-3">
+                        <p class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-8">
+                            <span class="black-white">Email:</span>
+                            <span class="font-medium black-white">{{ user.email }}</span>
+                        </p>
+                        <p class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-8">
+                            <span class="black-white">Uživatelské jméno:</span>
+                            <span v-if="nickname" class="font-medium black-white">{{ nickname }}</span>
+                            <span v-else class="italic text-gray-500">Nenastaveno</span>
+                        </p>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <UInput
+                            color="sky"
+                            v-model="newNickname"
+                            placeholder="Nové jméno"
+                            :ui="{ icon: { trailing: { pointer: '' } } }"
+                        >
+                            <template #trailing>
+                                <UButton 
+                                    @click="changeNickname"
+                                    label="Uložit"
+                                    class="right-0 absolute !bg-sky-700 hover:!bg-sky-600 dark:!bg-sky-300 dark:hover:!bg-sky-400"
+                                    :loading="isChangingNickname"
+                                />
+                            </template>
+                        </UInput>
+                    </div>
                 </div>
-                <button @click="logout" class="btn">Logout</button>
+
+                <!-- Settings -->
+                <div class="flex gap-4 justify-between">
+                    <div class="flex gap-4">
+                        <UButton 
+                            @click="logout" 
+                            class="skyButton"
+                            label="Odhlásit se"
+                            :loading="isLoggingOut"
+                        />
+                        <UButton
+                            @click="toggleDarkMode"
+                            class="skyButton"
+                            :label="isDark ? 'Světlý režim' : 'Tmavý režim'"
+                            :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+                        />
+                    </div>
+                </div>
             </div>
-            <div v-else>
-                <p>You are browsing as a <span class="underline font-bold"> Guest</span>. </p>
-                <button class="btn"> <router-link to="/login" >Login</router-link> </button>  
+
+            <!-- Guest View -->
+            <div v-else class="space-y-6">
+                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg border-2 border-black">
+                    <div class="text-center space-y-4">
+                        <p class="text-lg black-white">
+                            Prohlížíte jako <span class="font-bold">Host</span>
+                        </p>
+                        <p>
+                            Můžete pouze prohlížet veřejné časové osy, pro více možností se přihlašte.
+                        </p>
+                        <div class="flex justify-center gap-4">
+                            <UButton to="/login" label="Přihlásit se" class="skyButton" />
+                            <UButton to="/register" label="Registrovat se" class="skyButton" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle for Guests -->
+                <div class="flex justify-end">
+                    <UButton
+                        @click="toggleDarkMode"
+                        class="skyButton"
+                        :label="isDark ? 'Světlý režim' : 'Tmavý režim'"
+                        :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
+                        
+                    />
+                </div>
             </div>
-            
-            <UButton label="Toggle Dark Mode" class="skyButton"  @click="toggleDarkMode"></UButton>
-            
-            
         </div>
-        
-        <!-- api response test   <div>{{ data }}</div>-->
+        <UNotifications/>
     </div>
 </template>
 
 <script setup>
-    import { fetchNickname, updateNickname } from "~/composables/useSupabase";
+import { ref, computed, watchEffect } from 'vue'
+import { fetchNickname, updateNickname } from "~/composables/useSupabase"
 
-    const user = useSupabaseUser()
-    const router = useRouter()
-    const client = useSupabaseClient()
+const user = useSupabaseUser()
+const router = useRouter()
+const client = useSupabaseClient()
+const colorMode = useColorMode()
+const toast = useToast()
 
-    const newNickname = ref("");
-    const nickname = ref("");
-    
-    async function logout() {
-        try {
-            const { error } = await client.auth.signOut()
-            if(error) throw error
-            router.push("/login")
-        } catch (error) {
-         console.log(error.message)   
-        }
+const newNickname = ref("")
+const nickname = ref("")
+const isLoggingOut = ref(false)
+const isChangingNickname = ref(false)
+
+const isDark = computed(() => colorMode.value === 'dark')
+
+async function logout() {
+    isLoggingOut.value = true
+    try {
+        const { error } = await client.auth.signOut()
+        if(error) throw error
+        router.push("/login")
+    } catch (error) {
+        console.error(error.message)
+    } finally {
+        isLoggingOut.value = false
     }
+}
 
-
-    // Toggle dark mode
 function toggleDarkMode() {
-  const html = document.documentElement;
-  html.classList.toggle("dark");
-  console.log(`Dark mode is ${html.classList.contains("dark") ? "enabled" : "disabled"}`);
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+}
+
+async function changeNickname() {
+    if (!newNickname.value.trim()) {
+        toast.add({
+            title: 'Chyba',
+            description: 'Přezdívka nemůže být prázdná',
+            icon: 'i-heroicons-exclamation-circle',
+            color: 'red',
+            timeout: 3000
+        })
+        return
+    }
+    isChangingNickname.value = true
+    try {
+        const success = await updateNickname(user.value.id, newNickname.value.trim())
+        if (success) {
+            nickname.value = newNickname.value.trim()
+            newNickname.value = ""
+            toast.add({
+                title: 'Úspěch',
+                description: 'Přezdívka byla úspěšně změněna',
+                icon: 'i-heroicons-check-circle',
+                color: 'green',
+                timeout: 3000
+            })
+        }
+    } catch (error) {
+        toast.add({
+            title: 'Chyba',
+            description: 'Nepodařilo se změnit přezdívku',
+            icon: 'i-heroicons-exclamation-circle',
+            color: 'red',
+            timeout: 3000
+        })
+    } finally {
+        isChangingNickname.value = false
+    }
 }
 
 watchEffect(async () => {
-        if (user.value) {
-            nickname.value = await fetchNickname(user.value) || user.value.email.split('@')[0];
-        }
-    });
-
-// Change nickname
-async function changeNickname() {
-    try {
-        if (!newNickname.value.trim()) {
-            alert("Nickname cannot be empty!");
-            return;
-        }
-        const success = await updateNickname(user.value.id, newNickname.value.trim());
-        if (success) {
-            nickname.value = newNickname.value.trim();
-            newNickname.value = "";
-            alert("Nickname updated successfully!");
-        } else {
-            alert("Failed to update nickname. Please try again.");
-        }
-    } catch (error) {
-        console.error(error.message);
+    if (user.value) {
+        nickname.value = await fetchNickname(user.value) || user.value.email.split('@')[0]
     }
-}
-
-
-
+})
 </script>
-
-<style  scoped>
-    
-</style>
