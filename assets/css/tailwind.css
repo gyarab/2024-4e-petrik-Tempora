@@ -6,10 +6,6 @@ body{
     @apply bg-sky-100 dark:bg-sky-900;
 }
 
-h2{
-    @apply text-3xl mb-5
-}
-
 
 @layer components{
     .btn{

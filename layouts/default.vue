@@ -17,12 +17,12 @@
                         </NuxtLink>
                     </li>
                     <li v-if="user"> 
-                        <NuxtLink to="/" class="rounded-md border-black border-2 p-2"> 
+                        <NuxtLink to="/" class="rounded-md border-black dark:border-white border-2 p-2"> 
                             {{ nickname || 'Profile' }}
                         </NuxtLink> 
                     </li>
                     <li v-else>
-                        <NuxtLink to="/login" class="rounded-md border-black border-2 p-2"> 
+                        <NuxtLink to="/login" class="rounded-md border-black dark:border-white border-2 p-2"> 
                             Přihlášení 
                         </NuxtLink> 
                     </li>
@@ -61,16 +61,16 @@
                         </li>
                         <li v-if="user" class="px-2"> 
                             <UTooltip v-if="nickname && nickname.length > 16" :text="nickname">
-                                <NuxtLink to="/" class="rounded-md border-black border-2 p-2 block text-center"> 
+                                <NuxtLink to="/" class="rounded-md dark:border-white border-black border-2 p-2 block text-center"> 
                                     {{ truncatedNickname }} 
                                 </NuxtLink> 
                             </UTooltip>
-                            <NuxtLink v-else to="/" class="rounded-md border-black border-2 p-2 block text-center"> 
+                            <NuxtLink v-else to="/" class="rounded-md dark:border-white border-black border-2 p-2 block text-center"> 
                                 {{ nickname || 'Profile' }} 
                             </NuxtLink> 
                         </li>
                         <li v-else class="px-2">
-                            <NuxtLink to="/login" class="rounded-md border-black border-2 p-2 block text-center"> 
+                            <NuxtLink to="/login" class="rounded-md dark:border-white border-black border-2 p-2 block text-center"> 
                                 Přihlášení 
                             </NuxtLink> 
                         </li>
