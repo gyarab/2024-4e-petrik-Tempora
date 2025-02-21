@@ -1,84 +1,137 @@
 <template>
-  <div class="absolute top-0 right-0">
-    <button @click="toggleOff">
-      <Icon class="size-8" name="uil:multiply"></Icon>
-    </button>
-  </div>
-  
-  <label>Jméno osy: </label>
-  <UInput
-    v-model="newName"
-    :model-value="newName"
-    type="text"
-    placeholder="Zadejte nové jméno osy"
-  ></UInput>
- 
-  <p>ID časové osy: <span class="font-bold">  {{ timelineInfo.line_id || "Neznámý" }} </span> </p>
-  <p>Autor:  <span class="font-bold"> {{ timelineInfo.user_profiles?.nickname || "Neznámý" }} </span></p>
-  <p>Vytvořeno:  <span class="font-bold"> {{ timelineInfo.created_at ? new Date(timelineInfo.created_at).toLocaleDateString() : "Neznámé datum" }} </span></p>
-  <p>Rok: <span class="font-bold"> {{ displayStartYear }} - {{ displayEndYear }} </span></p>
-
-  <UCheckbox v-model="is_private" name="private" label="Soukromá osa" />
-  <div class="mt-3">
-    <label>Popis: </label>
-    <UTextarea
-      :autoresize="true"
-      placeholder="Zadejte popis osy"
-      v-model="newDesc"
-      :model-value="newDesc"
-    />
-  </div>
-
-  <h3 class="mt-5 font-bold">Názvy řádků:</h3>
-  <div v-for="groupId in 8" :key="groupId" :class="{
+  <div class="bg-white dark:bg-zinc-800 p-6 pt-8 mt-4 rounded-lg border-2 border-black shadow-lg w-full max-w-5xl">
+    <!-- Close Button -->
+    <div class="absolute top-4 right-4">
+      <button 
+        @click="toggleOff"
+      >
+        <Icon class="size-6" name="uil:multiply"/>
+      </button>
+    </div>
     
-    'mt-2': groupId === 5
-  }" >
-  <UInput v-model="groupLabels[groupId]" type="text" :placeholder="`Název řádku ${groupId}`" />
-</div>
-  
-<div class="container mt-4 flex justify-between items-center">
-  <UButton
-    class="mt-3"
-    type="submit"
-    :disabled="isLoading"
-    @click="saveSettings"
-    label="Uložit nastavení"
-  />
-  
-  <UButton
-    class="mt-3"
-    color="red"
-    :disabled="isDeleting"
-    @click="isDeleteModalOpen = true"
-    label="Smazat časovou osu"
-  />
-</div>
+    <!-- Main Content Container -->
+    <div class="flex flex-col md:flex-row gap-6 w-full">
+      <!-- Settings Information -->
+      <div class="flex-1 space-y-4  min-w-0">
+        <h2 class="text-2xl font-bold text-sky-700 dark:text-sky-300 mb-4">
+          Nastavení časové osy
+        </h2>
+        
+        <div class="grid gap-4">
+          <!-- Timeline Name -->
+          <div class="space-y-2">
+            <label class="text-gray-600 dark:text-gray-400">Jméno osy:</label>
+            <UInput
+              v-model="newName"
+              color="sky"
+              type="text"
+              placeholder="Zadejte nové jméno osy"
+              class="w-full"
+            />
+          </div>
 
-<!-- Add Delete Confirmation Modal -->
-<UModal v-model="isDeleteModalOpen">
-  <div class="p-4">
-    <h3 class="text-lg font-bold mb-4">Potvrdit smazání</h3>
-    <p class="mb-4">Opravdu chcete smazat tuto časovou osu? Tato akce je nevratná a smaže tuto osu a všechny události v ní.</p>
-    <div class="flex justify-end gap-2">
-      <UButton
-        color="gray"
-        label="Zrušit"
-        @click="isDeleteModalOpen = false"
-      />
-      <UButton
-        color="red"
-        label="Smazat"
-        :loading="isDeleting"
-        @click="deleteTimelineHandler"
-      />
+          <!-- Timeline Info -->
+          <div class="space-y-2">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b dark:border-zinc-700">
+              <span class="text-gray-600 dark:text-gray-400">ID časové osy:</span>
+              <span class="font-bold">{{ timelineInfo.line_id || "Neznámý" }}</span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b dark:border-zinc-700">
+              <span class="text-gray-600 dark:text-gray-400">Autor:</span>
+              <span class="font-bold">{{ timelineInfo.user_profiles?.nickname || "Neznámý" }}</span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b dark:border-zinc-700">
+              <span class="text-gray-600 dark:text-gray-400">Vytvořeno:</span>
+              <span class="font-bold">{{ timelineInfo.created_at ? new Date(timelineInfo.created_at).toLocaleDateString() : "Neznámé datum" }}</span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center py-2 border-b dark:border-zinc-700">
+              <span class="text-gray-600 dark:text-gray-400">Roky:</span>
+              <span class="font-bold">{{ displayStartYear }} - {{ displayEndYear }}</span>
+            </div>
+          </div>
+
+          <!-- Privacy Setting -->
+          <div class="py-2">
+            <UCheckbox v-model="is_private" name="private" label="Soukromá osa" />
+          </div>
+
+          <!-- Description -->
+          <div class="space-y-2">
+            <label class="text-gray-600 dark:text-gray-400">Popis:</label>
+            <UTextarea
+              v-model="newDesc"
+              color="sky"
+              :autoresize="true"
+              placeholder="Zadejte popis osy"
+              class="w-full"
+            />
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex justify-between items-center pt-4">
+            <UButton
+              class="skyButton"
+              :loading="isLoading"
+              @click="saveSettings"
+              label="Uložit nastavení"
+            />
+            
+            <UButton
+              color="red"
+              class="rounded-md border-black border-2"
+              :loading="isDeleting"
+              @click="isDeleteModalOpen = true"
+              label="Smazat časovou osu"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Groups Section -->
+      <div class="md:w-80 flex-shrink-0">
+        <h3 class="font-bold text-lg mb-3">Názvy řádků:</h3>
+        <div class="flex flex-col gap-2">
+          <div 
+            v-for="groupId in 8" 
+            :key="groupId"
+            class="flex items-center gap-2 p-2 bg-gray-50 dark:bg-zinc-700 rounded border-2 border-black"
+          >
+            <span class="font-semibold min-w-[24px]">{{ groupId }}:</span>
+            <UInput 
+              v-model="groupLabels[groupId]"
+              color="sky"
+              type="text" 
+              :placeholder="`Název řádku ${groupId}`"
+              class="flex-1"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</UModal>
 
-<UNotifications />
+  <!-- Delete Confirmation Modal -->
+  <UModal v-model="isDeleteModalOpen">
+    <div class="p-4">
+      <h3 class="text-lg font-bold mb-4">Potvrdit smazání</h3>
+      <p class="mb-4">Opravdu chcete smazat tuto časovou osu? Tato akce je nevratná a smaže tuto osu a všechny události v ní.</p>
+      <div class="flex justify-end gap-2">
+        <UButton
+          color="gray"
+          label="Zrušit"
+          @click="isDeleteModalOpen = false"
+        />
+        <UButton
+          color="red"
+          label="Smazat"
+          :loading="isDeleting"
+          @click="deleteTimelineHandler"
+        />
+      </div>
+    </div>
+  </UModal>
 
-  <p v-if="feedbackMessage" :class="{ success: !isError, error: isError }"> {{ feedbackMessage }} </p>
+  <UNotifications />
 </template>
 
 <script setup>
