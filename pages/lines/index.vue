@@ -10,13 +10,28 @@
         <div v-if="openForm"> <CreateTimeline/> </div>
         <div v-if="inInfo"> <InfoComp :lineId="selectedLineId"></InfoComp> </div>
         <div v-if="inSettings"> <SettingsComp :lineId="selectedLineId" @refreshTimelines="fetchTimelinesByTab"></SettingsComp> </div>
-        <div v-if="!inInfo && !inSettings && !openForm">
-          <h2>Přehled časových os</h2>
+        <div v-if="!inInfo && !inSettings && !openForm" >
+        
+          <h2 class="text-3xl font-bold mb-6 text-sky-700 dark:text-sky-300">Přehled časových os</h2>
           
-          <div class="flex items-center justify-between mb-4">
-            <UButton v-if="user" icon="heroicons:plus-circle-20-solid" @click="toggleForm" class="btn w-fit" block label="Vytvořit osu" />
-            <div class="flex items-center gap-2">
-              <UInput v-model="searchId" placeholder="Zadejte ID osy nebo odkaz" class="w-fit" :ui="{ icon: { trailing: { pointer: '' } } }">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4 mb-4">
+            <UButton 
+              v-if="user" 
+              icon="heroicons:plus-circle-20-solid" 
+              @click="toggleForm" 
+              class="skyButton w-full sm:w-fit" 
+              block 
+              label="Vytvořit osu" 
+            />
+            <div class="flex items-center gap-2 w-full sm:w-fit">
+              <UInput 
+                color="sky"
+                v-model="searchId" 
+                size="md"
+                placeholder="Zadejte ID osy nebo odkaz" 
+                class="w-full sm:w-fit bg-white rounded-md dark:bg-gray-800" 
+                :ui="{ icon: { trailing: { pointer: '' } } }"
+              >
                 <template #trailing>
                   <UButton
                     v-show="searchId !== ''"
@@ -27,18 +42,27 @@
                     @click="clearSearch"
                   />
                 </template>
-                </UInput>     
-              <UButton icon="heroicons:magnifying-glass" @click="searchById" label="Hledat" />
+              </UInput>     
+              <UButton 
+                icon="heroicons:magnifying-glass" 
+                @click="searchById" 
+                label="Hledat" 
+                class="skyButton" 
+              />
             </div>
           </div>
          
           
           <UTabs 
-          v-if="!isSearching"
-          :items="[
-            { label: 'Vybrané' },
-            ...(user ? [{ label: 'Moje osy' }, { label: 'Uložené' }] : [])
-          ]" :default-index="0" @change="onChange"/>
+            v-if="!isSearching"
+            class=""
+            :items="[
+              { label: 'Vybrané', icon: 'heroicons:star' },
+              ...(user ? [{ label: 'Moje osy', icon: 'uil:house-user' }, { label: 'Uložené', icon:'heroicons:bookmark' }] : [])
+            ]" 
+            :default-index="0" 
+            @change="onChange"
+          />
           
           <!-- Loading State -->
           <div v-if="isLoading" class="flex flex-col items-center justify-center py-8">
@@ -145,14 +169,7 @@ function onChange(index) {
 // Fetch timelines on initial mount
 onMounted(fetchTimelinesByTab);
 
-const items = 
-[{
-  label: 'Vybrané',
-}, {
-  label: 'Moje osy',
-}, {
-  label: 'Uložené',
-}]
+
 
 const selectedLineId = ref(null);
 

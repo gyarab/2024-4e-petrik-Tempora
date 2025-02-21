@@ -2,8 +2,8 @@
     <div class="container_box" >
         <div class="content_box h-full w-full mx-10">
             <div class="text-3xl font-bold mb-6 text-sky-700 dark:text-sky-300">
-            <h2> O projektu Tempora</h2>
-        </div>
+                <h2> O projektu Tempora</h2>
+            </div>
          
 
         <!-- O projektu -->
