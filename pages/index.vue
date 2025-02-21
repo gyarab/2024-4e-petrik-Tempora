@@ -7,7 +7,7 @@
             
             <div v-if="user" class="space-y-6">
                 <!-- Account Info Section -->
-                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg border-2 border-black w-full md:w-1/2">
+                <div class="bg-white dark:bg-zinc-800 p-4 rounded-lg border-2 border-black w-full lg:w-1/2">
                     <h2 class="text-xl font-semibold mb-4">Informace o účtu</h2>
                     <div class="space-y-3">
                         <p class="flex flex-col md:flex-row md:justify-between md:items-center gap-2 md:gap-8">

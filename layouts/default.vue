@@ -17,12 +17,12 @@
                         </NuxtLink>
                     </li>
                     <li v-if="user"> 
-                        <NuxtLink to="/" class="rounded-md border-black border-2 p-2 "> 
-                            {{ nickname || 'Profile' }} 
+                        <NuxtLink to="/" class="rounded-md border-black border-2 p-2"> 
+                            {{ nickname || 'Profile' }}
                         </NuxtLink> 
                     </li>
                     <li v-else>
-                        <NuxtLink to="/login" class="btn"> 
+                        <NuxtLink to="/login" class="rounded-md border-black border-2 p-2"> 
                             Přihlášení 
                         </NuxtLink> 
                     </li>
@@ -60,12 +60,17 @@
                             </NuxtLink>
                         </li>
                         <li v-if="user" class="px-2"> 
-                            <NuxtLink to="/" class="rounded-md border-black border-2 p-2 block text-center"> 
+                            <UTooltip v-if="nickname && nickname.length > 16" :text="nickname">
+                                <NuxtLink to="/" class="rounded-md border-black border-2 p-2 block text-center"> 
+                                    {{ truncatedNickname }} 
+                                </NuxtLink> 
+                            </UTooltip>
+                            <NuxtLink v-else to="/" class="rounded-md border-black border-2 p-2 block text-center"> 
                                 {{ nickname || 'Profile' }} 
                             </NuxtLink> 
                         </li>
                         <li v-else class="px-2">
-                            <NuxtLink to="/login" class="btn block text-center"> 
+                            <NuxtLink to="/login" class="rounded-md border-black border-2 p-2 block text-center"> 
                                 Přihlášení 
                             </NuxtLink> 
                         </li>
@@ -93,6 +98,13 @@ const menuItems = [
     { path: '/lines', label: 'Přehled os' },
     { path: '/about', label: 'O projektu' }
 ]
+
+const truncatedNickname = computed(() => {
+    if (!nickname.value) return 'Profile'
+    return nickname.value.length > 16 
+        ? `${nickname.value.substring(0, 13)}...` 
+        : nickname.value
+})
 
 function toggleMenu() {
     isMenuOpen.value = !isMenuOpen.value
