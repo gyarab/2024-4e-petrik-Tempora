@@ -278,7 +278,7 @@ onMounted(async () => {
         ({
           isBottom: isBottom.value,
           contextType: contextType.value,
-          start: start.value,
+          start: start.value ,
           end: end.value,
           mainTitle: mainTitle.value,
           mainDescription: mainDescription.value,
@@ -289,6 +289,7 @@ onMounted(async () => {
           showDetail: showDetail.value,
           detailTitle: detailTitle.value,
           detailDescription: detailDescription.value
+          
         } = data);
       }
     } catch (error) {

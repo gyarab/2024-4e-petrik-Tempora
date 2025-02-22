@@ -108,7 +108,7 @@ export async function loadItemData(id, content) {
     return {
       isBottom: regularItem?.group === 5 || contextItem?.group === 8,
       contextType: !!contextItem,
-      start: new Date(contextItem?.start || regularItem?.start).getFullYear(),
+      start: new Date(contextItem?.start || regularItem?.start).getFullYear() || 1970,
       end: new Date(contextItem?.end || regularItem?.end).getFullYear(),
       mainTitle: contextItem?.name || regularItem?.name,
       mainDescription: contextItem?.description || regularItem?.description,
