@@ -116,19 +116,34 @@ const {
 const timelineStyles = computed(() => ({
   kontextGroup: {
     color: timelineDarkMode.value ? 'white' : 'black',
-    backgroundColor: timelineDarkMode.value ? '#000405' : '#ffffff15'
+    backgroundColor: timelineDarkMode.value ? '#00040560' : '#ffffff15',
+    borderColor: timelineDarkMode.value ? '#4a4a4a' : '#e5e5e5'  // Lighter gray in light mode
   },
   primaryGroup: {
     color: timelineDarkMode.value ? 'white' : 'black',
-    backgroundColor: timelineDarkMode.value ? '#05252d' : '#3de2ff15'
+    backgroundColor: timelineDarkMode.value ? '#05252d60' : '#3de2ff15',
+    borderColor: timelineDarkMode.value ? '#4a4a4a' : '#e5e5e5'
   },
   secondaryGroup: {
     color: timelineDarkMode.value ? 'white' : 'black',
-    backgroundColor: timelineDarkMode.value ? '#000405' : '#ffffff15'
+    backgroundColor: timelineDarkMode.value ? '#00040560' : '#ffffff15',
+    borderColor: timelineDarkMode.value ? '#4a4a4a' : '#e5e5e5'
   },
   detailGroup: {
     color: timelineDarkMode.value ? 'white' : 'black',
-    backgroundColor: timelineDarkMode.value ? '#05252d' : '#3de2ff15'
+    backgroundColor: timelineDarkMode.value ? '#05252d60' : '#3de2ff15',
+    borderColor: timelineDarkMode.value ? '#4a4a4a' : '#e5e5e5'
+  },
+  timestamp: {
+    color: timelineDarkMode.value ? 'white' : 'black',
+    backgroundColor: timelineDarkMode.value ? '#000000' : '#ffffff',
+    borderColor: timelineDarkMode.value ? '#4a4a4a' : '#e5e5e5'
+  },
+  container: {
+    backgroundColor: timelineDarkMode.value ? '#000000' : '#ffffff'
+  },
+  itemStyle: {
+    borderColor: timelineDarkMode.value ? '#ffffff' : '#000000'
   }
 }));
 
@@ -180,7 +195,7 @@ async function fetchData() {
 
       return {
         ...itemData,
-        className: `${baseClass} timeline-item-border`,
+        className: `${baseClass} timeline-item-style`,
         type,
       };
     });
@@ -237,9 +252,9 @@ onMounted(fetchData);
   margin-bottom: 50px;
   position: relative;
   overflow: hidden;
-  border: 1px solid #ccc;
+  border: 1px solid #636363;
   padding: 10px;
-  background-color: #ffffff;
+  background-color: v-bind('timelineStyles.container.backgroundColor');
   height:fit-content
 }
 
@@ -301,14 +316,13 @@ onMounted(fetchData);
   transform: translateY(calc(var(--group-height) + var(--primaryGH) + var(--secondaryGH) + var(--detailGH)));
   position: absolute;
   width: 100%; /* Ensure it spans the timeline */
-  z-index: 2; /* Ensure it's above other elements if needed */
   background-color: transparent !important;
 }
 .timeline-container {
   position: relative; /* Set relative positioning for absolute child positioning */
 }
 div.group {
-  border-top: 1 !important; /* TODO */  
+  border-top: 1px solid v-bind('timelineStyles.kontextGroup.borderColor') !important;  
 }
 
 .timestamps:before {
@@ -317,15 +331,14 @@ div.group {
   left: 0;
   right: 0;
   top: 50%;
-  border-top: 2px solid #000; 
+  border-top: 2px solid v-bind('timelineStyles.timestamp.color');
   transform: translateY(-50%);
 }
 
 .timestamp {
-  color: black;
+  color: v-bind('timelineStyles.timestamp.color');
   position: relative;
-  z-index: 1;
-  background-color: #fff; 
+  background-color: v-bind('timelineStyles.timestamp.backgroundColor'); 
   padding: 0 10px; /* adjust the padding as needed */
   border-left: 0px !important; 
 }
@@ -351,15 +364,34 @@ div.group {
   height: var(--detailGH) !important;
 }
 
-.timeline-item-border {
-  border: 1px solid black !important;
+.timeline-item-style {
+  border: 1px solid v-bind('timelineStyles.itemStyle.borderColor');
   text-align: center;
 }
 
-.group-label{
-  display: flex ; 
-  align-items: center ;
-  justify-content: center ;
+.timeline-item-style a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.timeline-item-style a span {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.group-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align:left;
+  white-space: normal; 
+  max-width: 100px; 
+
+  font-weight: 500;
+  text-shadow: 1px 1px 6px rgba(255, 255, 255, 0.8);
+  
 }
 
 </style>
