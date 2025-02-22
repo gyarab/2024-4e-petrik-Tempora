@@ -25,7 +25,7 @@
           class="justify-self-center"
           color="sky"
           v-model="isBottom" 
-          label="Dolní část" 
+          label="Spodní část" 
         />
         <color-picker
           :with-hex-input=true
@@ -36,7 +36,8 @@
             icon="uil:palette" 
             color="sky"
             @click="show" 
-            class="justify-self-center"
+            size="lg"
+            class="justify-self-center rounded-md border-black border-2 p-2"
           />
         </color-picker>
       </div>
@@ -59,6 +60,7 @@
           color="sky"
           label="Přidat Secondary" 
           @click="showSecondary = true" 
+          class="rounded-md border-black border-2 p-2"
         />
         
         <div v-if="showSecondary" class="space-y-4">
@@ -75,6 +77,7 @@
               color="sky"
               variant="ghost"
               @click="showSecondary = false; showDetail = false"
+              class="rounded-md border-black border-2 p-2"
             />
           </div>
           <QuillEditor v-model="secondaryDescription" />
@@ -86,6 +89,7 @@
           color="sky"
           label="Přidat Detail" 
           @click="showDetail = true" 
+          class="rounded-md border-black border-2 p-2"
         />
         
         <div v-if="showDetail" class="space-y-4">
@@ -102,6 +106,7 @@
               color="sky"
               variant="ghost"
               @click="showDetail = false"
+              class="rounded-md border-black border-2 p-2"
             />
           </div>
           <QuillEditor v-model="detailDescription" />
@@ -115,6 +120,7 @@
             label="Uložit změny" 
             color="sky"
             @click="saveChanges" 
+            class="rounded-md border-black border-2 p-2"
           />
           <UButton 
             v-if="!creatingNew" 
@@ -122,6 +128,7 @@
             variant="soft"
             label="Zahodit změny" 
             @click="discardChanges" 
+            class="rounded-md border-black border-2 p-2"
           />
         </div>
         <UButton 
@@ -130,6 +137,7 @@
           color="red"
           variant="soft"
           @click="isDeleteModalOpen = true"
+          class="rounded-md border-black border-2 p-2"
         />
       </div>
     </div>
@@ -146,12 +154,14 @@
           variant="soft"
           label="Zrušit"
           @click="isDeleteModalOpen = false"
+          class="rounded-md border-black border-2 p-2"
         />
         <UButton
           color="red"
           variant="soft"
           label="Smazat"
           @click="handleDelete"
+          class="rounded-md border-black border-2 p-2"
         />
       </div>
     </div>
