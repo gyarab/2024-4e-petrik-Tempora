@@ -66,12 +66,16 @@
             />
           </div>
 
-          <div class="py-2">
-            <UCheckbox 
-              v-model="is_private" 
-              name="private" 
-              label="Vytvořit jako soukromou osu" 
+          <div class=" flex py-2">
+            <UToggle 
+              size="lg" 
+              v-model="is_private"
+              name="private"
+              color="sky"
+              on-icon="heroicons:lock-closed"
+              off-icon="heroicons:lock-open"
             />
+            <p class="ml-4"> Vytvořit jako soukromou osu </p>
           </div>
 
           <div class="pt-4">

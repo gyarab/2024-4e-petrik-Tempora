@@ -4,16 +4,18 @@
     </Head>
         
     <div class="container_box" >
-        <div class="content_box h-full w-full mx-10 px-4 md:px-6 relative"  
+        <div class="content_box h-full w-full mx-10 px-4 md:px-6 relative "  
             :style="{ backgroundColor: backgroundColor }">
             
-            <div class="absolute top-0 right-0">
+            <div class="absolute top-0 right-0 text-black"  >
                 <NuxtLink :to="`/lines/${id}`"> <Icon class="size-8" name="uil:multiply"></Icon> </NuxtLink>
             </div>
             
+            <!-- For debugging
             <div class="absolute bottom-0 right-1 text-xs">
                 <p>line: {{ id }} id: {{ content }}</p>
             </div>
+            -->
 
             <!-- Listen for emitted events -->
             <ItemEditComp v-if="inEdit" @update-background="updateBackgroundColor" />
@@ -43,12 +45,6 @@
 
     function updateBackgroundColor(newColor) {
     backgroundColor.value = newColor;
-    }
-    
-    // Logika pro error page kdyz osa neexistuje
-    if(!true)
-    {
-        throw createError({statusCode: 404, statusMessage: 'Obsah nebyl nalezen', fatal:true})
     }
 
 

@@ -21,13 +21,19 @@
           v-model="end" 
           placeholder="Konec události"
         />
-        <UCheckbox 
-          class="justify-self-center"
-          color="sky"
-          v-model="isBottom" 
-          label="Spodní část" 
-        />
-        <color-picker
+        <div class="justify-self-center flex">
+          <UToggle 
+            size="xl" 
+            v-model="isBottom" 
+            color="sky"
+            on-icon="heroicons:chevron-down-solid"
+            off-icon="heroicons:chevron-up-solid"
+          />
+          <p class="ml-4"> Spodní část </p>
+        </div>
+        
+        <div class="justify-self-center flex">
+          <color-picker
           :with-hex-input=true
           v-model="selectedColor"
           v-slot="{ color, show }"    
@@ -37,9 +43,12 @@
             color="sky"
             @click="show" 
             size="lg"
-            class="justify-self-center rounded-md border-black border-2 p-2"
+            class="rounded-md border-black border-2 p-2 "
           />
         </color-picker>
+          <p class="ml-4 self-center"> Barva události </p>
+        </div>
+        
       </div>
 
       <!-- Main Event Section -->

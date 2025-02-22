@@ -51,9 +51,19 @@
           </div>
 
           <!-- Privacy Setting -->
-          <div class="py-2">
-            <UCheckbox v-model="is_private" name="private" label="Soukromá osa" color="sky"/>
+          <div class=" flex py-2">
+            <UToggle 
+              size="lg" 
+              v-model="is_private"
+              name="private"
+              color="sky"
+              on-icon="heroicons:lock-closed"
+              off-icon="heroicons:lock-open"
+              class=""
+            />
+            <p class="ml-4"> Soukromá osa </p>
           </div>
+        
 
           <!-- Description -->
           <div class="space-y-2">
