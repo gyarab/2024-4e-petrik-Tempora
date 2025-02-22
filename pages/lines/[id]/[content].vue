@@ -1,6 +1,6 @@
 <template>
     <Head>
-        <Title> Tempora | line {{ id }}</Title>
+        <Title> Tempora | Timeline {{ id }}</Title>
     </Head>
         
     <div class="container_box h-5rem" >
