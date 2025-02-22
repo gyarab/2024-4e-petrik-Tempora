@@ -1,39 +1,57 @@
 <template>
-  <div class="container mt-4">
+  <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg border-2 border-black shadow-lg w-full">
+    <!-- Error State -->
     <div v-if="error" class="flex flex-col items-center justify-center text-center p-4">
       <Icon name="heroicons:exclamation-circle" class="text-4xl text-red-500 mb-2"/>
       <h2 class="text-2xl font-bold text-red-500">Událost nebyla nalezena</h2>
-      <p class="text-gray-800 mt-2">Událost buď neexistuje nebo k ní nemáte přístup.</p>
+      <p class="text-gray-600 dark:text-gray-300 mt-2">Událost buď neexistuje nebo k ní nemáte přístup.</p>
     </div>
     
-    <div v-else-if="itemData">
-      <h2 class="text-3xl font-bold">{{ itemData.name }}</h2>
-      <p class="text-sm text-gray-600">{{ formatDate(itemData.start) }} - {{ formatDate(itemData.end) }}</p>
-      <div class="mt-2 prose prose-sm max-w-none quill-content" v-html="itemDescription"></div>
-
-      <div v-if="secondaryData" class="mt-4">
-        <h3 class="text-lg font-semibold">{{ secondaryData.name }}</h3>
-        <p class="text-sm text-gray-600">{{ formatDate(secondaryData.start) }} - {{ formatDate(secondaryData.end) }}</p>
-        <div class="mt-2 prose prose-sm max-w-none quill-content" v-html="secondaryDescription"></div>
+    <!-- Content State -->
+    <div v-else-if="itemData" class="space-y-8">
+      <!-- Main Header -->
+      <div class="text-center py-4 border-b dark:border-zinc-700">
+        <h2 class="text-4xl font-bold text-sky-700 dark:text-sky-300">{{ itemData.name }}</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
+          {{ formatDate(itemData.start) }} - {{ formatDate(itemData.end) }}
+        </p>
       </div>
 
-      <div v-if="detailData" class="mt-4">
-        <h4 class="text-md font-medium">{{ detailData.name }}</h4>
-        <p class="text-sm text-gray-600">{{ formatDate(detailData.start) }} - {{ formatDate(detailData.end) }}</p>
-        <div class="mt-2 prose prose-sm max-w-none quill-content" v-html="detailDescription"></div>
+      <!-- Main Content -->
+      <div class="max-w-4xl mx-auto">
+        <div class="prose prose-lg max-w-none dark:prose-invert quill-content pb-8 border-b dark:border-zinc-700">
+          <div v-html="itemDescription"></div>
+        </div>
+
+        <!-- Secondary Content Section -->
+        <div v-if="secondaryData" class="mt-8 space-y-4">
+          <h3 class="text-2xl font-semibold text-sky-700 dark:text-sky-300">{{ secondaryData.name }}</h3>
+          <div class="prose prose-lg max-w-none dark:prose-invert quill-content pb-8 border-b dark:border-zinc-700">
+            <div v-html="secondaryDescription"></div>
+          </div>
+        </div>
+
+        <!-- Detail Content Section -->
+        <div v-if="detailData" class="mt-8 space-y-4">
+          <h4 class="text-xl font-semibold text-sky-700 dark:text-sky-300">{{ detailData.name }}</h4>
+          <div class="prose prose-lg max-w-none dark:prose-invert quill-content">
+            <div v-html="detailDescription"></div>
+          </div>
+        </div>
       </div>
     </div>
     
-    <div v-else class="flex flex-col items-center justify-center">
-      <h2 class="text-xl font-bold text-center text-sky-950">Načítání informací o události...</h2>
-      <div class="w-96 space-y-4">
-        <UProgress
-          animation="carousel"
-          color="sky"
-          class="w-full"
-          size="md"
-        />
-      </div>
+    <!-- Loading State -->
+    <div v-else class="flex flex-col items-center justify-center py-12">
+      <h2 class="text-2xl font-bold text-center text-sky-700 dark:text-sky-300 mb-6">
+        Načítání informací o události...
+      </h2>
+      <UProgress
+        animation="carousel"
+        color="sky"
+        class="w-80"
+        size="lg"
+      />
     </div>
   </div>
 </template>
@@ -176,5 +194,9 @@ onMounted(() => {
   margin-bottom: 0.5em;
 }
 
+/* Keep existing Quill styles but add dark mode support */
+:deep(.quill-content) {
+  line-height: 1.6;
+}
 
 </style>

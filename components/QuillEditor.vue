@@ -1,24 +1,24 @@
 <template>
-    <div class="editor-container" :class="{ 'is-focused': isFocused }">
-      <QuillEditor
-        v-model:content="content"
-        :toolbar="[
-          [{ 'header': [2, 3, false] }],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{ 'color': [] }, { 'background': [] }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],
-          ['link', 'formula'],
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'align': [] }],
-          ['clean']
-        ]"
-        contentType="html"
-        theme="snow"
-        class="editor"
-        @focus="isFocused = true"
-        @blur="isFocused = false"
-      />
-    </div>
+  <div class="editor-container" :class="{ 'is-focused': isFocused }">
+    <QuillEditor
+      v-model:content="content"
+      :toolbar="[
+        [{ 'header': [2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'color': [] }, { 'background': [] }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+        ['link', 'formula'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'align': [] }],
+        ['clean']
+      ]"
+      contentType="html"
+      theme="snow"
+      class="editor dark:text-white"
+      @focus="isFocused = true"
+      @blur="isFocused = false"
+    />
+  </div>
 </template>
   
 <script setup>
@@ -85,5 +85,64 @@ const content = computed({
   .editor-container.is-focused .ql-container.ql-snow {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  }
+
+  /* Dark mode for toolbar */
+  .dark .editor-container .ql-toolbar {
+    background-color: rgb(39 39 42);
+    border-color: rgb(63 63 70);
+  }
+
+  .dark .ql-toolbar .ql-stroke {
+    stroke: white;
+  }
+
+  .dark .ql-toolbar .ql-fill {
+    fill: white;
+  }
+
+  .dark .ql-toolbar .ql-picker {
+    color: white;
+  }
+
+  /* Editor container dark mode */
+  .dark .editor {
+    background-color: rgb(39 39 42);
+    color: white;
+  }
+
+  .dark .ql-container.ql-snow {
+    border-color: rgb(63 63 70);
+  }
+
+  .dark .ql-editor.ql-blank::before {
+    color: rgb(161 161 170);
+  }
+
+  /* Formula editor dark mode */
+  .dark .ql-snow .ql-tooltip {
+    background-color: rgb(39 39 42);
+    color: white;
+    border-color: rgb(63 63 70);
+  }
+
+  .dark .ql-snow .ql-tooltip input[type=text] {
+    background-color: rgb(63 63 70);
+    color: white;
+    border-color: rgb(82 82 91);
+  }
+
+  /* Picker options dark mode */
+  .dark .ql-snow .ql-picker-options {
+    background-color: rgb(39 39 42);
+    border-color: rgb(63 63 70);
+  }
+
+  .dark .ql-snow .ql-picker-item {
+    color: rgb(71, 71, 71);
+  }
+
+  .dark .ql-snow .ql-picker-item:hover {
+    background-color: rgb(63 63 70);
   }
   </style>

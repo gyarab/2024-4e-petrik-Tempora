@@ -29,10 +29,17 @@
       <template #item="{ item }">
         <NuxtLink
           :to="`/lines/${id}/${item.tag}`"
-          style="inset: 0; position: absolute; padding: .2em 1em; color: white; font-weight: bold; text-decoration: none;"
+          style="inset: 0;
+            position: absolute;
+            color: white;
+            font-weight: bold;
+            text-decoration: none;
+            overflow: hidden;
+            height: 95%;
+            width: 95%;"
           :data-tippy-content="item.tooltip"
         >
-        <span>{{ item.name }}</span>
+        <span  >{{ item.name }}</span>
         </NuxtLink>
       </template>
       </Timeline>
@@ -378,6 +385,17 @@ div.group {
 
 .timeline-item-style a span {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-word;
+  max-height: 100%;
+      
 }
 
 .group-label {

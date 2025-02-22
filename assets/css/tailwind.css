@@ -50,7 +50,26 @@ body{
         @apply relative flex items-center justify-center mx-auto my-2 rounded-lg
     }
 
+    :deep(.quill-content a) {
+        @apply text-sky-600 dark:text-sky-400;
+      }
 
+      :deep(.ql-editor) {
+        @apply text-gray-900 dark:text-gray-100;
+      }
+      
+      :deep(.ql-editor.ql-blank::before) {
+        @apply text-gray-400 dark:text-gray-500;
+      }
+      
+      :deep(.dark .ql-toolbar button:hover),
+      :deep(.dark .ql-toolbar button:focus) {
+        @apply bg-zinc-700;
+      }
+      
+      :deep(.dark .ql-toolbar .ql-active) {
+        @apply bg-zinc-700;
+      }
     
 }
 @layer utilities {

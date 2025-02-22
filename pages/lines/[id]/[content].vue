@@ -3,8 +3,8 @@
         <Title> Tempora | Timeline {{ id }}</Title>
     </Head>
         
-    <div class="container_box h-5rem" >
-        <div class="content_box h-full w-full mx-10 relative"  
+    <div class="container_box" >
+        <div class="content_box h-full w-full mx-10 px-4 md:px-6 relative"  
             :style="{ backgroundColor: backgroundColor }">
             
             <div class="absolute top-0 right-0">

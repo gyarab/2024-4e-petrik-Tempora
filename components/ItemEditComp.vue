@@ -1,85 +1,155 @@
 <template>
-  <UTabs v-if="creatingNew" :items="items" @change="onChange" />
-  
-  <div class="container items-center">
-    <UInput type="number" size="md" v-model="start" placeholder="Začátek události"/>
-    <UInput type="number" size="md" v-model="end" placeholder="Konec události"  />
-    <UCheckbox class="self-center" v-model="isBottom" label="Dolní část" />
-    <color-picker
-      :with-hex-input=true
-      v-model="selectedColor"
-      v-slot="{ color, show }"    
-    >
-      <UButton icon="uil:palette" @click="show" class="self-center"></UButton>
-    </color-picker>
-  </div>
-
-  <div class="mt-4">
-    <UInput v-model="mainTitle" placeholder="Název hlavní události" />
-    <QuillEditor v-model="mainDescription" class="mt-1" />
-  </div>
-
-  <div v-if="!contextType">
-    <UButton v-if="!showSecondary" label="Přidat Secondary" @click="showSecondary = true" class="mt-4" />
-    <div v-if="showSecondary" class="mt-4">
-      <div class="flex items-center gap-2">
-        <UInput v-model="secondaryTitle" placeholder="Název Secondary" class="flex-grow" />
-        <UTooltip text="Odstranit Secondary" :popper="{ placement: 'left' }">
+  <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg border-2 border-black shadow-lg w-full">
+    <!-- Tabs for new items -->
+    <UTabs v-if="creatingNew" :items="items" color="sky" @change="onChange" />
+    
+    <!-- Main Content -->
+    <div class="space-y-8">
+      <!-- Date and Settings Section -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-center mt-4">
+        <UInput 
+          type="number" 
+          color="sky"
+          size="lg"
+          v-model="start" 
+          placeholder="Začátek události"
+        />
+        <UInput 
+          type="number"
+          color="sky" 
+          size="lg"
+          v-model="end" 
+          placeholder="Konec události"
+        />
+        <UCheckbox 
+          class="justify-self-center"
+          color="sky"
+          v-model="isBottom" 
+          label="Dolní část" 
+        />
+        <color-picker
+          :with-hex-input=true
+          v-model="selectedColor"
+          v-slot="{ color, show }"    
+        >
           <UButton 
-            icon="heroicons:minus"
-            color="black"
-            variant="ghost"
-            @click="showSecondary = false; showDetail = false"
+            icon="uil:palette" 
+            color="sky"
+            @click="show" 
+            class="justify-self-center"
           />
-        </UTooltip>
+        </color-picker>
       </div>
-      
-      <QuillEditor v-model="secondaryDescription"  class="mt-1"/>
-    </div>
-  
-    <UButton v-if="showSecondary && !showDetail" label="Přidat Detail" @click="showDetail = true" class="mt-4" />
-    <div v-if="showDetail" class="mt-4">
-      <div class="flex items-center gap-2">
-        <UInput v-model="detailTitle" placeholder="Název detailu" class="flex-grow" />
-        <UTooltip text="Odstranit Detail" :popper="{ placement: 'left' }">
+
+      <!-- Main Event Section -->
+      <div class="space-y-4">
+        <UInput 
+          v-model="mainTitle" 
+          color="sky"
+          size="lg"
+          placeholder="Název hlavní události" 
+        />
+        <QuillEditor v-model="mainDescription" />
+      </div>
+
+      <!-- Secondary Section -->
+      <div v-if="!contextType" class="space-y-4">
+        <UButton 
+          v-if="!showSecondary" 
+          color="sky"
+          label="Přidat Secondary" 
+          @click="showSecondary = true" 
+        />
+        
+        <div v-if="showSecondary" class="space-y-4">
+          <div class="flex items-center gap-2">
+            <UInput 
+              v-model="secondaryTitle" 
+              color="sky"
+              size="lg"
+              placeholder="Název Secondary" 
+              class="flex-grow" 
+            />
+            <UButton 
+              icon="heroicons:minus"
+              color="sky"
+              variant="ghost"
+              @click="showSecondary = false; showDetail = false"
+            />
+          </div>
+          <QuillEditor v-model="secondaryDescription" />
+        </div>
+
+        <!-- Detail Section -->
+        <UButton 
+          v-if="showSecondary && !showDetail" 
+          color="sky"
+          label="Přidat Detail" 
+          @click="showDetail = true" 
+        />
+        
+        <div v-if="showDetail" class="space-y-4">
+          <div class="flex items-center gap-2">
+            <UInput 
+              v-model="detailTitle" 
+              color="sky"
+              size="lg"
+              placeholder="Název detailu" 
+              class="flex-grow" 
+            />
+            <UButton 
+              icon="heroicons:minus"
+              color="sky"
+              variant="ghost"
+              @click="showDetail = false"
+            />
+          </div>
+          <QuillEditor v-model="detailDescription" />
+        </div>
+      </div>
+
+      <!-- Actions Section -->
+      <div class="flex justify-between items-center border-t dark:border-zinc-700 pt-6">
+        <div class="flex gap-4">
           <UButton 
-            icon="heroicons:minus"
-            color="black"
-            variant="ghost"
-            @click="showDetail = false"
+            label="Uložit změny" 
+            color="sky"
+            @click="saveChanges" 
           />
-        </UTooltip>
+          <UButton 
+            v-if="!creatingNew" 
+            color="sky"
+            variant="soft"
+            label="Zahodit změny" 
+            @click="discardChanges" 
+          />
+        </div>
+        <UButton 
+          v-if="!creatingNew"
+          label="Smazat událost" 
+          color="red"
+          variant="soft"
+          @click="isDeleteModalOpen = true"
+        />
       </div>
-      <QuillEditor v-model="detailDescription"  class="mt-1"/>
     </div>
   </div>
 
-  <div class="container mt-4 flex justify-between items-center">
-    <div class="flex gap-4">
-      <UButton label="Uložit změny" @click="saveChanges" />
-      <UButton v-if="!creatingNew" label="Zahodit změny" @click="discardChanges" />
-    </div>
-    <UButton 
-      v-if="!creatingNew"
-      label="Smazat událost" 
-      color="red"
-      @click="isDeleteModalOpen = true"
-    />
-  </div>
-
-  <!-- Add Modal Component -->
+  <!-- Delete Modal -->
   <UModal v-model="isDeleteModalOpen">
     <div class="p-4">
-      <h3 class="text-lg font-bold mb-4">Potvrdit smazání</h3>
+      <h3 class="text-xl font-bold mb-4">Potvrdit smazání</h3>
       <p class="mb-4">Opravdu chcete smazat tuto událost? Tato akce je nevratná.</p>
       <div class="flex justify-end gap-2">
         <UButton
-          color="gray"
+          color="sky"
+          variant="soft"
           label="Zrušit"
           @click="isDeleteModalOpen = false"
         />
         <UButton
           color="red"
+          variant="soft"
           label="Smazat"
           @click="handleDelete"
         />
@@ -300,8 +370,22 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  gap: 10px;
+/* Keep styles consistent with ItemInfoComp */
+:deep(.quill-content) {
+  line-height: 1.6;
+}
+
+.space-y-8 > * {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+:deep(.quill-editor) {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+}
+
+:deep(.dark .quill-editor) {
+  border-color: rgb(63 63 70);
 }
 </style>
