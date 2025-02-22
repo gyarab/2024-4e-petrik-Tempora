@@ -38,7 +38,7 @@
       </Timeline>
     </div>    
  
-    <div class="bg-white dark:bg-zinc-800 black-white controls-container">
+    <div class="bg-white dark:bg-zinc-900 controls-container">
       <div class="year-display-container">
         {{ mouseHoverPosition ? "Kurzor nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na osu zobrazíte rok' }}
       </div>
@@ -267,7 +267,6 @@ onMounted(fetchData);
  align-items: center;
  gap: 20px;
  height: 50px;
- background-color: white;
  width:100%;
  padding: 10px;
  z-index: 20;
@@ -281,7 +280,7 @@ onMounted(fetchData);
 
 
 :root {
-  --group-height: clamp(20px, 10.5vh, 15vh); /* Minimum, preferred , max */
+  --group-height: clamp(10px, 10.5vh, 15vh); /* Minimum, preferred , max */
   --primaryGH:calc(var(--group-height) * 1.25);
   --secondaryGH:calc(var(--group-height) * 0.85);
   --detailGH:calc(var(--group-height) * 0.75);
@@ -315,7 +314,7 @@ onMounted(fetchData);
 .timestamps {  
   transform: translateY(calc(var(--group-height) + var(--primaryGH) + var(--secondaryGH) + var(--detailGH)));
   position: absolute;
-  width: 100%; /* Ensure it spans the timeline */
+  width: 100%;
   background-color: transparent !important;
 }
 .timeline-container {

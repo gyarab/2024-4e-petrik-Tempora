@@ -44,7 +44,7 @@ body{
     }
 
     .sidebar-icon{
-        @apply  size-8 bg-sky-600 hover:bg-sky-400
+        @apply  bg-sky-600 hover:bg-sky-400 lg:size-8 md:size-5
     }
     .sidebar-but{
         @apply relative flex items-center justify-center mx-auto my-2 rounded-lg

@@ -1,57 +1,57 @@
 <template>
     <div class="sidebar fixed white-black h-4rem z-20
                 flex flex-col justify-between shadow-lg bg-sky-950 transition-all duration-100 ease-in-out
-                top-16 left-0" 
+                top-16 right-0" 
                 :style="{width: sidebarWidth}">
                 
         <!-- Top Controls -->
         <Transition name="fade">
-          <div v-if="!collapsed" class="space-y-8 mt-8">
+          <div v-if="!collapsed" class="lg:space-y-8 lg:mt-8 md:space-y-2 md:mt-2"  >
             
             <button @click="handleInfoToggle" class="sidebar-but" :class="{ 'active-border': inInfo }"> 
-              <UTooltip text="Info" :popper="{ placement: 'right' }">
+              <UTooltip text="Info" :popper="{ placement: 'left' }">
                 <Icon class="sidebar-icon" name="uil:info-circle"/>
               </UTooltip>
             </button>
             
             <button v-if="user" @click="toggleEdit" class="sidebar-but" :class="{ 'active-border': inEdit }"> 
-              <UTooltip text="Editační mód" :popper="{ placement: 'right' }">
+              <UTooltip text="Editační mód" :popper="{ placement: 'left' }">
                 <Icon  class="sidebar-icon" name="uil:edit"/> 
               </UTooltip>
             </button>
             
             <button @click="copyToClipboard" class="sidebar-but">
-              <UTooltip text="Zkopírovat odkaz" :popper="{ placement: 'right' }">
+              <UTooltip text="Zkopírovat odkaz" :popper="{ placement: 'left' }">
                 <Icon class="sidebar-icon" name="uil:share"/>
               </UTooltip>
             </button>
             
             <button v-if="user" @click="handleSettingsToggle" class="sidebar-but" :class="{ 'active-border': inSettings }"> 
-              <UTooltip text="Nastavení" :popper="{ placement: 'right' }">
+              <UTooltip text="Nastavení" :popper="{ placement: 'left' }">
                 <Icon class="sidebar-icon" name="uil:setting"/>
               </UTooltip>
             </button> 
             
             <button v-if="user" @click="toggleBookmarkState" class="sidebar-but"> 
-              <UTooltip v-if="!isBookmarked" text="Uložit záložku" :popper="{ placement: 'right' }">
+              <UTooltip v-if="!isBookmarked" text="Uložit záložku" :popper="{ placement: 'left' }">
                 <Icon class="sidebar-icon" name="heroicons:bookmark"/>
               </UTooltip>
-              <UTooltip v-else text="Zrušit záložku" :popper="{ placement: 'right' }">
+              <UTooltip v-else text="Zrušit záložku" :popper="{ placement: 'left' }">
                 <Icon class="sidebar-icon" name="heroicons:bookmark-solid"/>
               </UTooltip>
             </button>
 
             <button v-if="inEdit" class="sidebar-but" @click="addEvent">
-              <UTooltip text="Přidat novou událost" :popper="{ placement: 'right' }">
+              <UTooltip text="Přidat novou událost" :popper="{ placement: 'left' }">
                 <Icon  class="sidebar-icon" name="uil:plus-circle"/>
               </UTooltip>
             </button>
 
             <button @click="toggleTimelineDarkMode" class="sidebar-but">
-              <UTooltip text="Přepnout barvy skupin" :popper="{ placement: 'right' }">
+              <UTooltip text="Přepnout barevný režim" :popper="{ placement: 'left' }">
                 <Icon 
                   class="sidebar-icon" 
-                  :name="timelineDarkMode ? 'uil:brightness' : 'uil:brightness-half'"
+                  :name="timelineDarkMode ? 'uil:brightness' : 'heroicons:moon'"
                 />
               </UTooltip>
             </button>
@@ -60,17 +60,17 @@
         </Transition>
 
         <!-- Fixed position collapse button wrapper -->
-        <div class="absolute bottom-0 left-0 right-0 px-2 mb-14 z-60">
+        <div class="absolute bottom-0 right-0 px-2 z-60 " >
           <span class="bg-sky-950 hover:bg-sky-900 rounded-xl cursor-pointer flex justify-center content-center
                     transition-all duration-100 ease-in-out"
                     
-                :class="{ 'w-full': !collapsed, 'w-12 mx-auto': collapsed }"
+                :class="{ 'w-full': !collapsed, 'w-12 mx-auto': collapsed, 'mb-14': !inInfo && !inSettings,}"
                 >
             <button @click="toggleSidebar" v-if="collapsed">
-              <Icon class="sidebar-icon size-12" name="uil:list-ul"/>
+              <Icon class="sidebar-icon lg:size-12 md:size-8" name="uil:list-ul"/>
             </button>
             <button @click="toggleSidebar" v-else>
-              <Icon class="sidebar-icon size-12" name="uil:list-ui-alt"/>
+              <Icon class="sidebar-icon lg:size-12 md:size-8" name="uil:list-ui-alt"/>
             </button>
           </span>
         </div>

@@ -5,13 +5,13 @@
   
     <Sidebar @info-toggle="handleInfoToggle" @settings-toggle="handleSettingsToggle"/>
     
-    <div :style="{'marginLeft': sidebarWidth}">
+    <div :style="{'marginRight': sidebarWidth}">
       <div v-if="!inInfo && !inSettings"> 
         <Timeline/> 
       </div>
     </div>
       
-    <div v-if="inInfo" :style="{'marginLeft': sidebarWidth}"> 
+    <div v-if="inInfo" :style="{'marginRight': sidebarWidth}"> 
       <div class="container_box h-5rem">
         <div class="content_box h-full w-full mx-10 relative">
           <InfoComp :lineId="selectedLineId"></InfoComp> 
@@ -19,7 +19,7 @@
       </div>
     </div>
       
-    <div v-if="inSettings" :style="{'marginLeft': sidebarWidth}"> 
+    <div v-if="inSettings" :style="{'marginRight': sidebarWidth}"> 
       <div class="container_box h-5rem">
         <div class="content_box h-full w-full mx-10 relative">
           <SettingsComp :lineId="selectedLineId"></SettingsComp>

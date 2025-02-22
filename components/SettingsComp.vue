@@ -52,7 +52,7 @@
 
           <!-- Privacy Setting -->
           <div class="py-2">
-            <UCheckbox v-model="is_private" name="private" label="Soukromá osa" />
+            <UCheckbox v-model="is_private" name="private" label="Soukromá osa" color="sky"/>
           </div>
 
           <!-- Description -->
