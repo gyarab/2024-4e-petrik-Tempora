@@ -47,6 +47,15 @@
               </UTooltip>
             </button>
 
+            <button @click="toggleTimelineDarkMode" class="sidebar-but">
+              <UTooltip text="Přepnout barvy skupin" :popper="{ placement: 'right' }">
+                <Icon 
+                  class="sidebar-icon" 
+                  :name="timelineDarkMode ? 'uil:brightness' : 'uil:brightness-half'"
+                />
+              </UTooltip>
+            </button>
+
           </div>
         </Transition>
 
@@ -70,7 +79,7 @@
   </template>
 
 <script setup>
-import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, toggleInfo, toggleSettings, inSettings, inInfo } from '../composables/state';
+import { collapsed, toggleSidebar, sidebarWidth, inEdit, toggleEdit, inSettings, inInfo, timelineDarkMode, toggleTimelineDarkMode } from '../composables/state';
 import { useRoute } from 'vue-router';
 import { toggleBookmark, fetchBookmarkState } from "../composables/useSupabase";
 import { fetchLastItemIdByLineId } from "../composables/supabaseItem";

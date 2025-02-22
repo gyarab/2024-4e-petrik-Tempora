@@ -205,7 +205,6 @@ async function saveChanges() {
       });
     }
   } catch (error) {
-    console.error('Failed to save item:', error);
     toast.add({
       title: 'Chyba při ukládání',
       description: 'Nastala chyba při ukládání změn',
@@ -255,7 +254,6 @@ async function handleDelete() {
     // Navigate back to timeline
     navigateTo(`/lines/${id}`)
   } catch (error) {
-    console.error('Failed to delete item:', error)
     toast.add({
       title: 'Chyba při mazání',
       description: 'Nastala chyba při mazání události',

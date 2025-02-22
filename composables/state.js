@@ -53,3 +53,6 @@ export const openForm = ref(false);
 export const toggleForm = () => {
   openForm.value = !openForm.value;
 };
+
+export const timelineDarkMode = ref(false);
+export const toggleTimelineDarkMode = () => timelineDarkMode.value = !timelineDarkMode.value;

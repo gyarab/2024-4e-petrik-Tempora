@@ -79,6 +79,7 @@ import { fetchItemsByLineId } from '@/composables/supabaseItem';
 import { useRoute } from 'vue-router';
 import { Timeline } from 'vue-timeline-chart';
 import 'vue-timeline-chart/style.css';
+import { timelineDarkMode } from '../composables/state';
 const router = useRouter();
 
 const route = useRoute();
@@ -111,6 +112,25 @@ const {
   markers,
   mouseHoverPosition,
 } = useTimeline(rangeStart, rangeEnd);
+
+const timelineStyles = computed(() => ({
+  kontextGroup: {
+    color: timelineDarkMode.value ? 'white' : 'black',
+    backgroundColor: timelineDarkMode.value ? '#000405' : '#ffffff15'
+  },
+  primaryGroup: {
+    color: timelineDarkMode.value ? 'white' : 'black',
+    backgroundColor: timelineDarkMode.value ? '#05252d' : '#3de2ff15'
+  },
+  secondaryGroup: {
+    color: timelineDarkMode.value ? 'white' : 'black',
+    backgroundColor: timelineDarkMode.value ? '#000405' : '#ffffff15'
+  },
+  detailGroup: {
+    color: timelineDarkMode.value ? 'white' : 'black',
+    backgroundColor: timelineDarkMode.value ? '#05252d' : '#3de2ff15'
+  }
+}));
 
 async function fetchData() {
   try {
@@ -156,10 +176,11 @@ async function fetchData() {
     items.value = fetchedItems.map((item) => {
       const itemData = item.item_data;
       const type = itemData.start === itemData.end ? 'point' : 'range';
+      const baseClass = groupCssMap[itemData.group] || '';
 
       return {
         ...itemData,
-        className: groupCssMap[itemData.group] || '',
+        className: `${baseClass} timeline-item-border`,
         type,
       };
     });
@@ -245,7 +266,7 @@ onMounted(fetchData);
 
 
 :root {
-  --group-height: clamp(40px, 10vh, 15vh); /* Minimum, preferred , max */
+  --group-height: clamp(40px, 10.5vh, 15vh); /* Minimum, preferred , max */
   --primaryGH:calc(var(--group-height) * 1.25);
   --secondaryGH:calc(var(--group-height) * 0.85);
   --detailGH:calc(var(--group-height) * 0.75);
@@ -253,25 +274,28 @@ onMounted(fetchData);
 
 
 .kontextGroup{
-    background-color: #ffffff15;
-    height: var(--group-height);
-  }
+  color: v-bind('timelineStyles.kontextGroup.color');
+  background-color: v-bind('timelineStyles.kontextGroup.backgroundColor');
+  height: var(--group-height);
+}
 
-  .primaryGroup {
-  background-color: #3de2ff15;
+.primaryGroup {
+  color: v-bind('timelineStyles.primaryGroup.color');
+  background-color: v-bind('timelineStyles.primaryGroup.backgroundColor');
   height: var(--primaryGH);
 }
 
-.secondaryGroup{
-  background-color: #ffffff15;
+.secondaryGroup {
+  color: v-bind('timelineStyles.secondaryGroup.color');
+  background-color: v-bind('timelineStyles.secondaryGroup.backgroundColor');
   height: var(--secondaryGH);
 }
 
-.detailGroup{
-  background-color: #3de2ff15;
+.detailGroup {
+  color: v-bind('timelineStyles.detailGroup.color');
+  background-color: v-bind('timelineStyles.detailGroup.backgroundColor');
   height: var(--detailGH);
 }
-
 
 .timestamps {  
   transform: translateY(calc(var(--group-height) + var(--primaryGH) + var(--secondaryGH) + var(--detailGH)));
@@ -284,7 +308,7 @@ onMounted(fetchData);
   position: relative; /* Set relative positioning for absolute child positioning */
 }
 div.group {
-  border-top: 0 !important; /* TODO */  
+  border-top: 1 !important; /* TODO */  
 }
 
 .timestamps:before {
@@ -293,14 +317,15 @@ div.group {
   left: 0;
   right: 0;
   top: 50%;
-  border-top: 2px solid #000; /* adjust the color and thickness as needed */
+  border-top: 2px solid #000; 
   transform: translateY(-50%);
 }
 
 .timestamp {
+  color: black;
   position: relative;
   z-index: 1;
-  background-color: #fff; /* or any desired background color */
+  background-color: #fff; 
   padding: 0 10px; /* adjust the padding as needed */
   border-left: 0px !important; 
 }
@@ -308,7 +333,6 @@ div.group {
 
 .group{
   display: flex;
-  /*align-items: center; /* Vertically centers the label (Not centered due to item height)  */
   justify-content: flex-start; /* Keeps the label aligned to the left */
   padding-bottom: 0 !important;
 }
@@ -326,4 +350,16 @@ div.group {
 .detailGroupCss{
   height: var(--detailGH) !important;
 }
+
+.timeline-item-border {
+  border: 1px solid black !important;
+  text-align: center;
+}
+
+.group-label{
+  display: flex ; 
+  align-items: center ;
+  justify-content: center ;
+}
+
 </style>

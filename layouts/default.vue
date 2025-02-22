@@ -12,6 +12,7 @@
                         <NuxtLink 
                             :to="item.path" 
                             class="hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+                            @click="resetStates"
                         >
                             {{ item.label }}
                         </NuxtLink>
@@ -111,12 +112,13 @@ function toggleMenu() {
     isMenuOpen.value = !isMenuOpen.value
 }
 
-// Close mobile menu and reset all states on route change
-watch(useRoute(), () => {
+
+// Add manual reset function
+function resetStates() {
     isMenuOpen.value = false
-    toggleOff() // Reset sidebar states
-    openForm.value = false // Reset form state
-})
+    toggleOff()
+    openForm.value = false
+}
 
 watchEffect(async () => {
     if (user.value) {
