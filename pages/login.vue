@@ -1,4 +1,8 @@
 <template>
+    <Head>
+        <Title> Tempora | Login</Title>
+    </Head>
+    
     <div class="container_box ">
       <div class="content_box w-96">
         <h2>Přihlášení</h2>

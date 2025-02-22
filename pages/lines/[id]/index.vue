@@ -1,7 +1,7 @@
 <template>
   <Head>
-      <Title> Tempora | Timeline {{ id }}</Title>
-    </Head>
+    <Title> Tempora | Timeline {{ id }}</Title>
+  </Head>
   
     <Sidebar @info-toggle="handleInfoToggle" @settings-toggle="handleSettingsToggle"/>
     

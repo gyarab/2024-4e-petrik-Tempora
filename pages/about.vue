@@ -1,4 +1,8 @@
 <template>
+    <Head>
+        <Title> Tempora | About</Title>
+    </Head>
+
     <div class="container_box" >
         <div class="content_box h-full w-full mx-10">
             <div class="text-3xl font-bold mb-6 text-sky-700 dark:text-sky-300">

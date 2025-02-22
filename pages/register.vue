@@ -1,4 +1,7 @@
 <template>
+     <Head>
+        <Title> Tempora | Register</Title>
+    </Head>
     <div class="container_box">
       <div class="content_box w-96">
         <h2>Registrace</h2>

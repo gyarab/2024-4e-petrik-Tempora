@@ -1,9 +1,9 @@
 <template>
+  <Head>
+      <Title> Tempora | Lines </Title>
+  </Head>
     <div class="container_box">
-    <div class="content_box w-full mx-10 relative">
-        <Head>
-            <Title> Tempora | lines </Title>
-        </Head>
+      <div class="content_box w-full mx-10 relative">
         
         
          
