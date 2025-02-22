@@ -1,6 +1,6 @@
 <template>
   <div v-if="isLoading" class="flex flex-col items-center justify-center h-[80vh] space-y-8">
-    <h2 class="text-3xl font-bold text-center text-sky-950">Načítání časové osy...</h2>
+    <h2 class="text-3xl font-bold text-center dark:text-sky-300 text-sky-950">Načítání časové osy...</h2>
     <div class="w-96 space-y-4">
       <UProgress
         animation="carousel"
@@ -8,7 +8,7 @@
         class="w-full"
         size="lg"
       />
-      <p class="text-center text-gray-600">{{ loadingMessage }}</p>
+      <p class="text-center text-gray-600 dark:text-gray-200">{{ loadingMessage }}</p>
     </div>
   </div>
     <div v-else
@@ -40,7 +40,7 @@
  
     <div class="bg-white dark:bg-zinc-800 black-white controls-container">
       <div class="year-display-container">
-        {{ mouseHoverPosition ? "Ukazatel myši nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na časovou osu zobrazíte rok' }}
+        {{ mouseHoverPosition ? "Kurzor nad rokem " + new Date(mouseHoverPosition).getUTCFullYear() : 'Umístěním kurzoru na osu zobrazíte rok' }}
       </div>
       
       <div class="scroll-container">
@@ -281,7 +281,7 @@ onMounted(fetchData);
 
 
 :root {
-  --group-height: clamp(40px, 10.5vh, 15vh); /* Minimum, preferred , max */
+  --group-height: clamp(20px, 10.5vh, 15vh); /* Minimum, preferred , max */
   --primaryGH:calc(var(--group-height) * 1.25);
   --secondaryGH:calc(var(--group-height) * 0.85);
   --detailGH:calc(var(--group-height) * 0.75);
