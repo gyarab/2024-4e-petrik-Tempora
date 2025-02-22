@@ -227,10 +227,10 @@ async function saveChanges() {
     });
     return;
   }
-  if(start.value > end.value) {
+  if(start.value >= end.value) {
     toast.add({
       title: 'Chyba při ukládání',
-      description: 'Začátek události nemůže být později než její konec',
+      description: 'Začátek události nemůže být později než její konec, minimální trvání je jeden rok',
       icon: 'i-heroicons-exclamation-circle',
       color: 'red',
       timeout: 3000,
