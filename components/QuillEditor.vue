@@ -139,10 +139,22 @@ const content = computed({
   }
 
   .dark .ql-snow .ql-picker-item {
-    color: rgb(71, 71, 71);
+    color: rgb(255, 255, 255);
   }
 
   .dark .ql-snow .ql-picker-item:hover {
     background-color: rgb(63 63 70);
   }
+
+  /* Hover effect for pickers */
+.dark .ql-toolbar .ql-picker:hover,
+.dark .ql-toolbar .ql-picker-label:hover {
+  background-color: rgb(63 63 70); /* Slightly lighter hover effect */
+  color: white;
+}
+
+.dark .ql-toolbar button:hover,
+.dark .ql-toolbar button:focus {
+  background-color: rgb(63 63 70); /* Slightly lighter hover effect */
+}
   </style>
