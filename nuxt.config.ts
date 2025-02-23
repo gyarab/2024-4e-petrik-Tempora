@@ -26,6 +26,9 @@ export default defineNuxtConfig({
       meta:[
         {name: 'description', content: 'Interactive Timeline'}
       ],
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ]
     }
   },
   supabase: {
