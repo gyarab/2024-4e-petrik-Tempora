@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/ui',
     'nuxt-color-picker',
+    '@pinia/nuxt',
   ],
   tailwindcss: {
     // Add Tailwind dark mode configuration here

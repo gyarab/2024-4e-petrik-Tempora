@@ -1,5 +1,30 @@
 <template>
   <div class="bg-white dark:bg-zinc-800 p-6 rounded-lg border-2 border-black shadow-lg w-full">
+    <!-- Navigation Arrows - Only show for main items (groups 2 and 5) -->
+    <div v-if="[2, 5].includes(itemData?.group)" class="flex justify-between items-center mb-4">
+      <UButton
+        v-if="previousItem"
+        icon="i-heroicons-arrow-left"
+        color="sky"
+        variant="ghost"
+        class="rounded-md border-black dark:border-white border-2 p-2 flex items-center gap-2"
+        :to="`/lines/${id}/${previousItem.id}`"
+      >
+        <span class="text-sm">{{ previousItem.name }}</span>
+      </UButton>
+      <div class="flex-grow"></div>
+      <UButton
+        v-if="nextItem"
+        icon="i-heroicons-arrow-right-20-solid"
+        color="sky"
+        variant="ghost"
+        class="rounded-md border-black dark:border-white border-2 p-2 flex items-center gap-2"
+        :to="`/lines/${id}/${nextItem.id}`"
+      >
+        <span class="text-sm">{{ nextItem.name }}</span>
+      </UButton>
+    </div>
+
     <!-- Error State -->
     <div v-if="error" class="flex flex-col items-center justify-center text-center p-4">
       <Icon name="heroicons:exclamation-circle" class="text-4xl text-red-500 mb-2"/>
@@ -57,9 +82,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { fetchItemsByTag } from '~/composables/supabaseItem';
+import { storeToRefs } from 'pinia';
+import { useTimelineStore } from '~/stores/timeline';
 
 // Define the emit
 const emit = defineEmits(['colorSelected']);
@@ -75,6 +102,26 @@ const secondaryDescription = ref('');
 const detailData = ref(null);
 const detailDescription = ref('');
 const error = ref(false);
+
+const timelineStore = useTimelineStore();
+const { topItems, bottomItems } = storeToRefs(timelineStore);
+
+// Update computed properties for navigation
+const previousItem = computed(() => {
+  if (!itemData.value || ![2, 5].includes(itemData.value.group)) return null;
+  
+  const currentArray = itemData.value.group === 2 ? topItems.value : bottomItems.value;
+  const currentIndex = currentArray.findIndex(item => item.id === parseInt(content));
+  return currentIndex > 0 ? currentArray[currentIndex - 1] : null;
+});
+
+const nextItem = computed(() => {
+  if (!itemData.value || ![2, 5].includes(itemData.value.group)) return null;
+  
+  const currentArray = itemData.value.group === 2 ? topItems.value : bottomItems.value;
+  const currentIndex = currentArray.findIndex(item => item.id === parseInt(content));
+  return currentIndex < currentArray.length - 1 ? currentArray[currentIndex + 1] : null;
+});
 
 function formatDate(ms) {
   const date = new Date(ms);

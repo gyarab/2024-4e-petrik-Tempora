@@ -87,8 +87,9 @@ import { useRoute } from 'vue-router';
 import { Timeline } from 'vue-timeline-chart';
 import 'vue-timeline-chart/style.css';
 import { timelineDarkMode } from '../composables/state';
-const router = useRouter();
+import { useTimelineStore } from '~/stores/timeline';
 
+const router = useRouter();
 const route = useRoute();
 const id = route.params.id;
 
@@ -100,6 +101,12 @@ const rangeEnd = ref(null);
 
 // Add new refs for loading state
 const loadingMessage = ref('Připojování k databázi...')
+
+// Add new refs for sorted items
+const topItems = ref([]);
+const bottomItems = ref([]);
+
+const timelineStore = useTimelineStore();
 
 // Timeline utilities (initialize but reactive to rangeStart, rangeEnd)
 const {
@@ -154,6 +161,7 @@ const timelineStyles = computed(() => ({
   }
 }));
 
+// Modify fetchData function to include sorting
 async function fetchData() {
   try {
     loadingMessage.value = 'Načítání informací o časové ose...'
@@ -206,6 +214,26 @@ async function fetchData() {
         type,
       };
     });
+
+    // Sort items into top and bottom arrays with names
+    const topItemsList = fetchedItems
+      .filter(item => item.item_data.group === 2)
+      .sort((a, b) => a.item_data.start - b.item_data.start)
+      .map(item => ({
+        id: item.item_data.tag,
+        name: item.item_data.name
+      }));
+
+    const bottomItemsList = fetchedItems
+      .filter(item => item.item_data.group === 5)
+      .sort((a, b) => a.item_data.start - b.item_data.start)
+      .map(item => ({
+        id: item.item_data.tag,
+        name: item.item_data.name
+      }));
+
+    timelineStore.setTopItems(topItemsList);
+    timelineStore.setBottomItems(bottomItemsList);
 
     loadingMessage.value = 'Dokončování...'
   } catch (error) {
