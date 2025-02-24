@@ -131,7 +131,7 @@ const timelineStyles = computed(() => ({
   kontextGroup: {
     color: timelineDarkMode.value ? 'white' : 'black',
     backgroundColor: timelineDarkMode.value ? '#00040560' : '#ffffff15',
-    borderColor: timelineDarkMode.value ? '#4a4a4a' : '#e5e5e5'  // Lighter gray in light mode
+    borderColor: timelineDarkMode.value ? '#4a4a4a' : '#e5e5e5'  
   },
   primaryGroup: {
     color: timelineDarkMode.value ? 'white' : 'black',
@@ -346,17 +346,18 @@ onMounted(fetchData);
   height: var(--detailGH);
 }
 
-.timestamps {  
-  transform: translateY(calc(var(--group-height) + var(--primaryGH) + var(--secondaryGH) + var(--detailGH)));
-  position: absolute;
-  width: 100%;
-  background-color: transparent !important;
-}
 .timeline-container {
   position: relative; /* Set relative positioning for absolute child positioning */
 }
 div.group {
   border-top: 1px solid v-bind('timelineStyles.kontextGroup.borderColor') !important;  
+}
+
+.timestamps {  
+  transform: translateY(calc(var(--group-height) + var(--primaryGH) + var(--secondaryGH) + var(--detailGH)));
+  position: absolute;
+  width: 100%;
+  background-color: transparent !important;
 }
 
 .timestamps:before {
@@ -373,7 +374,7 @@ div.group {
   color: v-bind('timelineStyles.timestamp.color');
   position: relative;
   background-color: v-bind('timelineStyles.timestamp.backgroundColor'); 
-  padding: 0 10px; /* adjust the padding as needed */
+  padding: 0 10px;
   border-left: 0px !important; 
 }
 
