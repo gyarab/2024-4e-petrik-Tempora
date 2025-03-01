@@ -38,7 +38,7 @@
       <div class="text-center py-4 border-b dark:border-zinc-700">
         <h2 class="text-4xl font-bold text-sky-700 dark:text-sky-300">{{ itemData.name }}</h2>
         <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
-          {{ formatDate(itemData.start) }} - {{ formatDate(itemData.end) }}
+          {{ displayStartYear }} - {{ displayEndYear }}
         </p>
       </div>
 
@@ -121,6 +121,18 @@ const nextItem = computed(() => {
   const currentArray = itemData.value.group === 2 ? topItems.value : bottomItems.value;
   const currentIndex = currentArray.findIndex(item => item.id === parseInt(content));
   return currentIndex < currentArray.length - 1 ? currentArray[currentIndex + 1] : null;
+});
+
+const displayStartYear = computed(() => {
+  return itemData.value?.start < 0 
+    ? `${Math.abs(formatDate(itemData.value.start))} BC` 
+    : itemData.value.start;
+});
+
+const displayEndYear = computed(() => {
+  return itemData.value?.end < 0 
+    ? `${Math.abs(formatDate(itemData.value.end))} BC` 
+    : itemData.value.end;
 });
 
 function formatDate(ms) {
