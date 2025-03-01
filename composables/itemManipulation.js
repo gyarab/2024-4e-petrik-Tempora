@@ -1,7 +1,7 @@
 import {  addItem, updateItem, removeItem, fetchLastItemIdByLineId, fetchItemsByTag } from '~/composables/supabaseItem';
 
 export function convertYearToMs (year) {
-  if (year >= 100) {
+  if (year >= 100 || year < 0) {
     return Date.UTC(year, 0, 1);
   } else {
     // For years before 100, we need to use a different approach

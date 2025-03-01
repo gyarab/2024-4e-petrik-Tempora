@@ -9,7 +9,7 @@ export const useTimeline = (start, end, zoomLimits = { min: 0.8, max: 3 }) => {
   const maxZoom = zoomLimits.max; // Maximum zoom level
   const initialZoom = 0.8; // Default zoom level
   const yearToMs = (year) => {
-    if (year >= 100) {
+    if (year >= 100 || year < 0) {
       return Date.UTC(year, 0, 1);
     } else {
       // For years before 100, we need to use a different approach
