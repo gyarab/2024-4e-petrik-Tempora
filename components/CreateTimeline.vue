@@ -39,6 +39,8 @@
                 placeholder="Rok začátku"
                 class="w-full"
                 required
+                :min="MIN_YEAR"
+                :max="MAX_YEAR-1"
               />
             </div>
             
@@ -51,6 +53,8 @@
                 placeholder="Rok konce"
                 class="w-full"
                 required
+                :min="MIN_YEAR+1"
+                :max="MAX_YEAR"
               />
             </div>
           </div>
@@ -126,6 +130,9 @@ const end = ref(null);
 const description = ref("");
 const is_private = ref(false);
 const router = useRouter();
+
+const MIN_YEAR = -12000//-271820
+const MAX_YEAR = 12000//275760
 
 // Store labels for groups 1-8
 const groupLabels = ref({

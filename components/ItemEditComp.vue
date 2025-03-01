@@ -12,6 +12,9 @@
           color="sky"
           size="lg"
           v-model="start" 
+          :min="MIN_YEAR+1"
+          :max="MAX_YEAR"
+          required
           placeholder="Začátek události"
         />
         <UInput 
@@ -19,6 +22,9 @@
           color="sky" 
           size="lg"
           v-model="end" 
+          :min="MIN_YEAR"
+          :max="MAX_YEAR-1"
+          required
           placeholder="Konec události"
         />
         <div class="justify-self-center flex">
@@ -180,11 +186,15 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, defineEmits } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { createNewItem, loadItemData, handleItemUpdate } from '~/composables/itemManipulation';
 import { removeItemsByTag } from '~/composables/supabaseItem';
 import QuillEditor from '~/components/QuillEditor.vue';
+
+
+const MIN_YEAR = -12000//-271820
+const MAX_YEAR = 12000//275760
 const toast = useToast();
 const router = useRouter();
 const route = useRoute();
