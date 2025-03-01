@@ -124,20 +124,18 @@ const nextItem = computed(() => {
 });
 
 const displayStartYear = computed(() => {
-  return itemData.value?.start < 0 
-    ? `${Math.abs(formatDate(itemData.value.start))} BC` 
-    : itemData.value.start;
+  const startYear = formatDate(itemData.value?.start);
+  return startYear < 0 ? `${Math.abs(startYear)} BC` : startYear;
 });
 
 const displayEndYear = computed(() => {
-  return itemData.value?.end < 0 
-    ? `${Math.abs(formatDate(itemData.value.end))} BC` 
-    : itemData.value.end;
+  const endYear = formatDate(itemData.value?.end);
+  return endYear < 0 ? `${Math.abs(endYear)} BC` : endYear;
 });
 
 function formatDate(ms) {
   const date = new Date(ms);
-  return `${date.getFullYear()}`;
+  return date.getFullYear();
 }
 
 async function loadItemData() {
