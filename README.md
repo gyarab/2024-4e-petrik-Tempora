@@ -6,64 +6,63 @@ Webové stránka sloužící jako nástroj pro tvorbu a vizualizaci interaktivn�
 
 
 
-## ✨ Features
+## ✨ Funkce
 
-- 📅 Interactive timeline visualization
-- 📖 Literature and historical events integration
-- 🌍 Context-aware event relationships
-- 🎨 Customizable timeline appearance
-- 👥 Multi-user collaboration
-- 🔖 Bookmark system
-- 🌓 Dark/Light mode support
+- 📅 Interaktivní vizualizace časové osy
+- 🌍 Kontextové vztahy mezi událostmi
+- 🎨 Možnost přizpůsobení vzhledu časové osy
+- 👥 Spolupráce více uživatelů
+- 🔖 Systém záložek
+- 🌓 Podpora světlého/tmavého režimu
 
-## 🚀 Getting Started
+## 🚀 Instalace
 
-### Prerequisites
+### Požadavky
 
 - Node.js 18+ 📦
-- Supabase account 🗃️
+- Supabase účet / SUPABASE_KEY 🗃️
 - Git 🔄
 
-### Installation
+### Instalace
 
-1. Clone the repository
+1. Naklonujte repozitář:
 ```bash
 git clone https://github.com/your-username/tempora.git
 cd tempora
 ```
 
-2. Install dependencies
+2. Nainstalujte závislosti:
 ```bash
 npm install
 ```
 
-3. Set up environment variables
+3. Nastavte proměnné prostředí:
 ```bash
 cp .env.example .env
 ```
 
-Update `.env` with your Supabase credentials:
+Upravte soubor `.env` a doplňte své Supabase přihlašovací údaje:
 ```env
 SUPABASE_URL=your-supabase-url
 SUPABASE_KEY=your-supabase-key
 ```
 
-4. Start development server
+4. Spusťte vývojový server:
 ```bash
 npm run dev
 ```
 
-Visit `http://localhost:3000` 🎉
+Otevřete  `http://localhost:3000` 🎉
 
-## 🛠️ Built With
+## 🛠️ Technologie
 
 - [Nuxt 3](https://nuxt.com/) - Vue Framework
-- [Supabase](https://supabase.com/) - Backend as a Service
-- [Vue Timeline Chart](https://github.com/grocky/vue-timeline-chart) - Timeline Visualization
-- [Nuxt UI](https://ui.nuxt.com/) - UI Components
-- [TailwindCSS](https://tailwindcss.com/) - Styling
+- [Supabase](https://supabase.com/) - Backend jako služba
+- [Vue Timeline Chart](https://github.com/grocky/vue-timeline-chart) - Vizualizace časové osy
+- [Nuxt UI](https://ui.nuxt.com/) - UI komponenty
+- [TailwindCSS](https://tailwindcss.com/) - Stylování
 
-## 📸 Screenshots
+## 📸 Ukázky
 
 ### Časová osa
 
@@ -78,23 +77,20 @@ Visit `http://localhost:3000` 🎉
 <img src="assets/images/showItem.png" width="700" alt="Detail události">
 
 ## 📝 Použití
+1. **Vytvoření časové osye**
+   - Jděte do záložky „Přehled os“
+   - Klikněte na „Nová časová osa“
+   - Nastavte parametry časové osy a vytvořte ji
 
-- //TODO tohle lip vysvetlit
+2. **Přidání událostí**
+   - Zapněte editační režim a použijte tlačítko „+“ v postranním panelu
+   - Nastavte časový rozsah, barvu název
+   - Vyplňte podrobnosti o události
 
-1. **Create Timeline**
-   - Click "New Timeline"
-   - Set timeline parameters
-   - Add initial events
-
-2. **Add Events**
-   - Use the sidebar "+" button
-   - Fill in event details
-   - Set time period and category
-
-3. **Navigate**
-   - Zoom with Ctrl + Mouse Wheel
-   - Drag timeline to move
-   - Click events for details
+3. **Navigace**
+   - Posuvníkem měnte zobrazovanou část časové osy
+   - Přibližujte pomocí Ctrl + kolečko myši nebo lupou
+   - Kliknutím na událost zobrazíte podrobnosti
   
 📄 Pro více informací se podívejte do ![Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace.pdf)
 <!---
