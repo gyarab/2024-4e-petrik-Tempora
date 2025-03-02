@@ -96,7 +96,7 @@ Visit `http://localhost:3000` 🎉
    - Drag timeline to move
    - Click events for details
   
-📄 Pro více informací se podívejte do [Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/dokumentace.pdf)
+📄 Pro více informací se podívejte do ![Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace.pdf)
 <!---
 ## 🤝 Contributing
 
