@@ -73,7 +73,7 @@
         <UButton 
           v-if="!showSecondary" 
           color="sky"
-          label="Přidat Secondary" 
+          label="Přidat vedlejší část" 
           @click="showSecondary = true" 
           class="rounded-md border-black border-2 p-2"
         />
@@ -84,7 +84,7 @@
               v-model="secondaryTitle" 
               color="sky"
               size="lg"
-              placeholder="Název Secondary" 
+              placeholder="Název vedlejší části" 
               class="flex-grow" 
             />
             <UButton 
