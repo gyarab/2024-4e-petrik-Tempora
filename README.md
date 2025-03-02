@@ -1,4 +1,4 @@
-# 2024-4e-petrik-Tempora      
+# Tempora - Stránka pro tvorbu interaktivních časových os
 
 Webové stránka sloužící jako nástroj pro tvorbu a vizualizaci interaktivních časových os. Cílem práce bylo umožnit uživatelům tvorbu, procházení a sdílení časových os s možností jejich rozkliknutí pro podrobnější informace o jednotlivých obdobích a autorech. Tyto osy se vyznačují důrazem na zasazení událostí do historického kontextu a umožňují srovnání dvou tématicky odlišných období.
 
@@ -96,7 +96,7 @@ Visit `http://localhost:3000` 🎉
    - Drag timeline to move
    - Click events for details
   
-   
+📄 Pro více informací se podívejte do [Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/dokumentace.pdf)
 <!---
 ## 🤝 Contributing
 
