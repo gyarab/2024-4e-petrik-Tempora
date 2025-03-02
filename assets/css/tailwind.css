@@ -40,7 +40,7 @@ body{
     }
     
     .icon-style{
-        @apply max-w-fit border-2 border-black rounded-2xl text-center bg-white font-bold block px-2 py-1
+        @apply max-w-fit border-2 border-black rounded-2xl text-center bg-white font-bold block px-2 py-1 mr-4
     }
 
     .sidebar-icon{
@@ -54,29 +54,29 @@ body{
         @apply text-sky-600 dark:text-sky-400;
       }
 
-      :deep(.ql-editor) {
+    :deep(.ql-editor) {
         @apply text-gray-900 dark:text-gray-100;
-      }
-      
-      :deep(.ql-editor.ql-blank::before) {
+    }
+    
+    :deep(.ql-editor.ql-blank::before) {
         @apply text-gray-400 dark:text-gray-500;
-      }
-      
-      :deep(.dark .ql-toolbar button:hover),
-      :deep(.dark .ql-toolbar button:focus) {
+    }
+    
+    :deep(.dark .ql-toolbar button:hover),
+    :deep(.dark .ql-toolbar button:focus) {
         @apply bg-zinc-700;
-      }
-      
-      :deep(.dark .ql-toolbar .ql-active) {
+    }
+    
+    :deep(.dark .ql-toolbar .ql-active) {
         @apply bg-zinc-700;
-      }
+    }
     
 }
 @layer utilities {
+    
     .h-4rem {
         height: calc(100vh - 4rem); /* 4rem = 64px = height of topbar */
     }
-
 
     .black-white{
         @apply text-black dark:text-white

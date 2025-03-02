@@ -20,12 +20,15 @@
                 <li><span class="font-bold">Flexibilita</span> - Možnost vytvářet a upravovat vlastní časové osy s přizpůsobitelnými prvky.</li>
                 <li><span class="font-bold">Moderní technologie</span> - Tempora je postavena na Nuxt.js pro frontend a Supabase jako backendovou databázi.</li>
             </ul>
+
+            <p class="mt-4"> Více informací o použíávní a celém projektu najdete v dokumentaci</p>
+           
         </div>  
 
-
+        
 
         <!-- Odkazy -->
-        <div class="mt-6">
+        <div class="mt-6 flex">
             <a
             href="https://github.com/gyarab/2024-4e-petrik-Tempora"
             target="_blank"
@@ -36,6 +39,20 @@
                 <Icon class="size-16 text-gray-950 " name="uil:github"  /> <br>
                 </span>
                 <span class="text-gray-950"> GitHub </span> 
+            </div>
+            </a>
+
+
+            <a
+            href="https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace.pdf"
+            target="_blank"
+            class="icon-style"
+            >
+            <div>
+                <span>
+                <Icon class="size-16 text-gray-950 " name="heroicons:document-text-solid"  /> <br>
+                </span>
+                <span class="text-gray-950"> Dokumentace </span> 
             </div>
             </a>
         </div>
