@@ -21,7 +21,7 @@
                 <li><span class="font-bold">Moderní technologie</span> - Tempora je postavena na Nuxt.js pro frontend a Supabase jako backendovou databázi.</li>
             </ul>
 
-            <p class="mt-4"> Více informací o použíávní a celém projektu najdete v dokumentaci</p>
+            <p class="mt-4"> Více informací o používání a celém projektu najdete na GitHubu nebo v dokumentaci.</p>
            
         </div>  
 
