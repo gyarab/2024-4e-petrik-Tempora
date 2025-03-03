@@ -93,6 +93,12 @@ Otevřete  `http://localhost:3000` 🎉
    - Kliknutím na událost zobrazíte podrobnosti
   
 📄 Pro více informací se podívejte do ![Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace.pdf)
+
+
+---
+
+## 📜 Licence  
+Tempora je licencovaná MIT licencí. Více informací v `LICENSE.md`.  
 <!---
 ## 🤝 Contributing
 
