@@ -1,0 +1,21 @@
+\section{Možná budoucí vylepšení}
+Jako téměř jakýkoliv projekt ani tento není naprosto perfektní a vždy je možné něco zlepšovat. Proto bych tuto kapitolu chtěl věnovat možným budoucím vylepšením, která nejsou implementována, ale mohla by projekt posunout dále. Nebudu zde uvádět již zmíněné problémy v části \ref{Dotazník} \textit{Dotazník pro studenty}.
+
+\subsection{Uživatelská vylepšení}
+
+\subsubsection{Kategorie}
+Jedna z věcí, která je v mé stávající verzi obtížná, je možnost objevovat nové osy jiných uživatelů. Nyní je sice možné sdílet osy pomocí odkazu nebo ID, ale při nasazení aplikace pro veřejnost nastává problém s tím, jak tyto osy efektivně vyhledávat podle toho, co mě zajímá nebo co se mi líbí. Nebylo by tedy špatné implementovat ověřený systém kategorií nebo hashtagů s různými tématy, podle kterých by se daly jednotlivé osy vyhledávat. 
+
+\subsubsection{Hodnocení}
+Dále, pokud bych přidal vyhledávání veřejných os, nabízí se vytvořit uživatelské hodnocení, které by mohlo fungovat podobně jako např. na platformě \href{https://www.reddit.com/}{Reddit}, kde uživatelé hodnotí buď kladně („up-vote“), nebo záporně („down-vote“).
+
+\subsubsection{Admin role}
+Zlepšit by se dala i funkce vybraných os. Tuto funkci jsem přidal hlavně z důvodu zobrazení alespoň nějakého úvodního obsahu pro nepřihlášené uživatele. Tento koncept by se ale mohl posunout dále a vytvořit roli admina, který může ocenit správně udělané časové osy, jež mají velké množství kladných bodů, a napevno je umístit do sekce „Vybrané“ přímo z UI aplikace, a ne přes editaci tabulky skrze SQL příkaz.
+
+\subsection{Další návrhy}
+
+\subsubsection{Překlad}
+Když jsem s projektem začínal a ještě nevěděl, jak se co bude jmenovat, náhodně jsem používal  česko-anglické názvy. Později, když už jsem získal představu, jak chci, aby aplikace vypadala, jsem si musel vybrat, jestli ji nechat celou v angličtině, nebo celou v češtině. Zvolil jsem češtinu, ale nebylo by špatné, pokud by se aplikace více rozšířila, nechat uživatele vybrat si svůj jazyk.
+
+\subsubsection{Shrnutí období}
+Zajímavá funkce, která mě napadla, by bylo shrnutí roku. Tato funkce by umožnila uživateli vybrat nějaké období a poté by z dat vybraných os vrátila vše, co se v daném roce stalo. Tato možnost je ale pouze návrh, protože by velice záleželo na implementaci, např. z jakých os by se data brala, kolik dat vzít nebo jak zajistit, že uživatel dostane relevantní informace.

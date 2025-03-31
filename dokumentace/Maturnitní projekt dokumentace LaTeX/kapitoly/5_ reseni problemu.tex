@@ -1,0 +1,81 @@
+\section{Řešení problémů}
+V projektu jsem se několikrát potýkal s komplikacemi, ať už kvůli zbytečným chybám, nebo faktorům mimo moji kontrolu, a tak bych tady chtěl rozebrat pár problémů, se kterými jsem se setkal.
+
+\subsection{Převádění času – Unixový čas}
+\label{Převádění času - Unixový čas}
+
+\subsubsection{Data před rokem 1970}
+Na začátku projektu, když jsem se teprve učil pracovat s \textit{vue-timeline-chart}, jsem nastavil rozpětí let časové osy na 1950 až 2000. Po několika dnech od implementace jsem si ale všiml, že zobrazovaná část je pouze od roku 1970 do 2000. Bohužel jsem ve stejnou dobu pracoval na ovládání této osy, a tak jsem se snažil objevit chybu v posouvání zobrazené části a přibližování, která by mohla za useknutí dvaceti let. Asi týden jsem hledal tuto neexistující chybu, než jsem přišel na to, že rok 1950 je před začátkem unixového času. To znamená, že počet milisekund by měl být záporný.
+
+\subsubsection{Data mezi lety 0 až 100}
+Pro přeměnu milisekund na pro lidi příjemnější roky jsem využíval knihovní funkci \textit{Date.UTC(year, 0, 1)}. Tato funkce se zdála být více než dostačující pro převody let na milisekundy a naopak – až do chvíle, kdy jsem se snažil změnit roky před Kristem z formátu -50 až 50 na 50 BC až 50. Všiml jsem si totiž, že místo očekávaného roku 50 byl načten rok 1950. 
+
+Pro kontrolu jsem používal online nástroj \textit{Epoch Converter} \cite{EpochConverter}, který ovšem nejspíše využívá stejnou metodu. Dlouho jsem přemýšlel, kde nastala chyba, než jsem otevřel oficiální dokumentaci \cite{Mozzila-UTC} a zjistil, že právě pro roky 0 až 100 jsou jejich hodnoty nastaveny jako roky 1900 až 2000. V dokumentaci jsem také hledal maximální a minimální hodnoty, které lze zadat do parametru roku, ale ty jsem nenašel. Metodou pokus-omyl jsem tedy dospěl k minimální hodnotě roku -271 820 a maximální 275 760. Tyto hodnoty ale nejsou plně podporovány komponentou časové osy, a tak jsou pro uživatelské zadávání povoleny hodnoty v rozmezí -12 000 až +12 000 let. 
+
+Finální funkce pro převod z roku na milisekundy od epochy je uvedena v ukázce \ref{convertYearToMs} \cite{UTC-bugfix}.
+
+\newpage
+\begin{lstlisting}[style=JavaScript, firstnumber = 3, caption={itemManipulation.js, convertYearToMs}, label={convertYearToMs}]
+export function convertYearToMs (year) {
+  if (year >= 100 || year < 0) {
+    return Date.UTC(year, 0, 1);
+  } else {
+    // For years before 100, we need to use a different approach
+    const baseYear = year >= 0 ? 1900 : 2000;
+    const yearDiff = Math.abs(year - baseYear);
+    return -(-Date.UTC(baseYear, 0, 1) + (yearDiff * 31536000000));
+  }
+};
+\end{lstlisting}
+
+\subsubsection{Načtení dat roku 1970}
+Poslední chyba, na kterou jsem narazil a která se vztahuje k převodům času, byl samotný rok 1970. Tento rok je totiž v milisekundách nula. Chyba nastala při načítání dat z databáze s nulovou milisekundovou hodnotou, kterou si můj program vyložil jako základní hodnotu nezadané položky – NaN (Not a Number) – a při převodu použil základní hodnotu 0 místo 1970. Oprava této chyby netrvala dlouho, stačilo přidat podmínku: pokud je hodnota NaN, nastav ji na 1970, viz [ukázka: \ref{loadItemData}].
+
+\begin{lstlisting}[style=JavaScript, firstnumber = 110, caption={itemManipulation.js, loadItemData}, label={loadItemData}]
+// ...
+start: new Date(contextItem?.start || regularItem?.start).getFullYear() || 1970
+// ...
+\end{lstlisting}
+
+
+\subsection{Předání informace nadřazenému souboru}
+Jelikož ve svém projektu používám podmíněné renderování, které umožňuje zobrazit nebo skrýt různé komponenty, často mám nastavené základní rozvržení pozadí mimo danou komponentu. Někdy ale potřebuji předat informaci nadřazenému \textit{.vue} souboru, aby změnil stav nebo své vlastnosti. Přesně toto jsem potřeboval pro dynamické nastavení barvy z komponenty \textit{ItemEditComp.vue} na pozadí nadřazené stránky. Proto jsem použil funkci \textit{emit}.
+
+Jako první musím nastavit konstantu \textit{emit} s daným jménem funkce, kterou chci provádět v nadřazeném komponentu. Poté nastavím pozorovatele (\textit{watcher}), který při zaznamenání změny hodnoty \textit{selectedColor} vyšle signál \textit{emit} s novou barvou.
+
+Nadřazený komponent poslouchá \textit{event handler} \newline (@update-background="updateBackgroundColor"), a pokud takovou změnu objeví, provede se část kódu se jménem této změny. Funkce \textit{updateBackgroundColor} pak změní barvu pozadí v \texttt{div} díky reaktivnímu atributu \texttt{:style}.
+
+\newpage
+  \begin{lstlisting}[style=JavaScript, firstnumber = 1, caption={Update background; itemEditComp.vue, content.vue}, label={emits}]
+
+// 1. Define emit
+const emit = defineEmits(['update-background']);
+
+// 2. Watch for color changes and emit them
+watch(selectedColor, (newColor) => {
+  emit('update-background', newColor);
+});
+
+
+////// Parent component ///////
+
+<template>
+    <div class="content\_box h-full w-full mx-10 px-4 md:px-6 relative "  
+            :style="{ backgroundColor: backgroundColor }">
+  <!-- Listen for emitted event -->
+    <ItemEditComp v-if="inEdit" @update-background="updateBackgroundColor" />
+    <ItemInfoComp v-if="!inEdit" @colorSelected="updateBackgroundColor" />
+</template>
+
+<script setup>
+const backgroundColor = ref('#BAE6FD'); // Default color
+
+// Handle the emitted event
+function updateBackgroundColor(newColor) {
+  backgroundColor.value = newColor;
+}
+</script>
+
+\end{lstlisting}
+
+Tento přístup zajišťuje konzistentní komunikaci mezi nadřazeným a podřazeným prvkem a umožňuje psát znovu použitelný kód. Ve zmíněném souboru je totiž ještě druhý \textit{event handler}, který místo na uživatelem vybranou barvu čeká na barvu načtenou z databáze skrze komponentu \textit{ItemInfoComp.vue}.
