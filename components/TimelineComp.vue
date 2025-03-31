@@ -254,33 +254,28 @@ async function fetchData() {
     isLoading.value = false;
   }
 }
-
 onMounted(fetchData);
-
-
 </script>
   
 <style>
-
-
 .scroll-container {
-  flex: 1 1 50%; /* 50% of the width */
+  flex: 1 1 50%;
   display: flex;
-  align-items: center; /* Vertically aligns elements */
+  align-items: center;
 }
 
 .zoom-container {
-  flex: 1 1 25%; /* 25% of the width */
+  flex: 1 1 25%; 
   display: flex;
-  align-items: center; /* Vertically aligns elements */
+  align-items: center; 
   justify-content: center;
 }
 
 .year-display-container {
-  flex: 1 1 25%; /* Remaining 25% of the width */
+  flex: 1 1 25%; 
   display: flex;
-  align-items: center; /* Vertically aligns elements */
-  justify-content: flex-start; /* Aligns text to the right */
+  align-items: center; 
+  justify-content: flex-start; 
 }
 .timeline-container {
   margin-top: 5px;
@@ -347,7 +342,7 @@ onMounted(fetchData);
 }
 
 .timeline-container {
-  position: relative; /* Set relative positioning for absolute child positioning */
+  position: relative;
 }
 div.group {
   border-top: 1px solid v-bind('timelineStyles.kontextGroup.borderColor') !important;  
@@ -381,7 +376,7 @@ div.group {
 
 .group{
   display: flex;
-  justify-content: flex-start; /* Keeps the label aligned to the left */
+  justify-content: flex-start;
   padding-bottom: 0 !important;
 }
 

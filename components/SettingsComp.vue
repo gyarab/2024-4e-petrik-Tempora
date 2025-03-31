@@ -237,15 +237,12 @@ const deleteTimelineHandler = async () => {
   isDeleting.value = true;
 
   try {
-    // First, navigate away from the timeline
     await navigateTo('/lines');
-    // Then delete the timeline
     await deleteTimeline(props.lineId);
-    // Close the settings modal
     toggleOff();
     // Emit the refresh event
     emit("refreshTimelines");
-    // Show success notification
+    
     toast.add({
       title: 'Časová osa smazána',
       description: `Časová osa byla úspěšně odstraněna `,

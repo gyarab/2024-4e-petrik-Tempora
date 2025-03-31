@@ -87,7 +87,7 @@
   const client = useSupabaseClient()
   const email = ref("")
   const password = ref("")
-  const nickname = ref("") // Added nickname input
+  const nickname = ref("")
   const errorMsg = ref(null)
   const successMsg = ref(null)
   

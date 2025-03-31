@@ -2,9 +2,9 @@ export async function fetchNickname(user) {
   const supabase = useSupabaseClient()
   try {
     const { data, error } = await supabase
-      .from('user_profiles') // Adjust table name if needed
+      .from('user_profiles')
       .select('nickname')
-      .eq('id', user.id) // Match the user's ID
+      .eq('id', user.id)
       .single()
 
     if (error) {
@@ -35,7 +35,7 @@ export async function updateNickname(userId, newNickname) {
       return true;
   } catch (error) {
       console.error("Error updating nickname:", error.message);
-      throw error; // Propagate the error to handle it in the component
+      throw error;
   }
 }
 
@@ -122,11 +122,10 @@ export async function fetchInfo(id) {
     .maybeSingle();
 
   if (error) {
-    // Optional: log only unexpected errors, suppress 'not found'
     if (error.code !== 'PGRST116') {
       console.error("Unexpected error fetching timeline info:", error);
     }
-    throw error; // Still throw so the caller can handle it
+    throw error;
   }
 
   return data;
@@ -176,7 +175,7 @@ export async function deleteTimeline(lineId) {
 
 
   export async function addTimeline({ start, end, name, is_private, description, groups, line_id = null }, userId) {
-    const supabase = useSupabaseClient(); // Must be called inside a composable or Vue setup
+    const supabase = useSupabaseClient();
   
     if (start >= end) {
       throw new Error("Start value must be less than End value.");
@@ -254,7 +253,7 @@ export async function deleteTimeline(lineId) {
       }
       if (filters.bookmarked && userId) {
         query = supabase
-          .from('bookmarks') // Join bookmarks with timelines
+          .from('bookmarks') 
           .select('timelines(*, user_profiles(nickname))')
           .eq('user_id', userId);
       }
