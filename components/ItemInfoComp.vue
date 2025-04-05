@@ -251,7 +251,6 @@ onMounted(() => {
   margin-bottom: 0.5em;
 }
 
-/* Keep existing Quill styles but add dark mode support */
 :deep(.quill-content) {
   line-height: 1.6;
 }

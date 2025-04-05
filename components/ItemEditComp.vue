@@ -399,7 +399,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-/* Keep styles consistent with ItemInfoComp */
 :deep(.quill-content) {
   line-height: 1.6;
 }

@@ -65,14 +65,15 @@ const content = computed({
   }
   
   .editor {
-    min-height: 100px;  /* Minimum height */
+    min-height: 100px; 
     margin-bottom: 1rem;
     background-color: white;
   }
-  
+
+  /* Override Quill's default fixed height */
   .ql-container.ql-snow {
     border-radius: 0.375rem;
-    height: auto !important;  /* Override Quill's default fixed height */
+    height: auto !important;  
   }
   
   .ql-container .ql-editor {
@@ -149,12 +150,12 @@ const content = computed({
   /* Hover effect for pickers */
 .dark .ql-toolbar .ql-picker:hover,
 .dark .ql-toolbar .ql-picker-label:hover {
-  background-color: rgb(63 63 70); /* Slightly lighter hover effect */
+  background-color: rgb(63 63 70);
   color: white;
 }
 
 .dark .ql-toolbar button:hover,
 .dark .ql-toolbar button:focus {
-  background-color: rgb(63 63 70); /* Slightly lighter hover effect */
+  background-color: rgb(63 63 70); 
 }
   </style>

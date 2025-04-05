@@ -2,8 +2,6 @@ import { ref, watch, computed } from 'vue';
 
 export const useTimeline = (start, end, zoomLimits = { min: 0.8, max: 5 }) => {
   
-  
-
   // Configuration for zoom and initial settings
   const minZoom = zoomLimits.min; // Minimum zoom level
   const maxZoom = zoomLimits.max; // Maximum zoom level
@@ -89,12 +87,11 @@ export const useTimeline = (start, end, zoomLimits = { min: 0.8, max: 5 }) => {
       updateScrollLimits(); // Recalculate scroll limits
       updateViewport(); // Update the visible area
     },
-    { immediate: true } // Run immediately on initialization
+    { immediate: true } 
   );
 
   // Handlers for user interactions
-
-  // Handle zoom changes (e.g., slider input)
+ 
   const onZoomChange = () => {
     updateScrollLimits(); // Recalculate scroll limits
     updateViewport(); // Update the viewport

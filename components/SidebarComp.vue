@@ -93,7 +93,6 @@ const { id } = useRoute().params
 
 let link = '';
 if (process.client) {
-  // Access window only on the client-side
   link = `${window.location.origin}${route.path}`;
 }
 
@@ -166,17 +165,18 @@ function handleSettingsToggle(lineId) {
 </script>
 
 <style>
-   /* Define the fade transition */
+/* Define the fade transition */
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.05s ease-in-out; /* Adjust duration as needed */
+  transition: opacity 0.05s ease-in-out;
 }
 
+/* Start/End state for fade */
 .fade-enter-from, .fade-leave-to {
-  opacity: 0; /* Start/End state for fade */
+  opacity: 0; 
 }
 
 .active-border {
-  outline: 4px solid #4CAF50; /* Green outline */
-  outline-offset: 2px; /* Space between the outline and the button */
+  outline: 4px solid #4CAF50; 
+  outline-offset: 2px;
 }
 </style>

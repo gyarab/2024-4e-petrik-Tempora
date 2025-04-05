@@ -77,7 +77,7 @@
             </div>
           </div>
 
-          <!-- Lines List (update with v-else-if) -->
+          <!-- Lines List -->
           <div v-else-if="lines && lines.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
               <LineCard v-for="line in lines" :key="line.line_id" :line="line" @infoToggle="handleInfoToggle" @settingsToggle="handleSettingsToggle" />
           </div>
@@ -189,7 +189,7 @@ function handleSettingsToggle(lineId) {
 const clearSearch = () => {
   searchId.value = '';
   isSearching.value = false;
-  fetchTimelinesByTab(); // Restore original tab data
+  fetchTimelinesByTab();
 };
 </script>
     
