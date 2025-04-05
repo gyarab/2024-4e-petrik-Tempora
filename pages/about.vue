@@ -44,7 +44,7 @@
 
 
             <a
-            href="https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace.pdf"
+            href="https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace/Dokumentace.pdf"
             target="_blank"
             class="icon-style"
             >
@@ -53,6 +53,21 @@
                 <Icon class="size-16 text-gray-950 " name="heroicons:document-text-solid"  /> <br>
                 </span>
                 <span class="text-gray-950"> Dokumentace </span> 
+            </div>
+            </a>
+
+
+            <a
+            href="https://youtu.be/QoRFG4ozItw"
+            target="_blank"
+            class="icon-style"
+            >
+            <div>
+                <span>
+                <Icon class="size-16 text-gray-950 " name="uil:youtube"  /> <br>
+                </span>
+                <span class="text-gray-950"> Video <br>
+                    Dokumentace </span> 
             </div>
             </a>
         </div>
