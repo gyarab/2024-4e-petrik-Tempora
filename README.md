@@ -92,7 +92,7 @@ Otevřete  `http://localhost:3000` 🎉
    - Přibližujte pomocí Ctrl + kolečko myši nebo lupou
    - Kliknutím na událost zobrazíte podrobnosti
   
-📄 Pro více informací se podívejte do ![Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace.pdf)
+📄 Pro více informací se podívejte do ![Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace/Dokumentace.pdf)
 
 
 ---
