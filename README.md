@@ -4,7 +4,7 @@ Webové stránka sloužící jako nástroj pro tvorbu a vizualizaci interaktivn�
 
  <img src="assets/images/TemporaLogo_big.png" width="40" alt="Logo Tempora ">
 
-
+https://tempora-web.vercel.app
 
 ## ✨ Funkce
 
