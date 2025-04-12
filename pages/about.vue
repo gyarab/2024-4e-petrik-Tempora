@@ -67,7 +67,7 @@
                 <Icon class="size-16 text-gray-950 " name="uil:youtube"  /> <br>
                 </span>
                 <span class="text-gray-950"> Video <br>
-                    Dokumentace </span> 
+                     </span> 
             </div>
             </a>
         </div>

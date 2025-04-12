@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@nuxt/fonts": "^0.10.2",
+    "@nuxt/fonts": "^0.11.1",
     "@nuxt/ui": "^2.20.0",
     "@nuxtjs/supabase": "^1.4.3",
     "@pinia/nuxt": "^0.10.1",
