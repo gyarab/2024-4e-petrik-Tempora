@@ -2,16 +2,18 @@
 
 Webové stránka sloužící jako nástroj pro tvorbu a vizualizaci interaktivních časových os. Cílem práce bylo umožnit uživatelům tvorbu, procházení a sdílení časových os s možností jejich rozkliknutí pro podrobnější informace o jednotlivých obdobích a autorech. Tyto osy se vyznačují důrazem na zasazení událostí do historického kontextu a umožňují srovnání dvou tématicky odlišných období.
 
+ ➡️  🌐https://tempora-web.vercel.app  ⬅️
+
  <img src="assets/images/TemporaLogo_big.png" width="40" alt="Logo Tempora ">
 
-https://tempora-web.vercel.app
+🥈 Druhé místo [Středoškolské odborné činnosti](https://www.soc.cz/) 2024/25,
+ kategorie 12 - Tvorba učebních pomůcek, didaktická technologie
 
 ## ✨ Funkce
 
 - 📅 Interaktivní vizualizace časové osy
 - 🌍 Kontextové vztahy mezi událostmi
 - 🎨 Možnost přizpůsobení vzhledu časové osy
-- 👥 Spolupráce více uživatelů
 - 🔖 Systém záložek
 - 🌓 Podpora světlého/tmavého režimu
 
@@ -99,6 +101,9 @@ Otevřete  `http://localhost:3000` 🎉
 
 ## 📜 Licence  
 Tempora je licencovaná MIT licencí. Více informací v `LICENSE.md`.  
+
+
+
 <!---
 ## 🤝 Contributing
 
