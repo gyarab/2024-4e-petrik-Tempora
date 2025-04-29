@@ -17,44 +17,6 @@ Webové stránka sloužící jako nástroj pro tvorbu a vizualizaci interaktivn�
 - 🔖 Systém záložek
 - 🌓 Podpora světlého/tmavého režimu
 
-## 🚀 Instalace
-
-### Požadavky
-
-- Node.js 18+ 📦
-- Supabase účet / SUPABASE_KEY 🗃️
-- Git 🔄
-
-### Instalace
-
-1. Naklonujte repozitář:
-```bash
-git clone https://github.com/your-username/tempora.git
-cd tempora
-```
-
-2. Nainstalujte závislosti:
-```bash
-npm install
-```
-
-3. Nastavte proměnné prostředí:
-```bash
-cp .env.example .env
-```
-
-Upravte soubor `.env` a doplňte své Supabase přihlašovací údaje:
-```env
-SUPABASE_URL=your-supabase-url
-SUPABASE_KEY=your-supabase-key
-```
-
-4. Spusťte vývojový server:
-```bash
-npm run dev
-```
-
-Otevřete  `http://localhost:3000` 🎉
 
 ## 🛠️ Technologie
 
@@ -96,6 +58,44 @@ Otevřete  `http://localhost:3000` 🎉
   
 📄 Pro více informací se podívejte do ![Dokumentace](https://github.com/gyarab/2024-4e-petrik-Tempora/blob/main/dokumentace/Dokumentace.pdf)
 
+## 🚀 Instalace
+
+### Požadavky
+
+- Node.js 18+ 📦
+- Supabase účet / SUPABASE_KEY 🗃️
+- Git 🔄
+
+### Instalace
+
+1. Naklonujte repozitář:
+```bash
+git clone https://github.com/your-username/tempora.git
+cd tempora
+```
+
+2. Nainstalujte závislosti:
+```bash
+npm install
+```
+
+3. Nastavte proměnné prostředí:
+```bash
+cp .env.example .env
+```
+
+Upravte soubor `.env` a doplňte své Supabase přihlašovací údaje:
+```env
+SUPABASE_URL=your-supabase-url
+SUPABASE_KEY=your-supabase-key
+```
+
+4. Spusťte vývojový server:
+```bash
+npm run dev
+```
+
+Otevřete  `http://localhost:3000` 🎉
 
 ---
 
