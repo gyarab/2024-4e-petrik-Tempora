@@ -1,4 +1,4 @@
-# Tempora - Stránka pro tvorbu interaktivních časových os
+# [Tempora](https://tempora-web.vercel.app) - Stránka pro tvorbu interaktivních časových os
 
 Webové stránka sloužící jako nástroj pro tvorbu a vizualizaci interaktivních časových os. Cílem práce bylo umožnit uživatelům tvorbu, procházení a sdílení časových os s možností jejich rozkliknutí pro podrobnější informace o jednotlivých obdobích a autorech. Tyto osy se vyznačují důrazem na zasazení událostí do historického kontextu a umožňují srovnání dvou tématicky odlišných období.
 
